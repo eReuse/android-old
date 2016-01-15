@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip">
+
+    <ImageView
+        android:id="@+id/deviceIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:src="@drawable/device"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:adjustViewBounds="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/deviceIcon"
+        android:id="@+id/deviceInfoLayout"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/deviceFirstLine"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:gravity="center_vertical"
+            android:text="@string/form_device_name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/deviceSecondLine"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/deviceIcon"
+            android:layout_below="@+id/deviceFirstLine"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:text="@string/form_device_manufacturer"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/deviceThirdLine"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/deviceIcon"
+            android:layout_below="@+id/deviceSecondLine"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:text="@string/form_device_description"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="52dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/deviceInfoLayout"
+        android:id="@+id/removeDeviceButton"
+        android:text="@string/form_device_remove_button" />
+
+</RelativeLayout>

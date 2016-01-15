@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ereuse styles -->
+    <color name="text">#FF383737</color>
+    <color name="emphasis_1">#FFBDC647</color>
+    <color name="emphasis_12">#88BDC647</color>
+    <color name="emphasis_2">#FF565193</color>
+    <color name="emphasis_3">#FF171717</color>
+    <color name="disabled">#40000000</color>
+    <color name="help_background">#B0000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

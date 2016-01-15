@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="100dp"
+    android:background="@color/help_background"
+    tools:context=".MainActivity"
+    android:id="@+id/MapHelpLayout"
+    android:visibility="invisible">
+
+    <ImageView
+        android:id="@+id/image_help_cling_hand"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/map_usage" />
+
+    <TextView
+        android:id="@+id/help_map_text_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/helper_margin"
+        android:paddingRight="@dimen/helper_margin"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/image_help_cling_hand"
+        />
+
+    <TextView
+        android:id="@+id/help_map_text_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/helper_margin"
+        android:paddingRight="@dimen/helper_margin"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/help_map_text_create"/>
+
+    <Button
+        android:id="@+id/button_dismiss_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/helper_margin"
+        android:layout_marginBottom="@dimen/helper_margin"
+        android:onClick="dissmissHelp"
+        android:text="OK"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.ereuse.scanner.activities.EventDetailActivity"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ereuse_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/emphasis_1"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/ereuse_toolbar"
+        >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headerImageView"
+            android:id="@+id/eventTypeLabelTextView"
+            android:text="@string/event_type_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventTypeLabelTextView"
+            android:id="@+id/eventTypeTextView" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventTypeTextView"
+            android:id="@+id/eventDevicesSizeLabelTextView"
+            android:text="@string/event_devicesSize_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventDevicesSizeLabelTextView"
+            android:id="@+id/eventDevicesSizeTextView" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventDevicesSizeTextView"
+            android:id="@+id/eventIncidenceLabelTextView"
+            android:text="@string/event_incidence_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventIncidenceLabelTextView"
+            android:id="@+id/eventIncidenceTextView" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventIncidenceTextView"
+            android:id="@+id/eventSecuredLabelTextView"
+            android:text="@string/event_secured_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventSecuredLabelTextView"
+            android:id="@+id/eventSecuredTextView" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventSecuredTextView"
+            android:id="@+id/eventCreatedLabelTextView"
+            android:text="@string/event_created_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventCreatedLabelTextView"
+            android:id="@+id/eventCreatedTextView" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventCreatedTextView"
+            android:id="@+id/eventUpdatedLabelTextView"
+            android:text="@string/event_created_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventUpdatedLabelTextView"
+            android:id="@+id/eventUpdatedTextView" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventUpdatedTextView"
+            android:id="@+id/eventByUserLabelTextView"
+            android:text="@string/event_byUser_label"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventByUserLabelTextView"
+            android:id="@+id/eventByUserTextView" />
+
+        <!--
+            @SerializedName("_id")
+            private String id;
+            private String byUser;
+            private List<Device> devices;
+            @SerializedName("_created")
+            private String created;
+            @SerializedName("@type")
+            private String type;
+            @SerializedName("_updated")
+            private String updated;
+            @SerializedName("_links")
+            private Links links;
+            private Point geo;
+            private boolean incidence;
+            private boolean secured;
+        -->
+    </RelativeLayout>
+</RelativeLayout>

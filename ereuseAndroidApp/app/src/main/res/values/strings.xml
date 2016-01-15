@@ -1,0 +1,121 @@
+<resources>
+    <string name="app_name">eReuse</string>
+
+    <!-- Strings for login activity -->
+    <string name="server_label">Choose a server to log in:</string>
+    <string name="username_label">Email:</string>
+    <string name="password_label">Password:</string>
+    <string name="login_button">Login</string>
+    <string-array name="login_servers">
+        <item>http://devicehub.ereuse.net/</item>
+        <item>https://devicehub.ereuse.org/</item>
+    </string-array>
+
+    <!-- Strings for choose activity -->
+    <string name="choose_label">Choose an action:</string>
+    <string name="receive_button">Receive</string>
+    <string name="recycle_button">Recycle</string>
+    <string name="locate_button">Locate</string>
+    <string name="events_button">Events list</string>
+    <string name="place_button">New Place</string>
+
+    <!-- Strings for form activity -->
+    <string name="form_devices_label">Devices:</string>
+    <string name="form_add_device_button">Add device</string>
+    <string name="form_comments_label">Comments:</string>
+    <string name="form_terms_and_conditions_label">Accept terms and conditions</string>
+    <string name="form_send_button">Send</string>
+    <string name="form_send_button_disabled">Waiting for a more accurate location...</string>
+
+    <string name="form_device_name">Device name</string>
+    <string name="form_device_manufacturer">Device manufacturer</string>
+    <string name="form_device_description">Device description</string>
+    <string name="form_device_remove_button">X</string>
+    <string name="form_receiver_email_label">Receiver\'s email:</string>
+    <string name="form_receiver_name_label">Receiver\'s name:</string>
+    <string name="form_map_label">Location:</string>
+    <string name="form_message_device_already_scanned">This device is already included in the scanned device list!</string>
+
+    <string name="form_validation_error_acceptconditions">To perform this action, you must accept the terms and conditions</string>
+    <string name="form_validation_error_emptydevices">Please, remember to scan at least one device.</string>
+
+    <!-- location strings -->
+    <string name="getting_device_location">"Getting Device Location..."</string>
+    <string name="unable_to_get_location">"Device settings are not allowing to get your current location"</string>
+    <string name="gps_not_enabled">Please check you enabled Location Settings and airplane mode is off.</string>
+    <string name="agree">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_device_list_adapter">DeviceListAdapter</string>
+
+    <string name="locate_success">Devices located successfully</string>
+    <string name="receive_success">Devices received successfully</string>
+    <string name="recycle_success">Devices recycled successfully</string>
+    <string name="place_success">New Place created successfully</string>
+
+    <string name="waiting">Connecting...</string>
+    <string name="title_activity_events">EventsActivity</string>
+    <string name="title_activity_place_map">PlaceMapActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Place Map Layout -->
+
+    <string name="place_map_name_label">Place Name:</string>
+    <string name="place_map_button_label">Create Place</string>
+    <string name="place_map_button_help_label">Map Help</string>
+
+    <string name="place_map_dialog_help_create_title">How can I create a new Place?</string>
+    <string name="place_map_dialog_help_create_body">Long-press the map to define a point.
+    A place area must be defined at least by 3 points.</string>
+    <string name="place_map_dialog_help_remove_title">Did you mark a wrong place?</string>
+    <string name="place_map_dialog_help_remove_body">Touch one of the created points to remove it.</string>
+
+    <string name="place_map_validation_error_placename">Please, remember to set a name for the new place</string>
+    <string name="place_map_validation_error_placedefinition">A new place must be defined at least by 3 locations. Please check map help for further instructions</string>
+
+
+    <!-- Events list layout -->
+    <string name="event_devices_size">Devices</string>
+    <string name="title_activity_event_detail">EventDetailActivity</string>
+
+    <!-- Event detail layout -->
+    <string name="event_byUser_label">By user:</string>
+    <string name="event_type_label">Type:</string>
+    <string name="event_devicesSize_label">Number of devices:</string>
+    <string name="event_incidence_label">Incidence:</string>
+    <string name="event_secured_label">Secured:</string>
+    <string name="event_created_label">Created:</string>
+    <string name="event_updated_label">Updated:</string>
+
+
+    <!-- Dialogs -->
+    <string name="toast_qr_cancel">Cancelled QR scan</string>
+    <string name="toast_qr_scanned">Scanned:</string>
+
+    <string name="dialog_ack">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_leave">Exit App</string>
+    <string name="dialog_validation_error_title">Missing required information!</string>
+
+    <string name="dialog_validation_internet_disabled_title">Disabled internet connection</string>
+    <string name="dialog_validation_internet_disabled_message">Please enable internet connection to enable communication to eReuse servers</string>
+
+    <string name="dialog_validation_location_disabled_title">Disabled location</string>
+    <string name="dialog_validation_location_disabled_message">Please enable your location settings to be able to place you in a map.\nThis means: enable location settings and enable any method to get your accurate location: GPS or WiFi</string>
+    <string name="dialog_validation_gps_disabled_title">Disabled GPS location</string>
+    <string name="dialog_validation_gps_disabled_message">We strongly recomend you to enable GPS receiver in order to accurately place you in a map</string>
+
+    <string name="dialog_qr_error_title">Bad QR Error</string>
+    <string name="dialog_qr_error_message">The QR code does not belong to the server you logged in.</string>
+
+    <string name="dialog_about_title">About</string>
+    <string name="dialog_about_body">\nApp made by Jamgo SCCL\nTechnological cooperative based in Barcelona\nwww.jamgo.coop</string>
+
+    <!-- logs -->
+    <string name="log_background_control">[BKGND_CNTRL]</string>
+    <string name="log_set_to_foreground">(Re)Establishing geographical location...</string>
+    <string name="log_set_to_background">timeout! Going to sleep and disabling location control...</string>
+
+
+</resources>

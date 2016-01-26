@@ -25,7 +25,7 @@
 
 	Main Project Dependencies: 
 
-  * Android Play Services (GoogleMaps)
+  	* Android Play Services (GoogleMaps)
 	* AppCompat-v7 (Toolbar compatibility)
 	* Spring Android Rest & gson (Communication to eReuse servers)
 

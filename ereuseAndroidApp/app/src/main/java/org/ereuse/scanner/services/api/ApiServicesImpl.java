@@ -87,7 +87,7 @@ public class ApiServicesImpl implements ApiServices {
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(false));
         ResponseEntity<LoginResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_LOGIN, requestEntity, LoginResponse.class);
         LoginResponse body = response.getBody();
-        db = body.getDefaultDatabase() + '/';
+        setDb(body.getDefaultDatabase());
         return body;
     }
 
@@ -229,5 +229,9 @@ public class ApiServicesImpl implements ApiServices {
         public String getMessage() {
             return message;
         }
+    }
+
+    public static void setDb(String db) {
+        ApiServicesImpl.db = db + '/';
     }
 }

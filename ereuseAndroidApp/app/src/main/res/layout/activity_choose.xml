@@ -74,7 +74,8 @@
             android:text="@string/events_button"
             android:onClick="showEventsList"
             android:background="@color/emphasis_2"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="match_parent"

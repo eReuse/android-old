@@ -1,5 +1,7 @@
 package org.ereuse.scanner.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jamgo SCCL.
  */
@@ -13,11 +15,24 @@ public class User {
     public String role;
     public String password;
 
-    public void update(String email, String token, String role, String id) {
+    public ArrayList<String> getDatabases() {
+        return databases;
+    }
+
+    public String getDefaultDatabase() {
+        return defaultDatabase;
+    }
+
+    public ArrayList<String> databases;
+    public String defaultDatabase;
+
+    public void update(String email, String token, String role, String id, ArrayList<String> databases, String defaultDatabase) {
         this._id = id;
         this.email = email;
         this.token = token;
         this.role = role;
+        this.databases = databases;
+        this.defaultDatabase = defaultDatabase;
     }
 
     public String get_id() {

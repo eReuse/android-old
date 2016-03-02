@@ -130,7 +130,7 @@ public class BaseActivity extends AppCompatActivity {
     private void doLogout(){
         User user = this.getScannerApplication().getUser();
         if (user != null) {
-            user.update(user.getEmail(), null, user.getRole(), user.get_id());
+            user.update(user.getEmail(), null, user.getRole(), user.get_id(), user.getDatabases(), user.getDefaultDatabase());
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }

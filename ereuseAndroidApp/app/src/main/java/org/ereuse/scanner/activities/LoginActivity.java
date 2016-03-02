@@ -138,7 +138,7 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
 
         LoginResponse loginResponse = (LoginResponse) response;
         User user = getScannerApplication().getUser();
-        user.update(loginResponse.getEmail(), loginResponse.getToken(), loginResponse.getRole(), loginResponse.get_id());
+        user.update(loginResponse.getEmail(), loginResponse.getToken(), loginResponse.getRole(), loginResponse.get_id(), loginResponse.getDatabases(), loginResponse.getDefaultDatabase());
         this.getScannerApplication().setServer(this.getServer());
         this.getScannerApplication().setUser(user);
 

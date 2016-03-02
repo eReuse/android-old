@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/action_select_db"
+        android:title="Select Database"
+        android:icon="@drawable/cloud"
+        app:showAsAction="always">
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            >
+        </menu>
+    </item>
+    <item android:id="@+id/action_about"
+        android:title="About"
+        android:icon="@drawable/about"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_logout"
+        android:title="Logout"
+        android:icon="@drawable/logout"
+        app:showAsAction="ifRoom" />
+</menu>

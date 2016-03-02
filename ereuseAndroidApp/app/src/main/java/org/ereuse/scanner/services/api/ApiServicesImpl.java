@@ -35,6 +35,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final HttpMethod HTTP_METHOD_PLACE = HttpMethod.POST;
     // TODO Add HTTP_METHOD for each method
 
+    private static String db;
     private static final String PATH_LOGIN = "login";
     private static final String PATH_DEVICES = "devices";
     private static final String PATH_LOCATE = "events/locate";
@@ -85,12 +86,14 @@ public class ApiServicesImpl implements ApiServices {
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(false));
         ResponseEntity<LoginResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_LOGIN, requestEntity, LoginResponse.class);
-        return response.getBody();
+        LoginResponse body = response.getBody();
+        db = body.getDefaultDatabase() + '/';
+        return body;
     }
 
     private DeviceResponse device(final ApiRequest request) throws ApiException {
         DeviceRequest deviceRequest = (DeviceRequest) request;
-        String url = this.server + PATH_DEVICES;
+        String url = this.server + db + PATH_DEVICES;
         if (deviceRequest.getDeviceId() != null) {
             url += "/" + deviceRequest.getDeviceId();
         }
@@ -101,7 +104,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse locate(final ApiRequest request) throws ApiException {
-        String url = this.server + PATH_LOCATE;
+        String url = this.server + db + PATH_LOCATE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_LOCATION, requestEntity, ActionResponse.class);
@@ -111,7 +114,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse receive(final ApiRequest request) throws ApiException {
-        String url = this.server + PATH_RECEIVE;
+        String url = this.server + db + PATH_RECEIVE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_RECEIVE, requestEntity, ActionResponse.class);
@@ -121,7 +124,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse recycle(final ApiRequest request) throws ApiException {
-        String url = this.server + PATH_RECEIVE;
+        String url = this.server + db + PATH_RECEIVE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_RECYCLE, requestEntity, ActionResponse.class);
@@ -131,7 +134,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private EventsResponse events(final ApiRequest request) throws ApiException {
-        String url = this.server + PATH_EVENTS;
+        String url = this.server + db + PATH_EVENTS;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(this.getRequestHeaders(true));
         ResponseEntity<EventsResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS, requestEntity, EventsResponse.class);
@@ -139,7 +142,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse place(final ApiRequest request) throws ApiException {
-        String url = this.server + PATH_PLACE;
+        String url = this.server + db + PATH_PLACE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_PLACE, requestEntity, ActionResponse.class);

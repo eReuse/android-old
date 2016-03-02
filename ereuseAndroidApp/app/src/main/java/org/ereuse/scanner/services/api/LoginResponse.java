@@ -1,5 +1,7 @@
 package org.ereuse.scanner.services.api;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jamgo SCCL.
  */
@@ -9,6 +11,25 @@ public class LoginResponse implements ApiResponse {
     public String token;
     public String role;
     public String password;
+    public String defaultDatabase;
+    public ArrayList<String> databases;
+
+    public String getDefaultDatabase() {
+        return defaultDatabase;
+    }
+
+    public void setDefaultDatabase(String defaultDatabase) {
+        this.defaultDatabase = defaultDatabase;
+    }
+
+    public ArrayList<String> getDatabases() {
+        return databases;
+    }
+
+    public void setDatabases(ArrayList<String> databases) {
+        this.databases = databases;
+    }
+
 
     public String get_id() {
         return _id;

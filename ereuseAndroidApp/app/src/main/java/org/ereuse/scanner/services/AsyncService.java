@@ -48,9 +48,12 @@ public class AsyncService {
 
     public void doLogin(String email, String password, String server) {
         this.activity.onStartAsync();
-
-        LoginRequest request = new LoginRequest(email, password);
-        new HttpRequestTask(this, server, request).execute(ApiServices.METHOD_LOGIN);
+        try {
+            LoginRequest request = new LoginRequest(email, password);
+            new HttpRequestTask(this, server, request).execute(ApiServices.METHOD_LOGIN);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void getDevices(String server, String token) {

@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void logDebug(String tag, String message) {
-        this.getScannerApplication().logDebug(tag,message);
+        this.getScannerApplication().logDebug(tag, message);
     }
 
     public void showAboutDialog(){
@@ -124,6 +124,21 @@ public class BaseActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        dialog.show();
+    }
+
+    public void showPermissionDeniedDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setIcon(R.drawable.logout);
+        dialog.setTitle("eReuse permission");
+        dialog.setMessage("This permission is necessary for a correct application behaviour, please enable it via device settings before try to use it");
+        dialog.setPositiveButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
         dialog.show();
     }
 

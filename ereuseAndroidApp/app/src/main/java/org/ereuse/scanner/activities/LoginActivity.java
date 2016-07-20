@@ -1,9 +1,13 @@
 package org.ereuse.scanner.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -40,6 +44,8 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
     private boolean requestingLocationUpdates;
     private Location location;
 
+    final private int REQUEST_CODE_FINE_LOCATION_PERMISSIONS = 0;
+
     public Location getLocation() {
         return this.location;
     }
@@ -67,7 +73,8 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         emailEditText.setText(userEmailPreference);
         passwordEditText.setText(userPasswordPreference);
 
-        this.initLocation();
+        //checkAllPermissions();
+
         this.updateValuesFromBundle(savedInstanceState);
         this.getScannerApplication().setLoginActivity(this);
 
@@ -77,11 +84,15 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
     @Override
     public void onResume(){
         super.onResume();
+        checkAllPermissions();
         ValidationService.checkInternetConnection(this);
 
-        if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-            startLocationUpdates();
+        if (Build.VERSION.SDK_INT < 23) {
+            if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
+                startLocationUpdates();
+            }
         }
+
     }
 
     @Override
@@ -89,6 +100,52 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.login_menu, menu);
         return true;
+    }
+
+    private void checkAllPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int locationFinePermissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+            if(locationFinePermissionCheck != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_FINE_LOCATION_PERMISSIONS);
+            } else {
+                initLocation();
+                if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
+                    startLocationUpdates();
+                }
+            }
+
+        } else {
+            initLocation();
+            if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
+                startLocationUpdates();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_FINE_LOCATION_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    initLocation();
+
+                    if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
+                        startLocationUpdates();
+                    }
+                } else {
+                    showPermissionDeniedDialog();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     public void doLogin(View view) {
@@ -110,6 +167,7 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
             // TODO Validate mandatory fields
 
             // do login
+            checkAllPermissions();
             AsyncService asyncService = new AsyncService(this);
             asyncService.doLogin(email, password, server);
         }
@@ -194,18 +252,22 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
     }
 
     public void startLocationUpdates() {
-        if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-            if (this.locationRequest == null) {
-                this.createLocationRequest();
+        if(this.googleApiClient!=null) {
+            if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
+                if (this.locationRequest == null) {
+                    this.createLocationRequest();
+                }
+                LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, this.locationRequest, this);
+                this.requestingLocationUpdates = true;
+                logDebug("LoginActivity", "Starting Location Updates");
             }
-            LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, this.locationRequest, this);
-            this.requestingLocationUpdates = true;
-            logDebug("LoginActivity","Starting Location Updates");
         }
     }
 
     public void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(this.googleApiClient, this);
+        if(this.googleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(this.googleApiClient, this);
+        }
         this.requestingLocationUpdates = false;
         logDebug("LoginActivity","Stopping Location Updates");
     }

@@ -1,11 +1,15 @@
 package org.ereuse.scanner.activities;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,6 +40,7 @@ import org.ereuse.scanner.services.api.DeviceResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarFile;
 
 /**
  * Created by Jamgo SCCL.
@@ -57,6 +62,10 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
     private Location location;
     private GoogleMap map;
     private TextView tv_location;
+
+
+    final private int REQUEST_CODE_ACCESS_FINE_PERMISSIONS = 123;
+    final private int REQUEST_CODE_CAMERA_PERMISSIONS = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +130,17 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
     public void onResume() {
         super.onResume();
 
-        ValidationService.checkInternetConnection(this);
+        if (Build.VERSION.SDK_INT >= 23) {
+             int fineLocationPermissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            if(fineLocationPermissionCheck != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ACCESS_FINE_PERMISSIONS);
+                return;
+            } else {
+                ValidationService.checkInternetConnection(this);
+            }
+        } else {
+            ValidationService.checkInternetConnection(this);
+        }
 
         if (checkRelaunchActionFromNewPlace.isChecked()) {
             checkRelaunchActionFromNewPlace.setChecked(false);
@@ -177,8 +196,42 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
     }
 
     public void addDevice(View view) {
-        // Start QR scanner
-        new IntentIntegrator(this).initiateScan();
+        checkCameraPermission();
+    }
+
+    private void checkCameraPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int cameraPermissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+            if(cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_PERMISSIONS);
+            } else {
+                new IntentIntegrator(this).initiateScan();
+            }
+
+        } else {
+            new IntentIntegrator(this).initiateScan();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_CAMERA_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // Start QR scanner
+                    new IntentIntegrator(this).initiateScan();
+
+                } else {
+                    showPermissionDeniedDialog();
+                }
+                return;
+            }
+        }
     }
 
     @Override

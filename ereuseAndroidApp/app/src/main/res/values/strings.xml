@@ -7,8 +7,8 @@
     <string name="password_label">Password:</string>
     <string name="login_button">Login</string>
     <string-array name="login_servers">
-        <item>https://devicehub.ereuse.org/</item>
         <item>https://api.devicetag.io/</item>
+        <item>https://devicehub.ereuse.org/</item>
     </string-array>
 
     <!-- Strings for choose activity -->

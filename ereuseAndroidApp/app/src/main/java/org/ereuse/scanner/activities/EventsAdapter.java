@@ -49,7 +49,9 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
         holder.type.setText(event.getType());
-        holder.devicesSize.setText(this.getContext().getText(R.string.event_devices_size) + ": " + Integer.toString(event.getDevicesSize()));
+        if (event.getDevicesSize() > 0) {
+            holder.devicesSize.setText(this.getContext().getText(R.string.event_devices_size).toString() + ": " + android.text.TextUtils.join(",", event.getDevices()));
+        }
         holder.created.setText(event.getCreated());
 
         return rowView;

@@ -14,7 +14,7 @@ public class Event implements Serializable {
     @SerializedName("_id")
     private String id;
     private String byUser;
-    private List<Device> devices;
+    private List<String> devices;
     @SerializedName("_created")
     private String created;
     @SerializedName("@type")
@@ -43,11 +43,11 @@ public class Event implements Serializable {
         this.byUser = byUser;
     }
 
-    public List<Device> getDevices() {
+    public List<String> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(List<String> devices) {
         this.devices = devices;
     }
 

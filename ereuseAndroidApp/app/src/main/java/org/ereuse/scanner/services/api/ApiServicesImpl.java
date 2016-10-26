@@ -41,10 +41,8 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_LOCATE = "events/devices/locate";
     private static final String PATH_RECEIVE = "events/devices/receive";
     private static final String PATH_EVENTS = "events";
-    private static final String PATH_PLACE = "place s";
+    private static final String PATH_PLACE = "places";
     // TODO Add PATH for each method
-
-    private static final String EVENTS_QUERY = "?embedded={\"devices\":1}";
 
     private String server;
     private String token;

@@ -81,7 +81,7 @@ public class AsyncService {
         this.activity.onStartAsync();
 
         ApiRequest request = null;
-        if (user.isEmployee() && unregisteredReceiver != null && !unregisteredReceiver.isEmpty()) {
+        if (user.isEqualOrGreaterThanEmployee() && unregisteredReceiver != null && !unregisteredReceiver.isEmpty()) {
             request = new EmployeeRequest(user, unregisteredReceiver, devicesList, comment, location, acceptedConditions, ActionRequest.RECEIVE_REQUEST_TYPE);
         } else {
             request = new NonEmployeeRequest(user, devicesList, comment, location, acceptedConditions, ActionRequest.RECEIVE_REQUEST_TYPE);
@@ -93,7 +93,7 @@ public class AsyncService {
         this.activity.onStartAsync();
 
         ApiRequest request = null;
-        if (user.isEmployee() && unregisteredReceiver != null && !unregisteredReceiver.isEmpty()) {
+        if (user.isEqualOrGreaterThanEmployee() && unregisteredReceiver != null && !unregisteredReceiver.isEmpty()) {
             request = new EmployeeRequest(user, unregisteredReceiver, devicesList, comment, location, acceptedConditions, ActionRequest.RECYCLE_REQUEST_TYPE);
         } else {
             request = new NonEmployeeRequest(user, devicesList, comment, location, acceptedConditions, ActionRequest.RECYCLE_REQUEST_TYPE);

@@ -40,7 +40,6 @@ import org.ereuse.scanner.services.api.DeviceResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarFile;
 
 /**
  * Created by Jamgo SCCL.
@@ -109,7 +108,7 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
             TextView emailLabel = (TextView) findViewById(R.id.formReceiverEmailLabel);
             EditText emailText = (EditText) findViewById(R.id.formReceiverEmailEditText);
 
-            if (this.getUser().isEmployee()) {
+            if (this.getUser().isEqualOrGreaterThanEmployee()) {
                 emailLabel.setVisibility(View.VISIBLE);
                 emailText.setVisibility(View.VISIBLE);
             } else {

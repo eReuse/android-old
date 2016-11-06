@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class User {
 
     private static final String EMPLOYEE = "employee";
+    private static final String SUPERUSER = "superuser";
+    private static final String ADMIN = "admin";
 
     public String _id;
     public String email;
@@ -55,8 +57,8 @@ public class User {
         return token;
     }
 
-    public boolean isEmployee() {
-        return this.role.equals(EMPLOYEE);
+    public boolean isEqualOrGreaterThanEmployee() {
+        return this.role.equals(EMPLOYEE) || this.role.equals(SUPERUSER) || this.role.equals(ADMIN);
     }
 
     public void setPassword(String password) {

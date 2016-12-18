@@ -13,13 +13,18 @@ import java.util.List;
  */
 public class LocateRequest extends ActionRequest implements ApiRequest {
 
+    private String place;
 
     @SerializedName("@type")
     private String type = "Locate";
 
-    public LocateRequest(User user, List<String> devicesList, String comment, Location location) {
+    public LocateRequest(User user, List<String> devicesList, String comment, Location location, String place) {
         super(user, devicesList, comment, location);
+        this.place = place;
     }
 
 
+    public String getPlace() {
+        return place;
+    }
 }

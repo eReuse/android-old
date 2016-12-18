@@ -10,6 +10,7 @@
         <item>https://api.devicetag.io/</item>
         <item>http://beta-server.devicetag.io/</item>
         <item>https://devicehub.ereuse.org/</item>
+        <item>http://10.0.2.2:5000/</item>
     </string-array>
 
     <!-- Strings for choose activity -->
@@ -26,7 +27,7 @@
     <string name="form_comments_label">Comments:</string>
     <string name="form_terms_and_conditions_label">Accept terms and conditions</string>
     <string name="form_send_button">Send</string>
-    <string name="form_send_button_disabled">Waiting for a more accurate location...</string>
+    <string name="form_send_button_disabled">Waiting for a more accurate location…</string>
 
     <string name="form_device_name">Device name</string>
     <string name="form_device_manufacturer">Device manufacturer</string>
@@ -34,7 +35,8 @@
     <string name="form_device_remove_button">X</string>
     <string name="form_receiver_email_label">Receiver\'s email:</string>
     <string name="form_receiver_name_label">Receiver\'s name:</string>
-    <string name="form_map_label">Location:</string>
+    <string name="form_map_label">Place:</string>
+    <string name="form_map_edit_text_hint">Write the name of the place, leave it empty and we will guess where you are using the GPS coordinates.</string>
     <string name="form_message_device_already_scanned">This device is already included in the scanned device list!</string>
 
     <string name="form_validation_error_acceptconditions">To perform this action, you must accept the terms and conditions</string>

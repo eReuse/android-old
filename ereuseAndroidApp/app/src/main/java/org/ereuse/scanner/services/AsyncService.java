@@ -70,10 +70,13 @@ public class AsyncService {
         new HttpRequestTask(this, server, token, request).execute(ApiServices.METHOD_DEVICE);
     }
 
-    public void doLocate(String server, User user, List<String> devicesList, String comment, Location location) {
+    public void doLocate(String server, User user, List<String> devicesList, String comment, Location location, String place) {
         this.activity.onStartAsync();
 
-        LocateRequest request = new LocateRequest(user, devicesList, comment, location);
+        if (place.length() > 0) location = null;
+        else place = null;
+
+        LocateRequest request = new LocateRequest(user, devicesList, comment, location, place);
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_LOCATE);
     }
 

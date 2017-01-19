@@ -33,7 +33,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final HttpMethod HTTP_METHOD_RECEIVE = HttpMethod.POST;
     private static final HttpMethod HTTP_METHOD_EVENTS = HttpMethod.GET;
     private static final HttpMethod HTTP_METHOD_PLACE = HttpMethod.POST;
-    // TODO Add HTTP_METHOD for each method
+    private static final HttpMethod HTTP_METHOD_SNAPSHOT = HttpMethod.POST;
 
     private static String db;
     private static final String PATH_LOGIN = "login";
@@ -42,7 +42,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_RECEIVE = "events/devices/receive";
     private static final String PATH_EVENTS = "events";
     private static final String PATH_PLACE = "places";
-    // TODO Add PATH for each method
+    private static final String PATH_SNAPSHOT = "events/devices/snapshot";
 
     private String server;
     private String token;
@@ -73,7 +73,9 @@ public class ApiServicesImpl implements ApiServices {
         } else if (method.equals(METHOD_EVENTS)) {
             response = this.events(request);
         }  else if (method.equals(METHOD_PLACE)) {
-        response = this.place(request);
+            response = this.place(request);
+        } else if (method.equals(METHOD_SNAPSHOT)) {
+            response = this.snapshot(request);
         } else {
             throw new ApiException("Not implemented method: " + method);
         }
@@ -148,6 +150,14 @@ public class ApiServicesImpl implements ApiServices {
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_PLACE, requestEntity, ActionResponse.class);
         ActionResponse actionResponse = response.getBody();
         actionResponse.setActionType(ActionResponse.ActionType.PLACE);
+        return response.getBody();
+    }
+
+    private ActionResponse snapshot(final ApiRequest request) throws ApiException {
+        String url = this.server + db + PATH_SNAPSHOT;
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(this.getRequestHeaders(true));
+        ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, ActionResponse.class);
         return response.getBody();
     }
 

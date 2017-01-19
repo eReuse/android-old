@@ -90,6 +90,20 @@
             android:background="@color/emphasis_2"
             android:textColor="@color/white" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/PlaceMapButton"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:id="@+id/snapshotButton"
+            android:text="@string/snapshot_button"
+            android:onClick="doSnapshot"
+            android:background="@color/emphasis_2"
+            android:textColor="@color/white" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -22,8 +22,7 @@ public class LocateRequest extends ActionRequest implements ApiRequest {
         super(user, devicesList, comment, location);
         this.place = place;
     }
-
-
+ 
     public String getPlace() {
         return place;
     }

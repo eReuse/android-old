@@ -215,19 +215,6 @@ public class PlaceMapActivity extends AsyncActivity implements GoogleMap.OnMapCl
     public void doHelpPlace(View view){
        showHelp();
     }
-    private void launchActionMessageDialog(String title, String message) {
-        //Show action result
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle(title);
-        dialog.setMessage(message);
-        dialog.setNeutralButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
 
     private boolean doValidate() {
         if (!ValidationService.checkInternetConnection(this)) {

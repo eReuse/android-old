@@ -20,6 +20,7 @@
     <string name="locate_button">Locate</string>
     <string name="events_button">Events list</string>
     <string name="place_button">New Place</string>
+    <string name="snapshot_button">New snapshot</string>
 
     <!-- Strings for form activity -->
     <string name="form_devices_label">Devices:</string>
@@ -54,6 +55,7 @@
     <string name="receive_success">Devices received successfully</string>
     <string name="recycle_success">Devices recycled successfully</string>
     <string name="place_success">New Place created successfully</string>
+    <string name="snapshot_success">New Snapshot created successfully</string>
 
     <string name="waiting">Connecting...</string>
     <string name="title_activity_events">EventsActivity</string>
@@ -91,6 +93,21 @@
     <string name="event_created_label">Created:</string>
     <string name="event_updated_label">Updated:</string>
 
+    <!-- Choose Snapshot layout -->
+    <string name="title_activity_snapshot">SnapshotActivity</string>
+    <string name="title_activity_snapshot_choose">SnapshotChooseActivity</string>
+    <string name="android_snapshot_button">Snapshot this Android</string>
+    <string name="device_snapshot_button">Snapshot a device</string>
+
+    <!-- Snapshot creation layout -->
+    <string name="snapshot_choose_device_type_label">Choose a device type:</string>
+    <string name="new_device_snapshot_head_label">Snapshot a new device</string>
+    <string name="new_self_snapshot_head_label">Snapshot this Android device</string>
+    <string name="snapshot_serial_number_label">Serial Number</string>
+    <string name="snapshot_model_label">Model</string>
+    <string name="snapshot_manufacturer_label">Manufacturer</string>
+    <string name="snapshot_license_label">License Key</string>
+    <string name="send_snapshot_button">Submit</string>
 
     <!-- Dialogs -->
     <string name="toast_qr_cancel">Cancelled QR scan</string>
@@ -115,6 +132,9 @@
     <string name="dialog_about_title">About</string>
     <string name="dialog_about_body">\nApp made by Jamgo SCCL\nTechnological cooperative based in Barcelona\nwww.jamgo.coop</string>
 
+    <string name="empty_fields_error_message">Please fulfill the following fields:</string>
+
+    <string name="server_response_status_ok">OK</string>
     <!-- logs -->
     <string name="log_background_control">[BKGND_CNTRL]</string>
     <string name="log_set_to_foreground">(Re)Establishing geographical location...</string>

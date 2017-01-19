@@ -159,4 +159,24 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    protected void launchActionMessageDialog(String title, String message) {
+        //Show action result
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        if (title != null) {
+            dialog.setTitle(title);
+        }
+        dialog.setNeutralButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setMessage(message);
+        dialog.show();
+    }
+
+    protected void launchActionMessageDialog(String message) {
+        launchActionMessageDialog(null, message);
+    }
 }

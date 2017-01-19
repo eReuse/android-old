@@ -9,6 +9,7 @@ public interface ApiServices {
     String METHOD_RECYCLE = "recycle";
     String METHOD_PLACE = "place";
     String METHOD_EVENTS = "events";
+    String METHOD_SNAPSHOT = "snapshot";
     // TODO Add other API methods
 
     ApiResponse execute(String method, ApiRequest request) throws ApiException;

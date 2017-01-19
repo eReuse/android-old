@@ -88,7 +88,7 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
         // Show checkbox field if mode = {RECEIVE, RECYCLE}
         CheckBox cb = (CheckBox) this.findViewById(R.id.formTermsAndConditionsCheckBox);
         EditText receiverEmailLabel = (EditText) this.findViewById(R.id.formReceiverEmailEditText);
-        EditText formMapEditText = (EditText) this.findViewById(R.id.formMapEditText);
+	EditText formMapEditText = (EditText) this.findViewById(R.id.formMapEditText);
         TextView receiverEmailText = (TextView) this.findViewById(R.id.formReceiverEmailLabel);
         TextView receiverNameText = (TextView) this.findViewById(R.id.formReceiverEmailLabel);
         if (this.mode.equals(MODE_LOCATE)) {
@@ -99,12 +99,12 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
             if (this.getUser().isEqualOrGreaterThanEmployee()) {
                 formMapEditText.setVisibility(View.VISIBLE);
             } else formMapEditText.setVisibility(View.GONE);
+	    
         } else {
             cb.setVisibility(View.VISIBLE);
             receiverEmailLabel.setVisibility(View.VISIBLE);
             receiverEmailText.setVisibility(View.VISIBLE);
             receiverNameText.setVisibility(View.VISIBLE);
-
             // TODO Change link to web depending on mode
 
 
@@ -369,26 +369,6 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
         row.addView(rowView);
         this.tableLayout.addView(row);
 
-    }
-
-    private void launchActionMessageDialog(String message) {
-        launchActionMessageDialog(null, message);
-    }
-
-    private void launchActionMessageDialog(String title, String message) {
-        //Show action result
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        if (title != null) {
-            dialog.setTitle(title);
-        }
-        dialog.setNeutralButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setMessage(message);
-        dialog.show();
     }
 
     private boolean doValidate() {

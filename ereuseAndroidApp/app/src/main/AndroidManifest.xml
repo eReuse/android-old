@@ -52,7 +52,14 @@
             android:name=".activities.EventDetailActivity"
             android:label="@string/title_activity_event_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".activities.SnapshotChooseActivity"
+            android:label="@string/title_activity_snapshot_choose"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.SnapshotActivity"
+            android:label="@string/title_activity_snapshot"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

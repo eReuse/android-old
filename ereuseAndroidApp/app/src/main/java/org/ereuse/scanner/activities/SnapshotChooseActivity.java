@@ -9,8 +9,6 @@ import android.view.SubMenu;
 import android.view.View;
 
 import org.ereuse.scanner.R;
-import org.ereuse.scanner.data.User;
-import org.ereuse.scanner.services.api.ApiServices;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Jamgo SCCL.
  */
-public class ChooseActivity extends BaseActivity {
+public class SnapshotChooseActivity extends BaseActivity {
 
     private SubMenu selectDb;
     ArrayList<String> databases;
@@ -26,7 +24,7 @@ public class ChooseActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose);
+        setContentView(R.layout.activity_snapshot_choose);
         databases = getScannerApplication().getUser().getDatabases();
         setToolbar();
     }
@@ -50,41 +48,21 @@ public class ChooseActivity extends BaseActivity {
         return true;
     }
 
-    public void doReceive(View view) {
-        this.startScanActivity(FormActivity.MODE_RECEIVE);
+    public void doAndroidSelfSnapshot(View view) {
+        this.startSnapshotActivity(SnapshotActivity.MODE_SELF);
     }
 
-    public void doRecycle(View view) {
-        this.startScanActivity(FormActivity.MODE_RECYCLE);
+    public void doExternalDeviceSnapshot(View view) {
+        this.startSnapshotActivity(SnapshotActivity.MODE_EXTERNAL_DEVICE);
+
     }
 
-    public void doLocate(View view) {
-        this.startScanActivity(FormActivity.MODE_LOCATE);
-    }
-
-    public void doLocatePlace(View view) {
-        Intent formIntent = new Intent(this, PlaceMapActivity.class);
-        startActivity(formIntent);
-    }
-
-    public void doSnapshot(View view) {
-        Intent formIntent = new Intent(this, SnapshotChooseActivity.class);
-        startActivity(formIntent);
-    }
-
-    private void startScanActivity(String selectedAction) {
+    private void startSnapshotActivity(String selectedAction) {
         System.out.println(selectedAction);
 
-        Intent formIntent = new Intent(this, FormActivity.class);
-        formIntent.putExtra(FormActivity.EXTRA_MODE, selectedAction);
+        Intent formIntent = new Intent(this, SnapshotActivity.class);
+        formIntent.putExtra(SnapshotActivity.EXTRA_MODE, selectedAction);
         startActivity(formIntent);
-    }
-
-    public void showEventsList(View view) {
-        System.out.println("Show events list");
-
-        Intent intent = new Intent(this, EventsActivity.class);
-        startActivity(intent);
     }
 
     class SetDatabase implements MenuItem.OnMenuItemClickListener{

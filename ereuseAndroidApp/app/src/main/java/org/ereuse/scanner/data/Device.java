@@ -9,31 +9,29 @@ import java.io.Serializable;
  */
 public class Device implements Serializable {
 
-    private String _id;
     @SerializedName("@type")
-    private String type;
+    private String deviceType = "Device";
+    @SerializedName("type")
+    private String deviceSubType = "Smartphone";
     private String serialNumber;
-    private String hid;
-    private double speed;
-    private String _etag;
-    private String _created;
-    private String _updated;
     private String manufacturer;
+    private String model;
 
-    public String get_id() {
-        return _id;
+
+    public String getDeviceType() {
+        return deviceType;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 
-    public String getType() {
-        return type;
+    public String getDeviceSubType() {
+        return deviceSubType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDeviceSubType(String deviceSubType) {
+        this.deviceSubType = deviceSubType;
     }
 
     public String getSerialNumber() {
@@ -44,46 +42,6 @@ public class Device implements Serializable {
         this.serialNumber = serialNumber;
     }
 
-    public String getHid() {
-        return hid;
-    }
-
-    public void setHid(String hid) {
-        this.hid = hid;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
-    public String get_etag() {
-        return _etag;
-    }
-
-    public void set_etag(String _etag) {
-        this._etag = _etag;
-    }
-
-    public String get_created() {
-        return _created;
-    }
-
-    public void set_created(String _created) {
-        this._created = _created;
-    }
-
-    public String get_updated() {
-        return _updated;
-    }
-
-    public void set_updated(String _updated) {
-        this._updated = _updated;
-    }
-
     public String getManufacturer() {
         return manufacturer;
     }
@@ -92,16 +50,12 @@ public class Device implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Device)) return false;
-        Device other = (Device) o;
-        return this._id == other._id;
+    public String getModel() {
+        return model;
     }
 
-    @Override
-    public int hashCode() {
-        return this._id.hashCode();
+    public void setModel(String model) {
+        this.model = model;
     }
 
 }

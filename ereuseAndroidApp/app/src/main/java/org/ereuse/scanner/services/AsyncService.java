@@ -19,6 +19,7 @@ import org.ereuse.scanner.services.api.LocateRequest;
 import org.ereuse.scanner.services.api.LoginRequest;
 import org.ereuse.scanner.services.api.NonEmployeeRequest;
 import org.ereuse.scanner.services.api.PlaceRequest;
+import org.ereuse.scanner.services.api.SnapshotRequest;
 
 import java.util.List;
 
@@ -71,8 +72,8 @@ public class AsyncService {
     }
 
     public void doLocate(String server, User user, List<String> devicesList, String comment, Location location, String place) {
-        this.activity.onStartAsync();
-
+         this.activity.onStartAsync();
+ 
         if (place.length() > 0) location = null;
         else place = null;
 
@@ -115,6 +116,13 @@ public class AsyncService {
         this.activity.onStartAsync();
 
         new HttpRequestTask(this, server, user.getToken(), null).execute(ApiServices.METHOD_EVENTS);
+    }
+
+    public void doSnapshot(String server, User user, String deviceType, String deviceSubType, String serialNumber, String model, String manufacturer, String licenseKey, String comments) {
+        this.activity.onStartAsync();
+
+        SnapshotRequest request = new SnapshotRequest(user.getEmail(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, comments);
+        new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_SNAPSHOT);
     }
 
     // TODO Add more async methods

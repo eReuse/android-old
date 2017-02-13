@@ -153,12 +153,16 @@ public class ApiServicesImpl implements ApiServices {
         return response.getBody();
     }
 
-    private ActionResponse snapshot(final ApiRequest request) throws ApiException {
+    private SnapshotResponse snapshot(final ApiRequest request) throws ApiException {
         String url = this.server + db + PATH_SNAPSHOT;
 
-        HttpEntity<?> requestEntity = new HttpEntity<Object>(this.getRequestHeaders(true));
-        ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, ActionResponse.class);
-        return response.getBody();
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+        try {
+            ResponseEntity<SnapshotResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, SnapshotResponse.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     private HttpHeaders getRequestHeaders(boolean authorization) {

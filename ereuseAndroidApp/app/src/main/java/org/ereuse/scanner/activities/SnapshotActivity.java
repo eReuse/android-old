@@ -96,7 +96,7 @@ public class SnapshotActivity extends AsyncActivity {
     }
 
     private void initializeSelfSnapshotLayout() {
-        this.deviceType = "Mobile";
+        this.deviceType = "Device";
         this.deviceSubType = "Smartphone";
 
         TextView deviceTypeLabel = (TextView) this.findViewById(R.id.snapshotDeviceTypeLabel);

@@ -22,9 +22,7 @@ public class ActionRequest implements ApiRequest {
     public ActionRequest(User user, List<String> devicesList, String comment, Location location) {
         this.devices = devicesList;
         this.comment = comment;
-        if (location != null)
-            this.geo = new Point(location);
-        else this.geo = null;
+        this.geo = new Point(location);
     }
 
     public List<String> getDevicesList() {

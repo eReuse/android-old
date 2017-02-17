@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.ereuse.scanner" >
-
+    package="org.ereuse.scanner">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -10,13 +9,12 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:name=".ScannerApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -26,7 +24,7 @@
 
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +45,7 @@
         <activity
             android:name=".activities.PlaceMapActivity"
             android:label="@string/title_activity_place_map"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.EventDetailActivity"
             android:label="@string/title_activity_event_detail"
@@ -60,6 +58,7 @@
             android:name=".activities.SnapshotActivity"
             android:label="@string/title_activity_snapshot"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.BarcodeCaptureActivity"></activity>
     </application>
 
 </manifest>

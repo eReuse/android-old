@@ -25,6 +25,8 @@ public class ScannerApplication extends Application {
     private LoginActivity loginActivity;
     private LocationListenerActivity currentLocationActivity;
 
+    private Integer scanType;
+
     public String getServer() {
         return server;
     }
@@ -35,6 +37,14 @@ public class ScannerApplication extends Application {
 
     public User getUser() {
         return user;
+    }
+
+    public Integer getScanType() {
+        return this.scanType;
+    }
+
+    public void setScanType(Integer scanType) {
+        this.scanType = scanType;
     }
 
     public void setUser(User user) {

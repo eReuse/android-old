@@ -10,7 +10,6 @@
         <item>https://api.devicetag.io/</item>
         <item>http://beta-server.devicetag.io/</item>
         <item>https://devicehub.ereuse.org/</item>
-        <item>http://10.0.2.2:5000/</item>
     </string-array>
 
     <!-- Strings for choose activity -->
@@ -28,7 +27,7 @@
     <string name="form_comments_label">Comments:</string>
     <string name="form_terms_and_conditions_label">Accept terms and conditions</string>
     <string name="form_send_button">Send</string>
-    <string name="form_send_button_disabled">Waiting for a more accurate location…</string>
+    <string name="form_send_button_disabled">Waiting for a more accurate location...</string>
 
     <string name="form_device_name">Device name</string>
     <string name="form_device_manufacturer">Device manufacturer</string>
@@ -36,8 +35,7 @@
     <string name="form_device_remove_button">X</string>
     <string name="form_receiver_email_label">Receiver\'s email:</string>
     <string name="form_receiver_name_label">Receiver\'s name:</string>
-    <string name="form_map_label">Place:</string>
-    <string name="form_map_edit_text_hint">Write the name of the place, leave it empty and we will guess where you are using the GPS coordinates.</string>
+    <string name="form_map_label">Location:</string>
     <string name="form_message_device_already_scanned">This device is already included in the scanned device list!</string>
 
     <string name="form_validation_error_acceptconditions">To perform this action, you must accept the terms and conditions</string>
@@ -101,6 +99,7 @@
 
     <!-- Snapshot creation layout -->
     <string name="snapshot_choose_device_type_label">Choose a device type:</string>
+
     <string name="new_device_snapshot_head_label">Snapshot a new device</string>
     <string name="new_self_snapshot_head_label">Snapshot this Android device</string>
     <string name="snapshot_serial_number_label">Serial Number</string>
@@ -112,6 +111,8 @@
     <!-- Dialogs -->
     <string name="toast_qr_cancel">Cancelled QR scan</string>
     <string name="toast_qr_scanned">Scanned:</string>
+    <string name="toast_barcode_cancel">Cancelled barcode scan</string>
+    <string name="toast_barcode_scanned">Barcode Scanned:</string>
 
     <string name="dialog_ack">OK</string>
     <string name="dialog_cancel">Cancel</string>
@@ -126,6 +127,14 @@
     <string name="dialog_validation_gps_disabled_title">Disabled GPS location</string>
     <string name="dialog_validation_gps_disabled_message">We strongly recomend you to enable GPS receiver in order to accurately place you in a map</string>
 
+    <string name="dialog_validation_camera_disabled_message">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="dialog_autofocus_not_supported">"Your device does not support autoFocus, using fixed macro mode instead. Please move your device until get the correct focus"</string>
+    <string name="dialog_autofocus_help">Tap to capture. Pinch/Stretch to zoom"</string>
+
+    <string name="permission_camera_rationale">Access to the camera is needed for barcodes detection</string>
+    <string name="low_storage_error">Codebar detector dependencies cannot be downloaded due to low device storage</string>
+
+
     <string name="dialog_qr_error_title">Bad QR Error</string>
     <string name="dialog_qr_error_message">The QR code does not belong to the server you logged in.</string>
 
@@ -135,6 +144,8 @@
     <string name="empty_fields_error_message">Please fulfill the following fields:</string>
 
     <string name="server_response_status_ok">OK</string>
+
+
     <!-- logs -->
     <string name="log_background_control">[BKGND_CNTRL]</string>
     <string name="log_set_to_foreground">(Re)Establishing geographical location...</string>

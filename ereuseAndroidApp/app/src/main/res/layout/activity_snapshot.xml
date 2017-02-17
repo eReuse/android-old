@@ -32,12 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-<<<<<<< HEAD
-            android:paddingTop="8px"
-=======
 
->>>>>>> 796d3447d82576983fc3284e0a2aa33b701553d7
-            android:layout_below="@id/ereuse_toolbar">
+            android:paddingTop="8px">
 
             <!--<TextView-->
                 <!--android:layout_width="fill_parent"-->
@@ -46,7 +42,7 @@
                 <!--android:id="@+id/snapshotHeadLabel"-->
                 <!--android:text="@string/new_device_snapshot_head_label"-->
                 <!--android:textColor="@color/text"/>-->
-<<<<<<< HEAD
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -65,20 +61,15 @@
                 android:id="@+id/snapshotDeviceSubType"
                 android:layout_below="@id/snapshotDeviceType">
             </Spinner>
-=======
-
->>>>>>> 796d3447d82576983fc3284e0a2aa33b701553d7
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/snapshotSerialNumberLabel"
                 android:text="@string/snapshot_serial_number_label"
-<<<<<<< HEAD
+
                 android:textColor="@color/text"
                 android:layout_below="@id/snapshotDeviceSubType"/>
-=======
-                android:textColor="@color/text"/>
->>>>>>> 796d3447d82576983fc3284e0a2aa33b701553d7
+
 
             <ImageButton
                 android:id="@+id/snapshotSerialNumberScanButton"
@@ -89,7 +80,8 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/scan"
                 android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"/>
+                android:background="@color/zxing_transparent"
+                android:onClick="scanSerialNumber"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -118,7 +110,8 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/scan"
                 android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"/>
+                android:background="@color/zxing_transparent"
+                android:onClick="scanModel"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -147,7 +140,8 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/scan"
                 android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"/>
+                android:background="@color/zxing_transparent"
+                android:onClick="scanManufacturer"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -176,7 +170,9 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/scan"
                 android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"/>
+                android:background="@color/zxing_transparent"
+                android:onClick="scanLicenseKey"
+                />
 
             <EditText
                 android:layout_width="match_parent"
@@ -221,11 +217,5 @@
 
     </ScrollView>
 
-    <include layout="@layout/waiting_layout"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="52dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="198dp" />
+    <include layout="@layout/waiting_layout"/>
 </RelativeLayout>

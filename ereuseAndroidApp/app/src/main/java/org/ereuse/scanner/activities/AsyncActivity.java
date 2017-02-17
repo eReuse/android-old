@@ -1,13 +1,20 @@
 package org.ereuse.scanner.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.User;
@@ -15,6 +22,7 @@ import org.ereuse.scanner.services.AsyncService;
 import org.ereuse.scanner.services.api.ApiException;
 import org.ereuse.scanner.services.api.ApiResponse;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,6 +30,21 @@ import java.util.List;
  * Created by Jamgo SCCL.
  */
 public abstract class AsyncActivity extends BaseActivity {
+
+    final protected int REQUEST_CODE_ACCESS_FINE_PERMISSIONS = 123;
+
+    protected static final int REQUEST_CODE_SERIALNUMBER_CAMERA_PERMISSIONS = 91;
+    protected static final int REQUEST_CODE_MODEL_CAMERA_PERMISSIONS = 92;
+    protected static final int REQUEST_CODE_MANUFACTURER_CAMERA_PERMISSIONS = 93;
+    protected static final int REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS = 94;
+    protected static final int REQUEST_CODE_QR_CAMERA_PERMISSIONS = 99;
+
+    protected static final List<Integer> REQUEST_CODEBAR_PERMISSIONS = new ArrayList<Integer>() {{
+        add(REQUEST_CODE_SERIALNUMBER_CAMERA_PERMISSIONS);
+        add(REQUEST_CODE_MODEL_CAMERA_PERMISSIONS);
+        add(REQUEST_CODE_MANUFACTURER_CAMERA_PERMISSIONS);
+        add(REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS);
+    }};
 
     public String getServer() {
         return this.getScannerApplication().getServer();

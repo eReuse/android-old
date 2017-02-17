@@ -44,7 +44,7 @@ import java.util.List;
 /**
  * Created by Jamgo SCCL.
  */
-public class FormActivity extends AsyncActivity implements OnMapReadyCallback, LocationListenerActivity {
+public class FormActivity extends ScanActivity implements OnMapReadyCallback, LocationListenerActivity {
     public static final String EXTRA_MODE = "mode";
 
     public static final String MODE_RECYCLE = "recycle";
@@ -61,10 +61,6 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
     private Location location;
     private GoogleMap map;
     private TextView tv_location;
-
-
-    final private int REQUEST_CODE_ACCESS_FINE_PERMISSIONS = 123;
-    final private int REQUEST_CODE_CAMERA_PERMISSIONS = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,42 +191,7 @@ public class FormActivity extends AsyncActivity implements OnMapReadyCallback, L
     }
 
     public void addDevice(View view) {
-        checkCameraPermission();
-    }
-
-    private void checkCameraPermission() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int cameraPermissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
-            if(cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_PERMISSIONS);
-            } else {
-                new IntentIntegrator(this).initiateScan();
-            }
-
-        } else {
-            new IntentIntegrator(this).initiateScan();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_CAMERA_PERMISSIONS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // Start QR scanner
-                    new IntentIntegrator(this).initiateScan();
-
-                } else {
-                    showPermissionDeniedDialog();
-                }
-                return;
-            }
-        }
+        checkCameraPermission(REQUEST_CODE_QR_CAMERA_PERMISSIONS);
     }
 
     @Override

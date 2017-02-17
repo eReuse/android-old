@@ -1,10 +1,14 @@
 package org.ereuse.scanner.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +22,12 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.services.AsyncService;
@@ -36,7 +46,7 @@ import java.util.Map;
 /**
  * Created by Jamgo SCCL.
  */
-public class SnapshotActivity extends AsyncActivity {
+public class SnapshotActivity extends ScanActivity {
 
     private SubMenu selectDb;
     ArrayList<String> databases;
@@ -59,6 +69,7 @@ public class SnapshotActivity extends AsyncActivity {
 
     //As per eReuse request, until they can provide this information dinamically this will be a static list
     private static final Map<String, List<String>> DEVICETYPES;
+
     static {
         Map<String, List<String>> deviceTypesMap = new HashMap<String, List<String>>();
         deviceTypesMap.put("Computer", new ArrayList<String>(Arrays.asList("Netbook", "Laptop", "Microtower", "Server")));
@@ -164,8 +175,7 @@ public class SnapshotActivity extends AsyncActivity {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         checkLogin();
     }
@@ -177,13 +187,13 @@ public class SnapshotActivity extends AsyncActivity {
         MenuItem item = menu.findItem(R.id.action_select_db);
         selectDb = item.getSubMenu();
         SetDatabase setDatabase = new SetDatabase();
-        for(String database : databases)
+        for (String database : databases)
             selectDb.add(database).setOnMenuItemClickListener(setDatabase);
         return true;
     }
 
 
-    class SetDatabase implements MenuItem.OnMenuItemClickListener{
+    class SetDatabase implements MenuItem.OnMenuItemClickListener {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
@@ -223,7 +233,7 @@ public class SnapshotActivity extends AsyncActivity {
         if (!mandatoryEmptyFields.isEmpty()) {
             String errorMessage = getString(R.string.empty_fields_error_message) + "\n";
             for (String emptyField : mandatoryEmptyFields) {
-                errorMessage += "\n - "+emptyField;
+                errorMessage += "\n - " + emptyField;
             }
             launchActionMessageDialog(getString(R.string.dialog_validation_error_title), errorMessage);
             return false;
@@ -242,6 +252,72 @@ public class SnapshotActivity extends AsyncActivity {
             launchActionMessageDialog(getString(R.string.snapshot_success));
         }
 
+    }
+
+
+    /* barcode scan actions */
+    public void scanSerialNumber(View view) {
+        checkCameraPermission(REQUEST_CODE_SERIALNUMBER_CAMERA_PERMISSIONS);
+    }
+
+    public void scanModel(View view) {
+        checkCameraPermission(REQUEST_CODE_MODEL_CAMERA_PERMISSIONS);
+    }
+
+    public void scanManufacturer(View view) {
+        checkCameraPermission(REQUEST_CODE_MANUFACTURER_CAMERA_PERMISSIONS);
+    }
+
+    public void scanLicenseKey(View view) {
+        checkCameraPermission(REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS);
+    }
+
+    @Override
+    protected void launchScanAction(int permissionCode) {
+        Intent intent = new Intent(this, BarcodeCaptureActivity.class);
+        intent.putExtra(BarcodeCaptureActivity.AutoFocus,true);
+        intent.putExtra(BarcodeCaptureActivity.UseFlash,false);
+
+        startActivityForResult(intent, permissionCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (REQUEST_CODEBAR_PERMISSIONS.contains(requestCode)) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    Toast.makeText(this, getString(R.string.toast_barcode_scanned) + " " + barcode.displayValue, Toast.LENGTH_LONG).show();
+                    this.fillScannedCode(barcode.displayValue, requestCode);
+                } else {
+                    Toast.makeText(this, getString(R.string.toast_barcode_cancel), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+    private void fillScannedCode(String scannedCode, int requestCode) {
+
+        switch (requestCode) {
+            case REQUEST_CODE_SERIALNUMBER_CAMERA_PERMISSIONS:
+                this.serialNumberEditText.setText(scannedCode);
+                break;
+            case REQUEST_CODE_MODEL_CAMERA_PERMISSIONS:
+                this.modelEditText.setText(scannedCode);
+                break;
+            case REQUEST_CODE_MANUFACTURER_CAMERA_PERMISSIONS:
+                this.manufacturerEditText.setText(scannedCode);
+                break;
+            case REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS:
+                this.licenseKeyEditText.setText(scannedCode);
+                break;
+            default:
+                break;
+        }
     }
 
 }

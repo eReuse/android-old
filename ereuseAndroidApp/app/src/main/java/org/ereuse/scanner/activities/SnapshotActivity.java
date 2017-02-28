@@ -61,6 +61,9 @@ public class SnapshotActivity extends ScanActivity {
     EditText modelEditText;
     EditText manufacturerEditText;
     EditText licenseKeyEditText;
+    EditText giverEditText;
+    EditText refurbishedEditText;
+    EditText systemEditText;
     EditText commentsEditText;
     Spinner deviceTypeSpinner;
     Spinner deviceSubTypeSpinner;
@@ -95,6 +98,11 @@ public class SnapshotActivity extends ScanActivity {
         this.modelEditText = (EditText) this.findViewById(R.id.snapshotModelEditText);
         this.serialNumberEditText = (EditText) this.findViewById(R.id.snapshotSerialNumberEditText);
         this.licenseKeyEditText = (EditText) this.findViewById(R.id.snapshotLicenseEditText);
+
+        this.giverEditText = (EditText) this.findViewById(R.id.snapshotGiverEditText);
+        this.refurbishedEditText = (EditText) this.findViewById(R.id.snapshotRefurbisherEditText);
+        this.systemEditText = (EditText) this.findViewById(R.id.snapshotSystemEditText);
+
         this.commentsEditText = (EditText) this.findViewById(R.id.snapshotCommentsEditText);
         this.deviceTypeSpinner = (Spinner) this.findViewById(R.id.snapshotDeviceType);
         this.deviceSubTypeSpinner = (Spinner) this.findViewById(R.id.snapshotDeviceSubType);
@@ -208,10 +216,15 @@ public class SnapshotActivity extends ScanActivity {
             String model = this.modelEditText.getText().toString();
             String manufacturer = this.manufacturerEditText.getText().toString();
             String licenseKey = this.licenseKeyEditText.getText().toString();
+
+            String giverId = this.giverEditText.getText().toString();
+            String refurbisherId = this.refurbishedEditText.getText().toString();
+            String systemId = this.systemEditText.getText().toString();
+
             String comment = this.commentsEditText.getText().toString();
 
             AsyncService asyncService = new AsyncService(this);
-            asyncService.doSnapshot(this.getServer(), this.getUser(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, comment);
+            asyncService.doSnapshot(this.getServer(), this.getUser(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, giverId, refurbisherId, systemId, comment);
         }
 
     }
@@ -272,6 +285,18 @@ public class SnapshotActivity extends ScanActivity {
         checkCameraPermission(REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS);
     }
 
+    public void scanGiverId(View view) {
+        checkCameraPermission(REQUEST_CODE_GIVER_CAMERA_PERMISSIONS);
+    }
+
+    public void scanRefurbisherId(View view) {
+        checkCameraPermission(REQUEST_CODE_REFURBISHER_CAMERA_PERMISSIONS);
+    }
+
+    public void scanSystemId(View view) {
+        checkCameraPermission(REQUEST_CODE_SYSTEM_CAMERA_PERMISSIONS);
+    }
+
     @Override
     protected void launchScanAction(int permissionCode) {
         Intent intent = new Intent(this, BarcodeCaptureActivity.class);
@@ -314,6 +339,15 @@ public class SnapshotActivity extends ScanActivity {
                 break;
             case REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS:
                 this.licenseKeyEditText.setText(scannedCode);
+                break;
+            case REQUEST_CODE_GIVER_CAMERA_PERMISSIONS:
+                this.giverEditText.setText(scannedCode);
+                break;
+            case REQUEST_CODE_REFURBISHER_CAMERA_PERMISSIONS:
+                this.refurbishedEditText.setText(scannedCode);
+                break;
+            case REQUEST_CODE_SYSTEM_CAMERA_PERMISSIONS:
+                this.systemEditText.setText(scannedCode);
                 break;
             default:
                 break;

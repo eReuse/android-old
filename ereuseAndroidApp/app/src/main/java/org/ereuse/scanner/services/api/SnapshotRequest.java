@@ -23,7 +23,7 @@ public class SnapshotRequest implements ApiRequest {
 
     private String snapshotSoftware = "Scan";
 
-    public SnapshotRequest(String user, String deviceType, String deviceSubType, String serialNumber, String model, String manufacturer, String licenseKey, String comment) {
+    public SnapshotRequest(String user, String deviceType, String deviceSubType, String serialNumber, String model, String manufacturer, String licenseKey, String giverId, String refurbisherId, String systemId, String comment) {
 
         this.device = new Device();
         device.setDeviceType(deviceType);
@@ -32,6 +32,10 @@ public class SnapshotRequest implements ApiRequest {
         device.setSerialNumber(serialNumber);
         device.setModel(model);
         device.setManufacturer(manufacturer);
+
+        this.device.setGiverId(giverId);
+        this.device.setRefurbisherId(refurbisherId);
+        this.device.setSystemId(systemId);
 
 //        this.user = user;
 //        this.licenseKey = licenseKey;

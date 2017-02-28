@@ -106,6 +106,9 @@
     <string name="snapshot_model_label">Model</string>
     <string name="snapshot_manufacturer_label">Manufacturer</string>
     <string name="snapshot_license_label">License Key</string>
+    <string name="snapshot_giver_label">Giver ID</string>
+    <string name="snapshot_refurbisher_label">Refurbisher ID</string>
+    <string name="snapshot_system_label">System ID</string>
     <string name="send_snapshot_button">Submit</string>
 
     <!-- Dialogs -->

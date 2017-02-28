@@ -13,10 +13,15 @@ public class Device implements Serializable {
     private String deviceType = "Device";
     @SerializedName("type")
     private String deviceSubType = "Smartphone";
-    private String serialNumber;
+   private String serialNumber;
     private String manufacturer;
     private String model;
-
+    @SerializedName("pid")
+    private String giverId;
+    @SerializedName("rid")
+    private String refurbisherId;
+    @SerializedName("_id")
+    private String systemId;
 
     public String getDeviceType() {
         return deviceType;
@@ -58,4 +63,15 @@ public class Device implements Serializable {
         this.model = model;
     }
 
+    public String getGiverId() { return giverId; }
+
+    public void setGiverId(String giverId) { this.giverId = giverId; }
+
+    public String getSystemId() { return systemId; }
+
+    public void setSystemId(String systemId) { this.systemId = systemId; }
+
+    public String getRefurbisherId() { return refurbisherId; }
+
+    public void setRefurbisherId(String refurbisherId) { this.refurbisherId = refurbisherId; }
 }

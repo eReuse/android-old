@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import org.ereuse.scanner.activities.AsyncActivity;
 import org.ereuse.scanner.data.User;
@@ -115,10 +116,12 @@ public class AsyncService {
         new HttpRequestTask(this, server, user.getToken(), null).execute(ApiServices.METHOD_EVENTS);
     }
 
-    public void doSnapshot(String server, User user, String deviceType, String deviceSubType, String serialNumber, String model, String manufacturer, String licenseKey, String comment) {
+    public void doSnapshot(String server, User user, String deviceType, String deviceSubType,
+                           String serialNumber, String model, String manufacturer,
+                           String licenseKey, String giverId, String refurbisherId, String systemId, String comment) {
         this.activity.onStartAsync();
 
-        SnapshotRequest request = new SnapshotRequest(user.getEmail(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, comment);
+        SnapshotRequest request = new SnapshotRequest(user.getEmail(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, giverId, refurbisherId, systemId, comment);
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_SNAPSHOT);
     }
 

@@ -20,7 +20,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="Add the API KEY Here" />
+            android:value="AIzaSyDKEUfFX5RpgrIAjmmUG-z_5wUAyrcIJAw" />
 
         <activity
             android:name=".activities.LoginActivity"

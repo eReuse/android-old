@@ -9,5 +9,6 @@
     <color name="emphasis_3">#FF171717</color>
     <color name="disabled">#40000000</color>
     <color name="help_background">#B0000000</color>
+    <color name="darker_help_background">#df000000</color>
     <color name="white">#FFFFFF</color>
 </resources>

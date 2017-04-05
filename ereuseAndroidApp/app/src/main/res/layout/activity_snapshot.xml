@@ -299,4 +299,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="199dp" />
+    <include layout="@layout/activity_snapshot_help" />
 </RelativeLayout>

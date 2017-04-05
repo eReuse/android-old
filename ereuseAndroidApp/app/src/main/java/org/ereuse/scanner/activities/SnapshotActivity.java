@@ -1,20 +1,14 @@
 package org.ereuse.scanner.activities;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -26,15 +20,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import org.ereuse.scanner.R;
+import org.ereuse.scanner.data.Device;
 import org.ereuse.scanner.services.AsyncService;
 import org.ereuse.scanner.services.api.ApiResponse;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.services.api.SnapshotResponse;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +61,7 @@ public class SnapshotActivity extends ScanActivity {
     Spinner deviceSubTypeSpinner;
     String deviceType;
     String deviceSubType;
+    Boolean deviceSubTypeSpinnerReloadUpdate = false;
 
     //As per eReuse request, until they can provide this information dinamically this will be a static list
     private static final Map<String, List<String>> DEVICETYPES;
@@ -149,8 +142,12 @@ public class SnapshotActivity extends ScanActivity {
                 deviceType = selectedDeviceType;
                 String[] spinnerDeviceSubTypeValues = DEVICETYPES.get(selectedDeviceType).toArray(new String[DEVICETYPES.get(selectedDeviceType).size()]);
                 ArrayAdapter<String> deviceSubTypeAdapter = new ArrayAdapter<String>(SnapshotActivity.this, R.layout.spinner_item, spinnerDeviceSubTypeValues);
-                deviceSubTypeSpinner.setAdapter(deviceSubTypeAdapter);
-                deviceSubTypeSpinner.setVisibility(View.VISIBLE);
+                if (deviceSubTypeSpinnerReloadUpdate) {
+                    deviceSubTypeSpinnerReloadUpdate = false;
+                } else {
+                    deviceSubTypeSpinner.setAdapter(deviceSubTypeAdapter);
+                    deviceSubTypeSpinner.setVisibility(View.VISIBLE);
+                }
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -167,7 +164,9 @@ public class SnapshotActivity extends ScanActivity {
             }
         });
 
-        this.deviceSubTypeSpinner.setVisibility(View.GONE);
+        this.reloadLatestSuccessfulSnapshotData();
+
+        this.deviceSubTypeSpinner.setVisibility(View.VISIBLE);
     }
 
     private void hideScanButtons() {
@@ -232,6 +231,7 @@ public class SnapshotActivity extends ScanActivity {
     private boolean doValidate() {
         List<String> mandatoryEmptyFields = new ArrayList<String>();
 
+
         if (this.serialNumberEditText.getText().toString().isEmpty()) {
             mandatoryEmptyFields.add(getString(R.string.snapshot_serial_number_label));
         }
@@ -262,11 +262,89 @@ public class SnapshotActivity extends ScanActivity {
         SnapshotResponse snapshotResponse = (SnapshotResponse) response;
 
         if (snapshotResponse.getStatus().equals(getString(R.string.server_response_status_ok))) {
-            launchActionMessageDialog(getString(R.string.snapshot_success));
+
+            this.resetUniqueFields();
+            this.saveSuccessfulSnapshotData();
+
+            launchActionMessageDialog(getString(R.string.snapshot_success), true);
         }
 
     }
 
+    private void resetUniqueFields() {
+        this.serialNumberEditText.setText("");
+        this.licenseKeyEditText.setText("");
+        this.giverEditText.setText("");
+        this.refurbishedEditText.setText("");
+        this.systemEditText.setText("");
+    }
+
+    private void saveSuccessfulSnapshotData() {
+        Device successSnapshot = new Device();
+        successSnapshot.setModel(this.modelEditText.getText().toString());
+        successSnapshot.setManufacturer(this.manufacturerEditText.getText().toString());
+        successSnapshot.setDeviceType(this.deviceType);
+        successSnapshot.setDeviceSubType(this.deviceSubType);
+        this.getScannerApplication().setLatestSuccessfulSnapshot(successSnapshot);
+    }
+
+    private void reloadLatestSuccessfulSnapshotData() {
+        Device successSnapshot = this.getScannerApplication().getLatestSuccessfulSnapshot();
+
+        if (successSnapshot != null) {
+            this.modelEditText.setText(successSnapshot.getModel());
+            this.manufacturerEditText.setText(successSnapshot.getManufacturer());
+
+            String[] spinnerDeviceSubTypeValues = DEVICETYPES.get(successSnapshot.getDeviceType()).toArray(new String[DEVICETYPES.get(successSnapshot.getDeviceType()).size()]);
+            int deviceTypePosition = 0;
+            for (String eachDeviceType : DEVICETYPES.keySet()) {
+                if (eachDeviceType.equals(successSnapshot.getDeviceType())) {
+                    break;
+                }
+                deviceTypePosition++;
+            }
+            this.deviceTypeSpinner.setSelection(deviceTypePosition);
+            ArrayAdapter<String> deviceSubTypeAdapter = new ArrayAdapter<String>(SnapshotActivity.this, R.layout.spinner_item, spinnerDeviceSubTypeValues);
+
+            this.deviceSubTypeSpinner.setAdapter(deviceSubTypeAdapter);
+
+
+            this.deviceType = successSnapshot.getDeviceType();
+            this.deviceSubType = successSnapshot.getDeviceSubType();
+
+            this.deviceSubTypeSpinner.setVisibility(View.VISIBLE);
+            this.deviceSubTypeSpinnerReloadUpdate = true;
+
+            refreshDeviceSubTypeSpinner(spinnerDeviceSubTypeValues);
+
+
+        }
+    }
+
+    public void refreshDeviceSubTypeSpinner( String[] spinnerDeviceSubTypeValues) {
+        int deviceSubTypePosition = 0;
+        for (String eachDeviceSubType : spinnerDeviceSubTypeValues) {
+            if (eachDeviceSubType.equals(this.deviceSubType)) {
+                break;
+            }
+            deviceSubTypePosition++;
+        }
+        deviceSubTypeSpinner.setSelection(deviceSubTypePosition, true);
+    }
+
+    public void showHelp(){
+        RelativeLayout snapshotHelpLayout = (RelativeLayout) findViewById(R.id.SnapshotHelpLayout);
+        TextView helpCreate = (TextView) findViewById(R.id.snapshot_help_text);
+
+        String dialogText = getString(R.string.snapshot_dialog_help_multiple_snapshots_in_row);
+        helpCreate.setText(dialogText);
+        snapshotHelpLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void dissmissHelp(View view) {
+        RelativeLayout mapHelpLayout = (RelativeLayout) findViewById(R.id.SnapshotHelpLayout);
+        mapHelpLayout.setVisibility(View.GONE);
+    }
 
     /* barcode scan actions */
     public void scanSerialNumber(View view) {
@@ -347,11 +425,28 @@ public class SnapshotActivity extends ScanActivity {
                 this.refurbishedEditText.setText(scannedCode);
                 break;
             case REQUEST_CODE_SYSTEM_CAMERA_PERMISSIONS:
-                this.systemEditText.setText(scannedCode);
+                this.systemEditText.setText(getSystemIdFromUrl(scannedCode));
                 break;
             default:
                 break;
         }
     }
 
+    // A scanned SystemId is a full DeviceHub URL, we must extract the device Id
+    private String getSystemIdFromUrl(String scannedCode) {
+        String[] splittedUrl = scannedCode.split("/");
+        if (splittedUrl.length > 1) {
+            return splittedUrl[splittedUrl.length -1 ];
+        }
+        return scannedCode;
+    }
+
+    @Override
+    protected void dialogCallback() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+//            if (!sharedPreferences.getBoolean("snapshotHelpShown", false)) {
+                sharedPreferences.edit().putBoolean("snapshotHelpShown", true).commit();
+                showHelp();
+//            }
+    }
 }

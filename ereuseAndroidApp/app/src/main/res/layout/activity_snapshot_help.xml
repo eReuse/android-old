@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="70dp"
+    android:background="@color/darker_help_background"
+    tools:context=".MainActivity"
+    android:id="@+id/SnapshotHelpLayout"
+    android:visibility="invisible">
+
+    <ImageView
+        android:id="@+id/snapshot_help_image"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitStart"
+        android:src="@drawable/multiple_scan_usage"
+    />
+
+    <TextView
+        android:id="@+id/snapshot_help_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/helper_margin"
+        android:paddingRight="@dimen/helper_margin"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/snapshot_help_image"
+        />
+
+    <Button
+        android:id="@+id/snapshot_help_dismiss_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/helper_margin"
+        android:layout_marginBottom="@dimen/helper_margin"
+        android:onClick="dissmissHelp"
+        android:text="OK"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

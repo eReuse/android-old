@@ -4,7 +4,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 
 import org.ereuse.scanner.activities.AsyncActivity;
 import org.ereuse.scanner.data.User;

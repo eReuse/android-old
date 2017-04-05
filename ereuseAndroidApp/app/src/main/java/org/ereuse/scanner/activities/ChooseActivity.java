@@ -9,8 +9,6 @@ import android.view.SubMenu;
 import android.view.View;
 
 import org.ereuse.scanner.R;
-import org.ereuse.scanner.data.User;
-import org.ereuse.scanner.services.api.ApiServices;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 
 import java.util.ArrayList;

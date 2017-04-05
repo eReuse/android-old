@@ -33,7 +33,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.Detector;

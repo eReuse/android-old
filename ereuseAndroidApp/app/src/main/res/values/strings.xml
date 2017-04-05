@@ -10,6 +10,7 @@
         <item>https://api.devicetag.io/</item>
         <item>http://beta-server.devicetag.io/</item>
         <item>https://devicehub.ereuse.org/</item>
+        <item>https://devicehub.ereuse.net/</item>
     </string-array>
 
     <!-- Strings for choose activity -->
@@ -53,7 +54,7 @@
     <string name="receive_success">Devices received successfully</string>
     <string name="recycle_success">Devices recycled successfully</string>
     <string name="place_success">New Place created successfully</string>
-    <string name="snapshot_success">New Snapshot created successfully</string>
+    <string name="snapshot_success">New Snapshot created successfully.</string>
 
     <string name="waiting">Connecting...</string>
     <string name="title_activity_events">EventsActivity</string>
@@ -77,6 +78,7 @@
     <string name="place_map_validation_error_placename">Please, remember to set a name for the new place</string>
     <string name="place_map_validation_error_placedefinition">A new place must be defined at least by 3 locations. Please check map help for further instructions</string>
 
+    <string name="snapshot_dialog_help_multiple_snapshots_in_row">After a successful snapshot, some fields will mantain its value in order to scan multiple similar devices (sharing some fields) in an easy and fast way.</string>
 
     <!-- Events list layout -->
     <string name="event_devices_size">Devices</string>
@@ -116,6 +118,8 @@
     <string name="toast_qr_scanned">Scanned:</string>
     <string name="toast_barcode_cancel">Cancelled barcode scan</string>
     <string name="toast_barcode_scanned">Barcode Scanned:</string>
+
+    <string name="toast_reload_snapshot_data">Snapshot information fulfilled from the latest successful snapshot</string>
 
     <string name="dialog_ack">OK</string>
     <string name="dialog_cancel">Cancel</string>

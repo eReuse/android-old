@@ -3,7 +3,6 @@ package org.ereuse.scanner.services.api;
 import com.google.gson.annotations.SerializedName;
 
 import org.ereuse.scanner.data.Link;
-import org.ereuse.scanner.data.Links;
 
 /**
  * Created by Jamgo SCCL.

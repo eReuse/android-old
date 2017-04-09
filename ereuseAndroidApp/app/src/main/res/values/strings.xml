@@ -10,7 +10,7 @@
         <item>https://api.devicetag.io/</item>
         <item>http://beta-server.devicetag.io/</item>
         <item>https://devicehub.ereuse.org/</item>
-        <item>https://devicehub.ereuse.net/</item>
+        <item>http://devicehub.ereuse.net/</item>
     </string-array>
 
     <!-- Strings for choose activity -->

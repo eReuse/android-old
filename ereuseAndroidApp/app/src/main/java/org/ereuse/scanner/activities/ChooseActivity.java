@@ -79,11 +79,15 @@ public class ChooseActivity extends BaseActivity {
     }
 
     public void showEventsList(View view) {
-        System.out.println("Show events list");
-
         Intent intent = new Intent(this, EventsActivity.class);
         startActivity(intent);
     }
+
+    public void doRemoveComponent(View view) {
+        Intent formIntent = new Intent(this, SnapshotRemoveComponentActivity.class);
+        startActivity(formIntent);
+    }
+
 
     class SetDatabase implements MenuItem.OnMenuItemClickListener{
 

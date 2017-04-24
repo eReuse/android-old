@@ -19,8 +19,9 @@
     <string name="recycle_button">Recycle</string>
     <string name="locate_button">Locate</string>
     <string name="events_button">Events list</string>
-    <string name="place_button">New Place</string>
+    <string name="place_button">New place</string>
     <string name="snapshot_button">New snapshot</string>
+    <string name="snapshot_remove_component_button">Remove component</string>
 
     <!-- Strings for form activity -->
     <string name="form_devices_label">Devices:</string>
@@ -54,7 +55,9 @@
     <string name="receive_success">Devices received successfully</string>
     <string name="recycle_success">Devices recycled successfully</string>
     <string name="place_success">New Place created successfully</string>
-    <string name="snapshot_success">New Snapshot created successfully.</string>
+    <string name="snapshot_success">New Snapshot created successfully</string>
+    <string name="snapshot_remove_component_success">Component removed successfully</string>
+    <string name="snapshot_remove_component_error">Error Removing component from device</string>
 
     <string name="waiting">Connecting...</string>
     <string name="title_activity_events">EventsActivity</string>
@@ -96,11 +99,13 @@
     <!-- Choose Snapshot layout -->
     <string name="title_activity_snapshot">SnapshotActivity</string>
     <string name="title_activity_snapshot_choose">SnapshotChooseActivity</string>
+    <string name="title_activity_remove_component_snapshot">RemoveComponentActivity</string>
     <string name="android_snapshot_button">Snapshot this Android</string>
     <string name="device_snapshot_button">Snapshot a device</string>
 
     <!-- Snapshot creation layout -->
     <string name="snapshot_choose_device_type_label">Choose a device type:</string>
+    <string name="snapshot_choose_component_type_label">Choose the component type to be removed:</string>
 
     <string name="new_device_snapshot_head_label">Snapshot a new device</string>
     <string name="new_self_snapshot_head_label">Snapshot this Android device</string>
@@ -111,7 +116,64 @@
     <string name="snapshot_giver_label">Giver ID</string>
     <string name="snapshot_refurbisher_label">Refurbisher ID</string>
     <string name="snapshot_system_label">System ID</string>
-    <string name="send_snapshot_button">Submit</string>
+    <string name="snapshot_send_button">Submit</string>
+
+    <string name="snapshot_parent_system_label">Parent System ID</string>
+    <string name="snapshot_grade_label">Grade options:</string>
+
+    <string name="snapshot_grade_appearance_label">Appearance</string>
+    <string name="snapshot_grade_functionality_label">Functionality</string>
+    <string name="snapshot_grade_bios_label">Bios</string>
+    <string name="snapshot_grade_labels_label">Labels</string>
+
+    <string name="snapshot_grade_appearance_help">Grades the imperfections that aesthetically affect the device, but not its usage</string>
+    <string name="snapshot_grade_labels_help">Sets if there are labels stucked that should be removed</string>
+    <string name="snapshot_grade_functionality_help">Grades the defects of a device that affect its usage.</string>
+    <string name="snapshot_grade_bios_help">How difficult has been to set the bios to boot from network</string>
+
+    <string name="snapshot_grade_select_text">Touch to select a value</string>
+    <string-array name="snapshot_grade_appearance_array">
+        <item>The device is new</item>
+        <item>The device is like new (without visual damages)</item>
+        <item>The device is in really good condition (small visual damage in difficult to spot parts)</item>
+        <item>The device is in good condition (small visual damage in parts that are easy to spot but do not accept usage)</item>
+        <item>The device is acceptable (visual damage in visible parts that do not affect usage)</item>
+        <item>The device is unacceptable (considerable visual damage that can affect usage)</item>
+    </string-array>
+    <string-array name="snapshot_grade_appearance_array_values">
+        <item>0</item>
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+    </string-array>
+    <string-array name="snapshot_grade_functionality_array">
+        <item>Everything works perfectly (buttons, and in case of screens there are no scratches).</item>
+        <item>If there is a button, behavior or screen that, it is difficult to press or there is a small scratch in an edge.</item>
+        <item>A button or a non-important mechanism does not work, or a screen has multiple scratches in edges.</item>
+        <item>Multiple buttons does not work, or a screen has visual damage that makes its usage uncomfortable.</item>
+    </string-array>
+    <string-array name="snapshot_grade_functionality_array_values">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+    </string-array>
+    <string-array name="snapshot_grade_bios_array">
+        <item>A. Si pulsando una tecla se ha podido acceder al modo de arranque, seleccionando la opción por red</item>
+        <item>B. Se ha tenido que entrar en la BIOS y en menos de X pasos se ha añadido el arranque por red</item>
+        <item>C. Ídem a B pero con más de X pasos</item>
+        <item>D. Ídem a B ó C pero la BIOS venía bloqueada y se ha tenido que sacar la pila</item>
+        <item>E. El pc no permite el arranque por red.</item>
+    </string-array>
+    <string-array name="snapshot_grade_bios_array_values">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+    </string-array>
 
     <!-- Dialogs -->
     <string name="toast_qr_cancel">Cancelled QR scan</string>

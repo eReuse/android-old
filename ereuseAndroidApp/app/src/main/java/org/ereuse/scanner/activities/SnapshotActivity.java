@@ -1,18 +1,28 @@
 package org.ereuse.scanner.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,10 +33,13 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.Device;
+import org.ereuse.scanner.data.Grade;
+import org.ereuse.scanner.data.GradeOption;
 import org.ereuse.scanner.services.AsyncService;
 import org.ereuse.scanner.services.api.ApiResponse;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.services.api.SnapshotResponse;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +75,21 @@ public class SnapshotActivity extends ScanActivity {
     String deviceType;
     String deviceSubType;
     Boolean deviceSubTypeSpinnerReloadUpdate = false;
+
+    TextView gradeAppearanceTextView;
+    TextView gradeFunctionalityTextView;
+    TextView gradeBiosTextView;
+    CheckBox gradeLabelsCheckBox;
+
+    private AlertDialog gradeSelectorDialog = null;
+
+    Grade gradeConditions = new Grade();
+
+    static enum GRADE_OPTION {
+        APPEARANCE,
+        FUNCTIONALITY,
+        BIOS
+    }
 
     //As per eReuse request, until they can provide this information dinamically this will be a static list
     private static final Map<String, List<String>> DEVICETYPES;
@@ -99,6 +127,11 @@ public class SnapshotActivity extends ScanActivity {
         this.commentsEditText = (EditText) this.findViewById(R.id.snapshotCommentsEditText);
         this.deviceTypeSpinner = (Spinner) this.findViewById(R.id.snapshotDeviceType);
         this.deviceSubTypeSpinner = (Spinner) this.findViewById(R.id.snapshotDeviceSubType);
+
+        this.gradeAppearanceTextView = (TextView) this.findViewById(R.id.gradeAppearanceValueLabel);
+        this.gradeFunctionalityTextView = (TextView) this.findViewById(R.id.gradeFunctionalityValueLabel);
+        this.gradeBiosTextView = (TextView) this.findViewById(R.id.gradeBiosValueLabel);
+        this.gradeLabelsCheckBox = (CheckBox) this.findViewById(R.id.gradeLabelsCheckBox);
 
         if (this.mode.equals(MODE_SELF)) {
             initializeSelfSnapshotLayout();
@@ -223,7 +256,7 @@ public class SnapshotActivity extends ScanActivity {
             String comment = this.commentsEditText.getText().toString();
 
             AsyncService asyncService = new AsyncService(this);
-            asyncService.doSnapshot(this.getServer(), this.getUser(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, giverId, refurbisherId, systemId, comment);
+            asyncService.doSnapshot(this.getServer(), this.getUser(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, giverId, refurbisherId, systemId, comment, gradeConditions);
         }
 
     }
@@ -444,9 +477,126 @@ public class SnapshotActivity extends ScanActivity {
     @Override
     protected void dialogCallback() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
-//            if (!sharedPreferences.getBoolean("snapshotHelpShown", false)) {
+            if (!sharedPreferences.getBoolean("snapshotHelpShown", false)) {
                 sharedPreferences.edit().putBoolean("snapshotHelpShown", true).commit();
                 showHelp();
-//            }
+            }
+    }
+
+    public void showAppearanceSelector(View view) {
+        String title = getString(R.string.snapshot_grade_appearance_help);
+        int gradeAttributeArray =  R.array.snapshot_grade_appearance_array;
+        this.showGradeSelector(GRADE_OPTION.APPEARANCE.toString(), title,gradeAttributeArray,gradeAppearanceTextView, GRADE_OPTION.APPEARANCE);
+    }
+
+    public void showFunctionalitySelector(View view) {
+        String title = getString(R.string.snapshot_grade_functionality_help);
+        int gradeAttributeArray =  R.array.snapshot_grade_functionality_array;
+        this.showGradeSelector(GRADE_OPTION.FUNCTIONALITY.toString(),title,gradeAttributeArray,gradeFunctionalityTextView, GRADE_OPTION.FUNCTIONALITY);
+    }
+
+    public void showBiosSelector(View view) {
+        String title = getString(R.string.snapshot_grade_bios_help);
+        int gradeAttributeArray =  R.array.snapshot_grade_bios_array;
+        this.showGradeSelector(GRADE_OPTION.BIOS.toString(),title,gradeAttributeArray,gradeBiosTextView, GRADE_OPTION.BIOS);
+    }
+
+    private void showGradeSelector(String title, String helpText, final int gradeAttributeArray, final TextView gradeTextView, final GRADE_OPTION gradeOption) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View gradeDialogView = inflater.inflate(R.layout.single_choice_dialog,
+                null, false);
+
+        TextView gradeHelpTextView = (TextView) gradeDialogView.findViewById(R.id.gradeHelpTextView);
+        gradeHelpTextView.setText(helpText);
+        RadioGroup gradeRadioGroup = (RadioGroup) gradeDialogView.findViewById(R.id.gradeRadioGroup);
+        gradeRadioGroup.removeAllViews();
+            gradeRadioGroup.clearDisappearingChildren();
+
+        TextView gradeTitleTextView = (TextView) gradeDialogView.findViewById(R.id.gradeTitleTextView);
+        gradeTitleTextView.setText(title);
+
+        String[] gradePossibleValues = getResources().getStringArray(gradeAttributeArray);
+        for (int i = 0; i< gradePossibleValues.length; i++) {
+            String eachGradePossibleValue = gradePossibleValues[i];
+            RadioButton gradePossibleValueButton = new RadioButton(this);
+            gradePossibleValueButton.setText(eachGradePossibleValue);
+            gradePossibleValueButton.setTag(i);
+            gradeRadioGroup.addView(gradePossibleValueButton, i);
+        }
+
+        dialogBuilder.setView(gradeDialogView);
+        dialogBuilder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SnapshotActivity.this, "aaaaaa", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        this.gradeSelectorDialog = dialogBuilder.create();
+
+        gradeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int realCheckedId = getRealCheckedId(group, checkedId);
+                gradeSelectorCallback(realCheckedId, gradeTextView, gradeAttributeArray, gradeOption);
+                SnapshotActivity.this.gradeSelectorDialog.dismiss();// dismiss the alertbox after chose option
+            }
+        });
+
+        this.gradeSelectorDialog.show();
+
+/*        AlertDialog.Builder gradeDialog = new AlertDialog.Builder(this);
+
+        TextView dialogTitle = new TextView(this);
+        dialogTitle.setText(title);
+        dialogTitle.setTextSize(18);
+
+        LinearLayout.LayoutParams customDialogTitleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        customDialogTitleParams.setMargins(10,10,10,10);
+        dialogTitle.setLayoutParams(customDialogTitleParams);
+        gradeDialog.setCustomTitle(dialogTitle);
+
+        gradeDialog.setSingleChoiceItems(gradeAttributeArray, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                gradeSelectorCallback(item, gradeTextView, gradeAttributeArray, gradeOption);
+                dialog.dismiss();// dismiss the alertbox after chose option
+
+            }
+        });
+        gradeDialog.create().show();
+        */
+
+    }
+
+    private int getRealCheckedId(RadioGroup group, int checkedId) {
+        RadioButton selectedRadioButton = (RadioButton) group.findViewById(checkedId);
+        return (int) selectedRadioButton.getTag();
+    }
+
+    private void gradeSelectorCallback(int selectedItemId, TextView gradeTextView, int gradeAttributeArray, GRADE_OPTION gradeOption) {
+//        Toast.makeText(getApplicationContext(),
+//                "Appearance = "+getResources().getStringArray(R.array.snapshot_grade_appearance_array_values)[item], Toast.LENGTH_SHORT).show();
+        gradeTextView.setText(getResources().getStringArray(gradeAttributeArray)[selectedItemId]);
+        String gradeOptionValue = null;
+        switch(gradeOption) {
+            case APPEARANCE:
+                GradeOption appearance = new GradeOption(getResources().getStringArray(R.array.snapshot_grade_appearance_array_values)[selectedItemId]);
+                gradeConditions.setAppearance(appearance);
+                break;
+            case FUNCTIONALITY:
+                GradeOption functionality = new GradeOption(getResources().getStringArray(R.array.snapshot_grade_functionality_array_values)[selectedItemId]);
+                gradeConditions.setFunctionality(functionality);
+                break;
+            case BIOS:
+                GradeOption bios = new GradeOption(getResources().getStringArray(R.array.snapshot_grade_bios_array_values)[selectedItemId]);
+                gradeConditions.setBios(bios);
+                break;
+        }
     }
 }

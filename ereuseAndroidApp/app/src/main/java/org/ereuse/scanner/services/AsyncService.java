@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.ereuse.scanner.activities.AsyncActivity;
+import org.ereuse.scanner.data.Grade;
 import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.api.ActionRequest;
 import org.ereuse.scanner.services.api.ApiException;
@@ -13,8 +14,11 @@ import org.ereuse.scanner.services.api.ApiRequest;
 import org.ereuse.scanner.services.api.ApiResponse;
 import org.ereuse.scanner.services.api.ApiServices;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
+import org.ereuse.scanner.services.api.DeviceComponentRemoveRequest;
+import org.ereuse.scanner.services.api.DeviceComponentSnapshotRequest;
 import org.ereuse.scanner.services.api.DeviceRequest;
 import org.ereuse.scanner.services.api.EmployeeRequest;
+import org.ereuse.scanner.services.api.EventUndoRequest;
 import org.ereuse.scanner.services.api.LocateRequest;
 import org.ereuse.scanner.services.api.LoginRequest;
 import org.ereuse.scanner.services.api.NonEmployeeRequest;
@@ -117,14 +121,36 @@ public class AsyncService {
 
     public void doSnapshot(String server, User user, String deviceType, String deviceSubType,
                            String serialNumber, String model, String manufacturer,
-                           String licenseKey, String giverId, String refurbisherId, String systemId, String comment) {
+                           String licenseKey, String giverId, String refurbisherId, String systemId, String comment, Grade gradeConditions) {
         this.activity.onStartAsync();
 
-        SnapshotRequest request = new SnapshotRequest(user.getEmail(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, giverId, refurbisherId, systemId, comment);
+        SnapshotRequest request = new SnapshotRequest(user.getEmail(), deviceType, deviceSubType, serialNumber, model, manufacturer, licenseKey, giverId, refurbisherId, systemId, comment, gradeConditions);
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_SNAPSHOT);
     }
 
-    // TODO Add more async methods
+    public void doLinkComponentToParentSnapshot(String server, User user, String componentType, String parentSystemId,
+                                          String serialNumber, String model, String manufacturer, String comment) {
+
+        DeviceComponentSnapshotRequest request = new DeviceComponentSnapshotRequest(componentType, parentSystemId, serialNumber, model, manufacturer, comment);
+        new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_SNAPSHOT);
+
+
+    }
+
+    public void undoLinkComponentToParentRemoveComponentFromParent(String server, User user, String eventToUndo) {
+        EventUndoRequest request = new EventUndoRequest(eventToUndo);
+        new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_EVENT_UNDO);
+
+    }
+
+
+    public void doRemoveComponentFromParent(String server, User user, String parentSystemId, String componentSystemId, String comment) {
+
+        DeviceComponentRemoveRequest request = new DeviceComponentRemoveRequest(parentSystemId, componentSystemId, comment);
+        new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_DEVICE_COMPONENT_REMOVE);
+
+
+    }
 
     public void finished() {
         if (this.response != null) {

@@ -2,8 +2,6 @@ package org.ereuse.scanner.activities;
 
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -31,7 +29,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.ereuse.scanner.R;
-
 import org.ereuse.scanner.services.AsyncService;
 import org.ereuse.scanner.services.ValidationService;
 import org.ereuse.scanner.services.api.ActionResponse;

@@ -7,7 +7,7 @@ import org.ereuse.scanner.data.Link;
 /**
  * Created by Jamgo SCCL.
  */
-public class SnapshotResponse implements ApiResponse {
+public class DeviceComponentRemoveResponse implements ApiResponse {
 
     @SerializedName("_id")
     private String id;

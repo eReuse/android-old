@@ -161,22 +161,43 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void launchActionMessageDialog(String title, String message) {
+        launchActionMessageDialog(title, message, false);
+    }
+
+    protected void launchActionMessageDialog(String title, String message, boolean useDialogCallback) {
         //Show action result
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         if (title != null) {
             dialog.setTitle(title);
         }
-        dialog.setNeutralButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        if(useDialogCallback) {
+            dialog.setNeutralButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialogCallback();
+                }
+            });
+        } else {
+            dialog.setNeutralButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
         dialog.setMessage(message);
         dialog.show();
     }
 
     protected void launchActionMessageDialog(String message) {
-        launchActionMessageDialog(null, message);
+        launchActionMessageDialog(null, message, false);
+    }
+
+    protected void launchActionMessageDialog(String message, boolean useDialogCallback) {
+        launchActionMessageDialog(null, message, true);
+    }
+
+    protected void dialogCallback() {
+
     }
 }

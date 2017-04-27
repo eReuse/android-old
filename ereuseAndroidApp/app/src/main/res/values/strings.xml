@@ -10,6 +10,7 @@
         <item>https://api.devicetag.io/</item>
         <item>http://beta-server.devicetag.io/</item>
         <item>https://devicehub.ereuse.org/</item>
+        <item>http://devicehub.ereuse.net/</item>
     </string-array>
 
     <!-- Strings for choose activity -->
@@ -18,8 +19,9 @@
     <string name="recycle_button">Recycle</string>
     <string name="locate_button">Locate</string>
     <string name="events_button">Events list</string>
-    <string name="place_button">New Place</string>
+    <string name="place_button">New place</string>
     <string name="snapshot_button">New snapshot</string>
+    <string name="snapshot_remove_component_button">Remove component</string>
 
     <!-- Strings for form activity -->
     <string name="form_devices_label">Devices:</string>
@@ -54,6 +56,8 @@
     <string name="recycle_success">Devices recycled successfully</string>
     <string name="place_success">New Place created successfully</string>
     <string name="snapshot_success">New Snapshot created successfully</string>
+    <string name="snapshot_remove_component_success">Component removed successfully</string>
+    <string name="snapshot_remove_component_error">Error Removing component from device</string>
 
     <string name="waiting">Connecting...</string>
     <string name="title_activity_events">EventsActivity</string>
@@ -77,6 +81,7 @@
     <string name="place_map_validation_error_placename">Please, remember to set a name for the new place</string>
     <string name="place_map_validation_error_placedefinition">A new place must be defined at least by 3 locations. Please check map help for further instructions</string>
 
+    <string name="snapshot_dialog_help_multiple_snapshots_in_row">After a successful snapshot, some fields will mantain its value in order to scan multiple similar devices (sharing some fields) in an easy and fast way.</string>
 
     <!-- Events list layout -->
     <string name="event_devices_size">Devices</string>
@@ -94,11 +99,13 @@
     <!-- Choose Snapshot layout -->
     <string name="title_activity_snapshot">SnapshotActivity</string>
     <string name="title_activity_snapshot_choose">SnapshotChooseActivity</string>
+    <string name="title_activity_remove_component_snapshot">RemoveComponentActivity</string>
     <string name="android_snapshot_button">Snapshot this Android</string>
     <string name="device_snapshot_button">Snapshot a device</string>
 
     <!-- Snapshot creation layout -->
     <string name="snapshot_choose_device_type_label">Choose a device type:</string>
+    <string name="snapshot_choose_component_type_label">Choose the component type to be removed:</string>
 
     <string name="new_device_snapshot_head_label">Snapshot a new device</string>
     <string name="new_self_snapshot_head_label">Snapshot this Android device</string>
@@ -109,13 +116,72 @@
     <string name="snapshot_giver_label">Giver ID</string>
     <string name="snapshot_refurbisher_label">Refurbisher ID</string>
     <string name="snapshot_system_label">System ID</string>
-    <string name="send_snapshot_button">Submit</string>
+    <string name="snapshot_send_button">Submit</string>
+
+    <string name="snapshot_parent_system_label">Parent System ID</string>
+    <string name="snapshot_grade_label">Grade options:</string>
+
+    <string name="snapshot_grade_appearance_label">Appearance</string>
+    <string name="snapshot_grade_functionality_label">Functionality</string>
+    <string name="snapshot_grade_bios_label">Bios</string>
+    <string name="snapshot_grade_labels_label">Labels</string>
+
+    <string name="snapshot_grade_appearance_help">Grades the imperfections that aesthetically affect the device, but not its usage</string>
+    <string name="snapshot_grade_labels_help">Sets if there are labels stucked that should be removed</string>
+    <string name="snapshot_grade_functionality_help">Grades the defects of a device that affect its usage.</string>
+    <string name="snapshot_grade_bios_help">How difficult has been to set the bios to boot from network</string>
+
+    <string name="snapshot_grade_select_text">Touch to select a value</string>
+    <string-array name="snapshot_grade_appearance_array">
+        <item>0. The device is new</item>
+        <item>A. Is like new (without visual damage)</item>
+        <item>B. Is in really good condition (small visual damage in difficult places to spot)</item>
+        <item>C. Is in good condition (small visual damage in parts that are easy to spot, not on screens)</item>
+        <item>D. Is acceptable (visual damage in visible parts, not on screens)</item>
+        <item>E. Is unacceptable (considerable visual damage that can affect usage)</item>
+    </string-array>
+    <string-array name="snapshot_grade_appearance_array_values">
+        <item>0</item>
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+    </string-array>
+    <string-array name="snapshot_grade_functionality_array">
+        <item>A. Everything works perfectly (buttons, and in case of screens there are no scratches)</item>
+        <item>B. There is a button difficult to press or a small scratch in an edge of a screen</item>
+        <item>C. A non-important button (or similar) doesn\'t work; screen has multiple scratches in edges</item>
+        <item>D. Multiple buttons don\'t work; screen has visual damage resulting in uncomfortable usage</item>
+    </string-array>
+    <string-array name="snapshot_grade_functionality_array_values">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+    </string-array>
+    <string-array name="snapshot_grade_bios_array">
+        <item>A. If by pressing a key you could access a boot menu with the network boot</item>
+        <item>B. You had to get into the BIOS, and in less than 5 steps you could set the network boot</item>
+        <item>C. Like B, but with more than 5 steps</item>
+        <item>D. Like B or C, but you had to unlock the BIOS (i.e. by removing the battery)</item>
+        <item>E. The device could not be booted through the network.</item>
+    </string-array>
+    <string-array name="snapshot_grade_bios_array_values">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+    </string-array>
 
     <!-- Dialogs -->
     <string name="toast_qr_cancel">Cancelled QR scan</string>
     <string name="toast_qr_scanned">Scanned:</string>
     <string name="toast_barcode_cancel">Cancelled barcode scan</string>
     <string name="toast_barcode_scanned">Barcode Scanned:</string>
+
+    <string name="toast_reload_snapshot_data">Snapshot information fulfilled from the latest successful snapshot</string>
 
     <string name="dialog_ack">OK</string>
     <string name="dialog_cancel">Cancel</string>

@@ -1,6 +1,7 @@
 package org.ereuse.scanner.services.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import org.springframework.http.HttpAuthentication;
@@ -34,6 +35,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final HttpMethod HTTP_METHOD_EVENTS = HttpMethod.GET;
     private static final HttpMethod HTTP_METHOD_PLACE = HttpMethod.POST;
     private static final HttpMethod HTTP_METHOD_SNAPSHOT = HttpMethod.POST;
+    private static final HttpMethod HTTP_METHOD_EVENTS_UNDO = HttpMethod.DELETE;
 
     private static String db;
     private static final String PATH_LOGIN = "login";
@@ -43,6 +45,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_EVENTS = "events";
     private static final String PATH_PLACE = "places";
     private static final String PATH_SNAPSHOT = "events/devices/snapshot";
+    private static final String PATH_REMOVE_DEVICE_COMPONENT = "events/devices/remove";
 
     private String server;
     private String token;
@@ -76,6 +79,10 @@ public class ApiServicesImpl implements ApiServices {
             response = this.place(request);
         } else if (method.equals(METHOD_SNAPSHOT)) {
             response = this.snapshot(request);
+        } else if (method.equals(METHOD_DEVICE_COMPONENT_REMOVE)) {
+            response = this.removeDeviceComponent(request);
+        } else if (method.equals(METHOD_EVENT_UNDO)) {
+            response = this.undoEvent(request);
         } else {
             throw new ApiException("Not implemented method: " + method);
         }
@@ -154,9 +161,17 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private SnapshotResponse snapshot(final ApiRequest request) throws ApiException {
+
+//        Gson requestGson = new GsonBuilder().registerTypeHierarchyAdapter(String.class, new StringAdapter()).create();
+//        System.out.println(requestGson.toJson(request));
+
         String url = this.server + db + PATH_SNAPSHOT;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+
+        //        Gson requestGson = new GsonBuilder().registerTypeHierarchyAdapter(String.class, new StringAdapter()).create();
+//        System.out.println(requestGson.toJson(request));
+
         try {
             ResponseEntity<SnapshotResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, SnapshotResponse.class);
             return response.getBody();
@@ -164,6 +179,37 @@ public class ApiServicesImpl implements ApiServices {
             throw e;
         }
     }
+
+    private DeviceComponentRemoveResponse removeDeviceComponent(final ApiRequest request) throws ApiException {
+        String url = this.server + db + PATH_REMOVE_DEVICE_COMPONENT;
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+
+        try {
+            Gson requestGson = new GsonBuilder().create();
+            System.out.println(requestGson.toJson(request));
+            ResponseEntity<DeviceComponentRemoveResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, DeviceComponentRemoveResponse.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private ApiResponse undoEvent(final ApiRequest request) throws ApiException {
+        EventUndoRequest eventUndoRequest = (EventUndoRequest) request;
+        String url = this.server + db + PATH_EVENTS + "/" + eventUndoRequest.getId();
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(null, this.getRequestHeaders(true));
+
+        try {
+            ResponseEntity<ApiResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS_UNDO, requestEntity, ApiResponse.class);
+            EventUndoResponse responseBody = new EventUndoResponse();
+            responseBody.setCode(response.getStatusCode().value());
+            return responseBody;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 
     private HttpHeaders getRequestHeaders(boolean authorization) {
         HttpHeaders requestHeaders = new HttpHeaders();

@@ -9,8 +9,6 @@ import android.view.SubMenu;
 import android.view.View;
 
 import org.ereuse.scanner.R;
-import org.ereuse.scanner.data.User;
-import org.ereuse.scanner.services.api.ApiServices;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 
 import java.util.ArrayList;
@@ -81,11 +79,15 @@ public class ChooseActivity extends BaseActivity {
     }
 
     public void showEventsList(View view) {
-        System.out.println("Show events list");
-
         Intent intent = new Intent(this, EventsActivity.class);
         startActivity(intent);
     }
+
+    public void doRemoveComponent(View view) {
+        Intent formIntent = new Intent(this, SnapshotRemoveComponentActivity.class);
+        startActivity(formIntent);
+    }
+
 
     class SetDatabase implements MenuItem.OnMenuItemClickListener{
 

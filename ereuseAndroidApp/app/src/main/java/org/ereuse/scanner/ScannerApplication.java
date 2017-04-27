@@ -5,6 +5,7 @@ import android.location.Location;
 
 import org.ereuse.scanner.activities.LocationListenerActivity;
 import org.ereuse.scanner.activities.LoginActivity;
+import org.ereuse.scanner.data.Device;
 import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.BackgroundStatusService;
 
@@ -25,6 +26,8 @@ public class ScannerApplication extends Application {
     private LoginActivity loginActivity;
     private LocationListenerActivity currentLocationActivity;
 
+    private Device latestSuccessfulSnapshot;
+
     private Integer scanType;
 
     public String getServer() {
@@ -38,6 +41,10 @@ public class ScannerApplication extends Application {
     public User getUser() {
         return user;
     }
+
+    public void setLatestSuccessfulSnapshot(Device latestSuccessfulSnapshot) { this.latestSuccessfulSnapshot = latestSuccessfulSnapshot; }
+
+    public Device getLatestSuccessfulSnapshot() { return latestSuccessfulSnapshot; }
 
     public Integer getScanType() {
         return this.scanType;

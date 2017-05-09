@@ -36,11 +36,21 @@
             android:paddingTop="8px">
 
             <TextView
+                android:id="@+id/snapshotParentSectionLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/snapshot_parent_section_label"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/text"
+                android:textStyle="bold"/>
+
+            <TextView
                 android:id="@+id/snapshotParentSystemLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/snapshot_parent_system_label"
                 android:layout_marginTop="20dp"
+                android:layout_below="@id/snapshotParentSectionLabel"
                 android:textColor="@color/text" />
             <ImageButton
                 android:id="@+id/snapshotParentSystemScanButton"
@@ -64,13 +74,23 @@
                 android:textColor="@color/text"/>
 
             <TextView
+                android:id="@+id/snapshotComponentSectionLabel"
+                android:layout_marginTop="@dimen/activity_bottom_margin"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/snapshot_component_section_label"
+                android:textColor="@color/text"
+                android:layout_below="@id/snapshotParentSystemEditText"
+                android:textStyle="bold"/>
+
+            <TextView
                 android:id="@+id/snapshotComponentTypeLabel"
                 android:layout_marginTop="@dimen/activity_bottom_margin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/snapshot_choose_component_type_label"
                 android:textColor="@color/text"
-                android:layout_below="@id/snapshotParentSystemEditText"/>
+                android:layout_below="@id/snapshotComponentSectionLabel"/>
 
             <Spinner
                 android:id="@+id/snapshotComponentType"

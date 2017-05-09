@@ -28,7 +28,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:id="@+id/receiveButton"
+            android:id="@+id/selfSnapshotButton"
             android:text="@string/android_snapshot_button"
             android:onClick="doAndroidSelfSnapshot"
             android:background="@color/emphasis_2"
@@ -38,13 +38,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_below="@id/receiveButton"
+            android:layout_below="@id/selfSnapshotButton"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:id="@+id/recycleButton"
+            android:id="@+id/externalDeviceSnapshotButton"
             android:text="@string/device_snapshot_button"
             android:onClick="doExternalDeviceSnapshot"
+            android:background="@color/emphasis_2"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/externalDeviceSnapshotButton"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:id="@+id/workbenchSnapshotButton"
+            android:text="@string/workbench_snapshot_button"
+            android:onClick="doWorkbenchSnapshot"
             android:background="@color/emphasis_2"
             android:textColor="@color/white" />
 

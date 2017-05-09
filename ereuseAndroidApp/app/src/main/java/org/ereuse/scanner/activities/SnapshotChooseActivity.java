@@ -7,6 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.RelativeLayout;
 
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
@@ -55,6 +57,11 @@ public class SnapshotChooseActivity extends BaseActivity {
     public void doExternalDeviceSnapshot(View view) {
         this.startSnapshotActivity(SnapshotActivity.MODE_EXTERNAL_DEVICE);
 
+    }
+
+    public void doWorkbenchSnapshot(View view) {
+        Intent workbenchIntent = new Intent(this, WorkbenchActivity.class);
+        startActivity(workbenchIntent);
     }
 
     private void startSnapshotActivity(String selectedAction) {

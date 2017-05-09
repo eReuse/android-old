@@ -33,6 +33,7 @@ public abstract class AsyncActivity extends BaseActivity {
     protected static final int REQUEST_CODE_GIVER_CAMERA_PERMISSIONS = 95;
     protected static final int REQUEST_CODE_REFURBISHER_CAMERA_PERMISSIONS = 96;
     protected static final int REQUEST_CODE_SYSTEM_CAMERA_PERMISSIONS = 97;
+    protected static final int REQUEST_CODE_JS_CAMERA_PERMISSIONS = 98;
 
     protected static final int REQUEST_CODE_QR_CAMERA_PERMISSIONS = 99;
 
@@ -44,6 +45,7 @@ public abstract class AsyncActivity extends BaseActivity {
         add(REQUEST_CODE_GIVER_CAMERA_PERMISSIONS);
         add(REQUEST_CODE_REFURBISHER_CAMERA_PERMISSIONS);
         add(REQUEST_CODE_SYSTEM_CAMERA_PERMISSIONS);
+        add(REQUEST_CODE_JS_CAMERA_PERMISSIONS);
     }};
 
     public String getServer() {

@@ -100,6 +100,9 @@
     <string name="title_activity_snapshot">SnapshotActivity</string>
     <string name="title_activity_snapshot_choose">SnapshotChooseActivity</string>
     <string name="title_activity_remove_component_snapshot">RemoveComponentActivity</string>
+    <string name="title_activity_workbench_snapshot">WorkbenchSnapshotActivity</string>
+    <string name="title_activity_javascript_scan">JavascriptScanActivity</string>
+
     <string name="android_snapshot_button">Snapshot this Android</string>
     <string name="device_snapshot_button">Snapshot a device</string>
 
@@ -118,7 +121,9 @@
     <string name="snapshot_system_label">System ID</string>
     <string name="snapshot_send_button">Submit</string>
 
-    <string name="snapshot_parent_system_label">Parent System ID</string>
+    <string name="snapshot_parent_section_label">Parent Device:</string>
+    <string name="snapshot_parent_system_label">System ID</string>
+    <string name="snapshot_component_section_label">Component to remove:</string>
     <string name="snapshot_grade_label">Grade options:</string>
 
     <string name="snapshot_grade_appearance_label">Appearance</string>
@@ -185,6 +190,7 @@
 
     <string name="dialog_ack">OK</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_reset_default">Reset</string>
     <string name="dialog_leave">Exit App</string>
     <string name="dialog_validation_error_title">Missing required information!</string>
 
@@ -220,5 +226,10 @@
     <string name="log_set_to_foreground">(Re)Establishing geographical location...</string>
     <string name="log_set_to_background">timeout! Going to sleep and disabling location control...</string>
 
+    <string name="workbench_snapshot_button">Snapshot from workbench</string>
 
+    <string name="workbench_settings">Check workbench server configuration</string>
+    <string name="workbench_server_address">Workbench server address</string>
+
+    <string name="default_workbench_server_address">192.168.10.3</string>
 </resources>

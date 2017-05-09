@@ -15,10 +15,7 @@ public abstract class ScanActivity extends AsyncActivity {
 
     private Integer scanType = null;
 
-    public void setScanType(Integer scanType) {
-        this.getScannerApplication().setScanType(scanType);
-    }
-
+    public void setScanType(Integer scanType) { this.getScannerApplication().setScanType(scanType); }
     public Integer getScanType() {
         return this.getScannerApplication().getScanType();
     }

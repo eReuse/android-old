@@ -1,5 +1,7 @@
 package org.ereuse.scanner.services.api;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.ereuse.scanner.data.Device;
@@ -21,7 +23,7 @@ public class SnapshotRequest implements ApiRequest {
     @SerializedName("@type")
     private String type = "devices:Snapshot";
 
-   // private String licenseKey;
+    // private String licenseKey;
 
     private String comment;
 
@@ -32,14 +34,13 @@ public class SnapshotRequest implements ApiRequest {
         this.device = new Device();
         device.setDeviceType(deviceType);
         device.setDeviceSubType(deviceSubType);
+        if (this.isNotBlank(serialNumber)) device.setSerialNumber(serialNumber);
+        if (this.isNotBlank(model)) device.setModel(model);
+        if (this.isNotBlank(manufacturer)) device.setManufacturer(manufacturer);
 
-        device.setSerialNumber(serialNumber);
-        device.setModel(model);
-        device.setManufacturer(manufacturer);
-
-        this.device.setGiverId(giverId);
-        this.device.setRefurbisherId(refurbisherId);
-        this.device.setSystemId(systemId);
+        if (this.isNotBlank(giverId)) this.device.setGiverId(giverId);
+        if (this.isNotBlank(refurbisherId)) this.device.setRefurbisherId(refurbisherId);
+        if (this.isNotBlank(systemId)) this.device.setSystemId(systemId);
 
         this.condition = gradeConditions;
 
@@ -48,15 +49,20 @@ public class SnapshotRequest implements ApiRequest {
 
         this.comment = comment;
     }
-/*
-    public String getUser() {
-        return user;
+
+    private boolean isNotBlank(String string) {
+        return !TextUtils.isEmpty(string) && TextUtils.getTrimmedLength(string) > 0;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-*/
+    /*
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+    */
 /*    public String getLicenseKey() {
         return licenseKey;
     }

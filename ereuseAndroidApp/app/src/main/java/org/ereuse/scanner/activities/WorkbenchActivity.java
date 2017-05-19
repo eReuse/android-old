@@ -1,5 +1,6 @@
 package org.ereuse.scanner.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,24 +61,41 @@ public class WorkbenchActivity extends ScanActivity {
 
         this.scanWebView.getSettings().setJavaScriptEnabled(true);
         this.scanWebView.addJavascriptInterface(new WebViewJavaScriptInterface(this), "app");
-
-        String dynamicHtml = "<html>" +
-                "<div>" +
-                "<p>Clica per escanejar:</p>" +
-                "</div>" +
-                "<form>" +
-                "<p>common field:</p>"+
-                "<input type='button' value='scan' onclick='app.startJSScan(\"scanResultField\", false)' />" +
-                "<input type='text' id='scanResultField' />" +
-                "<p>System id:</p>"+
-                "<input type='button' value='scan' onclick='app.startJSScan(\"systemIdField\", true)' />" +
-                "<input type='text' id='systemIdField' />" +
-                "</form>" +
-                "</html>";
-
         this.scanWebView.getSettings().setJavaScriptEnabled(true);
-        this.scanWebView.loadData(dynamicHtml,"text/html","UTF-8");
+
+        reloadWebView();
     }
+
+    private void reloadWebView() {
+        if(this.workbenchServerAddressEditText.getText().toString().equals("")) {
+            String dynamicHtml = "<html>" +
+                    "<div>" +
+                    "<p>Clica per escanejar:</p>" +
+                    "</div>" +
+                    "<form>" +
+                    "<p>common field:</p>" +
+                    "<input type='button' value='scan' onclick='app.startJSScan(\"scanResultField\", false)' />" +
+                    "<input type='text' id='scanResultField' />" +
+                    "<p>System id:</p>" +
+                    "<input type='button' value='scan' onclick='app.startJSScan(\"systemIdField\", true)' />" +
+                    "<input type='text' id='systemIdField' />" +
+                    "</form>" +
+                    "</html>";
+            this.scanWebView.loadData(dynamicHtml,"text/html","UTF-8");
+
+        } else {
+            final Activity activity = this;
+
+            this.scanWebView.setWebViewClient(new WebViewClient() {
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
+                }
+            });
+            this.scanWebView.loadUrl(this.workbenchServerAddressEditText.getText().toString());
+
+        }
+    }
+
 
     @Override
     protected void onResume()
@@ -87,13 +106,14 @@ public class WorkbenchActivity extends ScanActivity {
 
     private String getWorkbenchServer() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
-        return sharedPreferences.getString("workbenchServerAddress", getString(R.string.default_workbench_server_address));
+        return sharedPreferences.getString("workbenchServerAddress","");
     }
 
     private void setWorkbenchServer(String server) {
         this.workbenchServerAddressEditText.setText(server);
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
         sharedPreferences.edit().putString("workbenchServerAddress", server).commit();
+        this.reloadWebView();
     }
 
     public void showWorkbenchSettings(View view) {

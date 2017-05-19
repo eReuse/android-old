@@ -19,6 +19,7 @@ import org.ereuse.scanner.services.api.DeviceComponentSnapshotRequest;
 import org.ereuse.scanner.services.api.DeviceRequest;
 import org.ereuse.scanner.services.api.EmployeeRequest;
 import org.ereuse.scanner.services.api.EventUndoRequest;
+import org.ereuse.scanner.services.api.GenericRequest;
 import org.ereuse.scanner.services.api.LocateRequest;
 import org.ereuse.scanner.services.api.LoginRequest;
 import org.ereuse.scanner.services.api.NonEmployeeRequest;
@@ -80,6 +81,13 @@ public class AsyncService {
 
         LocateRequest request = new LocateRequest(user, devicesList, comment, location);
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_LOCATE);
+    }
+
+    public void doGeneric(String server, User user, List<String> devicesList, String comment, String actionType) {
+        this.activity.onStartAsync();
+
+        GenericRequest request = new GenericRequest(user, devicesList, comment, actionType);
+        new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_GENERIC_EVENT, actionType);
     }
 
     public void doReceive(String server, User user, String unregisteredReceiver, Location location, List<String> devicesList, String comment, boolean acceptedConditions) {
@@ -181,11 +189,11 @@ public class AsyncService {
 
         @Override
         protected ApiResponse doInBackground(String... methods) {
-            String method = methods[0];
             ApiResponse response = null;
             try {
                 ApiServices apiServices = new ApiServicesImpl(this.server, this.token);
-                response = apiServices.execute(method, this.request);
+                response = apiServices.execute(this.request, methods);
+
                 this.service.setResponse(response);
                 this.service.setException(null);
             } catch (ApiException e) {

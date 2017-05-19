@@ -18,7 +18,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jamgo SCCL.
@@ -36,6 +38,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final HttpMethod HTTP_METHOD_PLACE = HttpMethod.POST;
     private static final HttpMethod HTTP_METHOD_SNAPSHOT = HttpMethod.POST;
     private static final HttpMethod HTTP_METHOD_EVENTS_UNDO = HttpMethod.DELETE;
+    private static final HttpMethod HTTP_METHOD_EVENTS_GENERIC = HttpMethod.POST;
 
     private static String db;
     private static final String PATH_LOGIN = "login";
@@ -46,6 +49,8 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_PLACE = "places";
     private static final String PATH_SNAPSHOT = "events/devices/snapshot";
     private static final String PATH_REMOVE_DEVICE_COMPONENT = "events/devices/remove";
+    private static final String PATH_GENERIC_EVENT= "events/devices/";
+
 
     private String server;
     private String token;
@@ -59,8 +64,10 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     @Override
-    public ApiResponse execute(String method, ApiRequest request) throws ApiException {
+    public ApiResponse execute(ApiRequest request, String... methods) throws ApiException {
         ApiResponse response = null;
+
+        String method = methods[0];
 
         // TODO add other API methods, use switch instead of if statement
         if (method.equals(METHOD_LOGIN)) {
@@ -83,6 +90,9 @@ public class ApiServicesImpl implements ApiServices {
             response = this.removeDeviceComponent(request);
         } else if (method.equals(METHOD_EVENT_UNDO)) {
             response = this.undoEvent(request);
+        } else if (method.equals((METHOD_GENERIC_EVENT))) {
+            String genericEventType = methods[1];
+            response = this.genericEvent(request,genericEventType);
         } else {
             throw new ApiException("Not implemented method: " + method);
         }
@@ -192,6 +202,16 @@ public class ApiServicesImpl implements ApiServices {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    private ActionResponse genericEvent(final ApiRequest request, String genericEventType) throws ApiException {
+        String url = this.server + db + PATH_GENERIC_EVENT + GenericEventType.GENERIC_EVENT_PATH_MAP.get(genericEventType);
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+        ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS_GENERIC, requestEntity, ActionResponse.class);
+        ActionResponse actionResponse = response.getBody();
+        actionResponse.setActionType(ActionResponse.ActionType.GENERIC);
+        return response.getBody();
     }
 
     private ApiResponse undoEvent(final ApiRequest request) throws ApiException {

@@ -67,7 +67,17 @@
             android:label="@string/title_activity_workbench_snapshot"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activities.EventsChooseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.FormGenericActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".activities.BarcodeCaptureActivity"></activity>
+
     </application>
 
 </manifest>

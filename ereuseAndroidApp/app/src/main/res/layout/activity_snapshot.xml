@@ -145,6 +145,16 @@
                 android:inputType="text"
                 android:textColor="@color/text" />
 
+            <!--<Button-->
+                <!--android:id="@+id/snapshotManufacturerEditText"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/snapshotManufacturerLabel"-->
+                <!--android:inputType="text"-->
+                <!--android:textColor="@color/text"-->
+                <!--style="@style/Widget.AppCompat.Spinner"-->
+                <!--android:onClick="showManufacturerSelector"/>-->
+
             <TextView
                 android:id="@+id/snapshotLicenseLabel"
                 android:layout_width="fill_parent"
@@ -280,7 +290,7 @@
                 android:text="@string/snapshot_grade_appearance_label"
                 android:textColor="@color/text"
                 />
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gradeAppearanceLabel"
@@ -288,8 +298,8 @@
                 android:id="@+id/gradeAppearanceValueLabel"
                 android:text="@string/snapshot_grade_select_text"
                 android:textColor="@color/grey_text"
-                android:onClick="showAppearanceSelector"
-                android:clickable="true"/>
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showAppearanceSelector"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -300,7 +310,7 @@
                 android:text="@string/snapshot_grade_functionality_label"
                 android:textColor="@color/text"
                 />
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gradeFunctionalityLabel"
@@ -308,8 +318,8 @@
                 android:id="@+id/gradeFunctionalityValueLabel"
                 android:text="@string/snapshot_grade_select_text"
                 android:textColor="@color/grey_text"
-                android:onClick="showFunctionalitySelector"
-                android:clickable="true"/>
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showFunctionalitySelector"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -320,7 +330,7 @@
                 android:text="@string/snapshot_grade_bios_label"
                 android:textColor="@color/text"
                 />
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gradeBiosLabel"
@@ -328,9 +338,8 @@
                 android:id="@+id/gradeBiosValueLabel"
                 android:text="@string/snapshot_grade_select_text"
                 android:textColor="@color/grey_text"
-                android:onClick="showBiosSelector"
-                android:clickable="true"/>
-            this.gradeLabelsCheckBox = (CheckBox) this.findViewById(R.id.gradeLabelsCheckBox);
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showBiosSelector"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

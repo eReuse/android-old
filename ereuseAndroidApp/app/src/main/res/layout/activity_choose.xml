@@ -28,9 +28,9 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:id="@+id/receiveButton"
-            android:text="@string/receive_button"
-            android:onClick="doReceive"
+            android:id="@+id/eventsTypeButton"
+            android:text="@string/new_event_button"
+            android:onClick="showDeviceEventTypes"
             android:background="@color/emphasis_2"
             android:textColor="@color/white" />
 
@@ -38,35 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_below="@id/receiveButton"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:id="@+id/recycleButton"
-            android:text="@string/recycle_button"
-            android:onClick="doRecycle"
-            android:background="@color/emphasis_2"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@id/recycleButton"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:id="@+id/locateButton"
-            android:text="@string/locate_button"
-            android:onClick="doLocate"
-            android:background="@color/emphasis_2"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@id/locateButton"
+            android:layout_below="@id/eventsTypeButton"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -100,21 +72,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:id="@+id/snapshotButton"
             android:text="@string/snapshot_button"
-            android:onClick="doSnapshot"
-            android:background="@color/emphasis_2"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@id/snapshotButton"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:id="@+id/removeComponentButton"
-            android:text="@string/snapshot_remove_component_button"
-            android:onClick="doRemoveComponent"
+            android:onClick="showSnapshotTypes"
             android:background="@color/emphasis_2"
             android:textColor="@color/white" />
 

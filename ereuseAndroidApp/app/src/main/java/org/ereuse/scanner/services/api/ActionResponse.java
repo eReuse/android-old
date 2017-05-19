@@ -12,7 +12,8 @@ public class ActionResponse implements ApiResponse {
         RECEIVE,
         RECYCLE,
         PLACE,
-        SNAPSHOT
+        SNAPSHOT,
+        GENERIC
     }
 
     public void setActionType(ActionType type) {

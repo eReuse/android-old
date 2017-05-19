@@ -15,6 +15,7 @@
 
     <!-- Strings for choose activity -->
     <string name="choose_label">Choose an action:</string>
+    <string name="new_event_button">Device Event</string>
     <string name="receive_button">Receive</string>
     <string name="recycle_button">Recycle</string>
     <string name="locate_button">Locate</string>

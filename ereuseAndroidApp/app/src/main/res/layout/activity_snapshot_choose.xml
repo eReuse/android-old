@@ -62,6 +62,19 @@
             android:background="@color/emphasis_2"
             android:textColor="@color/white" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/workbenchSnapshotButton"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:id="@+id/removeComponentButton"
+            android:text="@string/snapshot_remove_component_button"
+            android:onClick="doRemoveComponent"
+            android:background="@color/emphasis_2"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

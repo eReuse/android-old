@@ -72,6 +72,11 @@ public class SnapshotChooseActivity extends BaseActivity {
         startActivity(formIntent);
     }
 
+    public void doRemoveComponent(View view) {
+        Intent formIntent = new Intent(this, SnapshotRemoveComponentActivity.class);
+        startActivity(formIntent);
+    }
+
     class SetDatabase implements MenuItem.OnMenuItemClickListener{
 
         @Override

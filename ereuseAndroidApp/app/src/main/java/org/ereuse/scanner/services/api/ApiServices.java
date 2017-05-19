@@ -12,8 +12,9 @@ public interface ApiServices {
     String METHOD_SNAPSHOT = "snapshot";
     String METHOD_DEVICE_COMPONENT_REMOVE = "remove";
     String METHOD_EVENT_UNDO = "undo";
+    String METHOD_GENERIC_EVENT = "generic";
     // TODO Add other API methods
 
-    ApiResponse execute(String method, ApiRequest request) throws ApiException;
+    ApiResponse execute(ApiRequest request, String... method) throws ApiException;
 
 }

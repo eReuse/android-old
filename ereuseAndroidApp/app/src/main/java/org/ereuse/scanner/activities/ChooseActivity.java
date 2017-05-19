@@ -48,33 +48,13 @@ public class ChooseActivity extends BaseActivity {
         return true;
     }
 
-    public void doReceive(View view) {
-        this.startScanActivity(FormActivity.MODE_RECEIVE);
-    }
-
-    public void doRecycle(View view) {
-        this.startScanActivity(FormActivity.MODE_RECYCLE);
-    }
-
-    public void doLocate(View view) {
-        this.startScanActivity(FormActivity.MODE_LOCATE);
+    public void showDeviceEventTypes(View v) {
+        Intent intent = new Intent(this, EventsChooseActivity.class);
+        startActivity(intent);
     }
 
     public void doLocatePlace(View view) {
         Intent formIntent = new Intent(this, PlaceMapActivity.class);
-        startActivity(formIntent);
-    }
-
-    public void doSnapshot(View view) {
-        Intent formIntent = new Intent(this, SnapshotChooseActivity.class);
-        startActivity(formIntent);
-    }
-
-    private void startScanActivity(String selectedAction) {
-        System.out.println(selectedAction);
-
-        Intent formIntent = new Intent(this, FormActivity.class);
-        formIntent.putExtra(FormActivity.EXTRA_MODE, selectedAction);
         startActivity(formIntent);
     }
 
@@ -83,11 +63,10 @@ public class ChooseActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public void doRemoveComponent(View view) {
-        Intent formIntent = new Intent(this, SnapshotRemoveComponentActivity.class);
-        startActivity(formIntent);
+    public void showSnapshotTypes(View view) {
+        Intent intent = new Intent(this, SnapshotChooseActivity.class);
+        startActivity(intent);
     }
-
 
     class SetDatabase implements MenuItem.OnMenuItemClickListener{
 

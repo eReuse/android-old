@@ -24,6 +24,7 @@ import com.google.zxing.common.StringUtils;
 
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
+import org.ereuse.scanner.utils.ScanUtils;
 
 import java.util.ArrayList;
 
@@ -37,9 +38,12 @@ public class WorkbenchActivity extends ScanActivity {
     WebView scanWebView;
     private EditText workbenchServerAddressEditText;
     private String htmlFieldId;
+    private boolean urlField;
 
     public void setHtmlFieldId(String htmlFieldId) { this.htmlFieldId = htmlFieldId; }
     public String getHtmlFieldId() { return this.htmlFieldId; }
+    public boolean isUrlField() { return urlField; }
+    public void setUrlField(boolean urlField) { this.urlField = urlField; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +65,12 @@ public class WorkbenchActivity extends ScanActivity {
                 "<p>Clica per escanejar:</p>" +
                 "</div>" +
                 "<form>" +
-                "<input type='button' value='scan' onclick='app.startJSScan(\"scanResultField\")' />" +
+                "<p>common field:</p>"+
+                "<input type='button' value='scan' onclick='app.startJSScan(\"scanResultField\", false)' />" +
                 "<input type='text' id='scanResultField' />" +
+                "<p>System id:</p>"+
+                "<input type='button' value='scan' onclick='app.startJSScan(\"systemIdField\", true)' />" +
+                "<input type='text' id='systemIdField' />" +
                 "</form>" +
                 "</html>";
 
@@ -161,9 +169,15 @@ public class WorkbenchActivity extends ScanActivity {
         //Toast.makeText(this, getString(R.string.toast_barcode_scanned) + " " + scannedCode, Toast.LENGTH_LONG).show();
         //scanWebView.loadUrl("javascript:document.getElementById('scanresult').innerHTML = '"+scannedCode+"'");
         String htmlFieldId = this.getHtmlFieldId();
-        this.setHtmlFieldId(null);
+        String scanResult = scannedCode;
+        if(this.isUrlField()) {
+            scanResult = ScanUtils.getSystemIdFromUrl(scannedCode);
+        }
 
-        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '"+scannedCode+"';})()");
+        this.setHtmlFieldId(null);
+        this.setUrlField(false);
+
+        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '"+scanResult+"';})()");
 
     }
 
@@ -176,8 +190,9 @@ public class WorkbenchActivity extends ScanActivity {
         startActivityForResult(intent, permissionCode);
     }
 
-    protected void checkCameraPermission(int permissionCode, String htmlFieldId) {
+    protected void checkCameraPermission(int permissionCode, String htmlFieldId, boolean isUrlField) {
         this.setHtmlFieldId(htmlFieldId);
+        this.setUrlField(isUrlField);
         this.checkCameraPermission(permissionCode);
     }
 
@@ -197,8 +212,8 @@ public class WorkbenchActivity extends ScanActivity {
          * required after SDK version 17.
          */
         @JavascriptInterface
-        public void startJSScan(String htmlFieldId){
-            checkCameraPermission(REQUEST_CODE_JS_CAMERA_PERMISSIONS, htmlFieldId);
+        public void startJSScan(String htmlFieldId, boolean isUrlField){
+            checkCameraPermission(REQUEST_CODE_JS_CAMERA_PERMISSIONS, htmlFieldId, isUrlField);
             //return "OK";
         }
     }

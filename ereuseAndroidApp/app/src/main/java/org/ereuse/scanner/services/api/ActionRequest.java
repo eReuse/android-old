@@ -19,6 +19,8 @@ public class ActionRequest implements ApiRequest {
     public static final String RECEIVE_REQUEST_TYPE = "FinalUser";
     public static final String RECYCLE_REQUEST_TYPE = "CollectionPoint";
 
+    public ActionRequest() {}
+
     public ActionRequest(User user, List<String> devicesList, String comment, Location location) {
         this.devices = devicesList;
         this.comment = comment;
@@ -28,10 +30,13 @@ public class ActionRequest implements ApiRequest {
     public List<String> getDevicesList() {
         return this.devices;
     }
-
+    public void setDevicesList(List<String> devicesList) {
+        this.devices = devicesList;
+    }
     public String getComment() {
         return this.comment;
     }
+    public void setComment(String comment) { this.comment = comment; }
 
     public Point getLocation() {
         return this.geo;

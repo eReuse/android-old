@@ -17,7 +17,8 @@ public class GenericRequest extends ActionRequest implements ApiRequest {
     @SerializedName("@type")
     private String type;
 
-    public GenericRequest(User user, List<String> devicesList, String comment, String actionType) {
+    public GenericRequest(User user, String label, List<String> devicesList, String comment, String actionType) {
+        this.setLabel(label);
         this.setDevicesList(devicesList);
         this.setComment(comment);
         this.type = actionType;

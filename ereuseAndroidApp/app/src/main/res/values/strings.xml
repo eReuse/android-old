@@ -25,6 +25,7 @@
     <string name="snapshot_remove_component_button">Remove component</string>
 
     <!-- Strings for form activity -->
+    <string name="form_title_label">Label:</string>
     <string name="form_devices_label">Devices:</string>
     <string name="form_add_device_button">Add device</string>
     <string name="form_comments_label">Comments:</string>

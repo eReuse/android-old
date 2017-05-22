@@ -76,40 +76,40 @@ public class AsyncService {
         new HttpRequestTask(this, server, token, request).execute(ApiServices.METHOD_DEVICE);
     }
 
-    public void doLocate(String server, User user, List<String> devicesList, String comment, Location location) {
+    public void doLocate(String server, User user, String eventLabel, List<String> devicesList, String comment, Location location) {
         this.activity.onStartAsync();
 
-        LocateRequest request = new LocateRequest(user, devicesList, comment, location);
+        LocateRequest request = new LocateRequest(user, eventLabel, devicesList, comment, location);
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_LOCATE);
     }
 
-    public void doGeneric(String server, User user, List<String> devicesList, String comment, String actionType) {
+    public void doGeneric(String server, User user, String eventLabel, List<String> devicesList, String comment, String actionType) {
         this.activity.onStartAsync();
 
-        GenericRequest request = new GenericRequest(user, devicesList, comment, actionType);
+        GenericRequest request = new GenericRequest(user, eventLabel, devicesList, comment, actionType);
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_GENERIC_EVENT, actionType);
     }
 
-    public void doReceive(String server, User user, String unregisteredReceiver, Location location, List<String> devicesList, String comment, boolean acceptedConditions) {
+    public void doReceive(String server, User user, String unregisteredReceiver, Location location, String eventLabel, List<String> devicesList, String comment, boolean acceptedConditions) {
         this.activity.onStartAsync();
 
         ApiRequest request = null;
         if (user.isEqualOrGreaterThanEmployee() && unregisteredReceiver != null && !unregisteredReceiver.isEmpty()) {
-            request = new EmployeeRequest(user, unregisteredReceiver, devicesList, comment, location, acceptedConditions, ActionRequest.RECEIVE_REQUEST_TYPE);
+            request = new EmployeeRequest(user, unregisteredReceiver, eventLabel, devicesList, comment, location, acceptedConditions, ActionRequest.RECEIVE_REQUEST_TYPE);
         } else {
-            request = new NonEmployeeRequest(user, devicesList, comment, location, acceptedConditions, ActionRequest.RECEIVE_REQUEST_TYPE);
+            request = new NonEmployeeRequest(user, eventLabel, devicesList, comment, location, acceptedConditions, ActionRequest.RECEIVE_REQUEST_TYPE);
         }
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_RECEIVE);
     }
 
-    public void doRecycle(String server, User user, String unregisteredReceiver, Location location, List<String> devicesList, String comment, boolean acceptedConditions) {
+    public void doRecycle(String server, User user, String unregisteredReceiver, Location location, String eventLabel, List<String> devicesList, String comment, boolean acceptedConditions) {
         this.activity.onStartAsync();
 
         ApiRequest request = null;
         if (user.isEqualOrGreaterThanEmployee() && unregisteredReceiver != null && !unregisteredReceiver.isEmpty()) {
-            request = new EmployeeRequest(user, unregisteredReceiver, devicesList, comment, location, acceptedConditions, ActionRequest.RECYCLE_REQUEST_TYPE);
+            request = new EmployeeRequest(user, unregisteredReceiver, eventLabel, devicesList, comment, location, acceptedConditions, ActionRequest.RECYCLE_REQUEST_TYPE);
         } else {
-            request = new NonEmployeeRequest(user, devicesList, comment, location, acceptedConditions, ActionRequest.RECYCLE_REQUEST_TYPE);
+            request = new NonEmployeeRequest(user, eventLabel, devicesList, comment, location, acceptedConditions, ActionRequest.RECYCLE_REQUEST_TYPE);
         }
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_RECYCLE);
     }

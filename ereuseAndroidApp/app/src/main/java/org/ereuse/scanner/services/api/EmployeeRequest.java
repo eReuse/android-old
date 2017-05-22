@@ -29,8 +29,8 @@ public class EmployeeRequest extends ActionRequest implements ApiRequest {
         return this.acceptedConditions;
     }
 
-    public EmployeeRequest(User user, String unregisteredReceiver, List<String> devicesList, String comment, Location location, boolean acceptedConditions, String type) {
-        super(user, devicesList, comment, location);
+    public EmployeeRequest(User user, String unregisteredReceiver, String label, List<String> devicesList, String comment, Location location, boolean acceptedConditions, String type) {
+        super(user, label, devicesList, comment, location);
         this.acceptedConditions = acceptedConditions;
         this.unregisteredReceiver.email = unregisteredReceiver;
         this.type = type;

@@ -112,7 +112,8 @@ public class FormGenericActivity extends ScanActivity {
             if (doValidate()) {
                 AsyncService asyncService = new AsyncService(this);
                 String message = ((TextView) findViewById(R.id.commentsEditText)).getText().toString();
-                asyncService.doGeneric(this.getServer(), this.getUser(), this.deviceIds, message, this.mode);
+                String eventLabel = ((TextView) findViewById(R.id.titleEditText)).getText().toString();
+                asyncService.doGeneric(this.getServer(), this.getUser(), eventLabel, this.deviceIds, message, this.mode);
             }
         }
     }

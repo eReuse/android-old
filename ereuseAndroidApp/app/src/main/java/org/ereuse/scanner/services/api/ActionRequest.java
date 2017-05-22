@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class ActionRequest implements ApiRequest {
 
+    private String label;
     private List<String> devices;
     private String comment;
     private Point geo;
@@ -21,12 +22,15 @@ public class ActionRequest implements ApiRequest {
 
     public ActionRequest() {}
 
-    public ActionRequest(User user, List<String> devicesList, String comment, Location location) {
+    public ActionRequest(User user, String label, List<String> devicesList, String comment, Location location) {
+        this.label = label;
         this.devices = devicesList;
         this.comment = comment;
         this.geo = new Point(location);
     }
 
+    public String getLabel() { return this.label; }
+    public void setLabel(String label) { this.label = label; }
     public List<String> getDevicesList() {
         return this.devices;
     }

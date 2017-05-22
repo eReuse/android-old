@@ -223,19 +223,20 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
             if (doValidate()) {
                 AsyncService asyncService = new AsyncService(this);
 
+                String eventLabel = ((TextView) findViewById(R.id.titleEditText)).getText().toString();
                 String message = ((TextView) findViewById(R.id.commentsEditText)).getText().toString();
                 String unregisteredReceiver = ((TextView) findViewById(R.id.formReceiverEmailEditText)).getText().toString();
                 boolean acceptedConditions = ((CheckBox) findViewById(R.id.formTermsAndConditionsCheckBox)).isChecked();
 
                 switch (this.mode) {
                     case MODE_LOCATE:
-                        asyncService.doLocate(this.getServer(), this.getUser(), this.deviceIds, message, location);
+                        asyncService.doLocate(this.getServer(), this.getUser(), eventLabel, this.deviceIds, message, location);
                         break;
                     case MODE_RECEIVE:
-                        asyncService.doReceive(this.getServer(), this.getUser(), unregisteredReceiver, location, this.deviceIds, message, acceptedConditions);
+                        asyncService.doReceive(this.getServer(), this.getUser(), unregisteredReceiver, location, eventLabel, this.deviceIds, message, acceptedConditions);
                         break;
                     case MODE_RECYCLE:
-                        asyncService.doRecycle(this.getServer(), this.getUser(), unregisteredReceiver, location, this.deviceIds, message, acceptedConditions);
+                        asyncService.doRecycle(this.getServer(), this.getUser(), unregisteredReceiver, location, eventLabel, this.deviceIds, message, acceptedConditions);
                         break;
                 }
             }

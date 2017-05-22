@@ -1,5 +1,7 @@
 package org.ereuse.scanner.services.api;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.ereuse.scanner.data.Device;

@@ -13,6 +13,15 @@
         <item>http://devicehub.ereuse.net/</item>
     </string-array>
 
+    <string name="logout">Logout</string>
+    <string name="logout_message">Are you sure you want to Logout?</string>
+
+    <string name="back_to_login">Back to Login</string>
+    <string name="back_to_login_message">Are you sure you want to leave the current workbench?</string>
+
+    <string name="no_login_workbench_button">Workbench</string>
+    <string name="no_login_wokbench">Or you can also use the App to complete your workbench without user and password:</string>
+
     <!-- Strings for choose activity -->
     <string name="choose_label">Choose an action:</string>
     <string name="new_event_button">Device Event</string>
@@ -138,7 +147,7 @@
     <string name="snapshot_grade_functionality_help">Grades the defects of a device that affect its usage.</string>
     <string name="snapshot_grade_bios_help">How difficult has been to set the bios to boot from network</string>
 
-    <string name="snapshot_grade_select_text">Touch to select a value</string>
+    <string name="snapshot_select_text">Touch to select a value</string>
     <string-array name="snapshot_grade_appearance_array">
         <item>0. The device is new</item>
         <item>A. Is like new (without visual damage)</item>
@@ -181,7 +190,7 @@
         <item>D</item>
         <item>E</item>
     </string-array>
-
+    <string name="search_list_hint">Search here</string>
     <!-- Dialogs -->
     <string name="toast_qr_cancel">Cancelled QR scan</string>
     <string name="toast_qr_scanned">Scanned:</string>

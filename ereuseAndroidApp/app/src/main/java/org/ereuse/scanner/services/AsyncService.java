@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.zxing.common.StringUtils;
 
 import org.ereuse.scanner.activities.AsyncActivity;
 import org.ereuse.scanner.data.Grade;
@@ -24,6 +25,7 @@ import org.ereuse.scanner.services.api.LocateRequest;
 import org.ereuse.scanner.services.api.LoginRequest;
 import org.ereuse.scanner.services.api.NonEmployeeRequest;
 import org.ereuse.scanner.services.api.PlaceRequest;
+import org.ereuse.scanner.services.api.PlainRequest;
 import org.ereuse.scanner.services.api.SnapshotRequest;
 
 import java.util.List;
@@ -158,6 +160,28 @@ public class AsyncService {
         new HttpRequestTask(this, server, user.getToken(), request).execute(ApiServices.METHOD_DEVICE_COMPONENT_REMOVE);
 
 
+    }
+
+    public void getManufacturers(String server, User user) {
+        getManufacturers(server, user, null);
+    }
+
+    public void getManufacturers(String server, User user, String href) {
+
+        String[] servicePath;
+        if (href == null) {
+            servicePath = new String[]{ApiServices.METHOD_MANUFACTURERS};
+        } else {
+            servicePath = href.split("\\?");
+        }
+/*        String servicePath = href;
+        if (servicePath == null) {
+            servicePath = ApiServices.METHOD_MANUFACTURERS;
+        }*/
+        this.activity.onStartAsync();
+
+        PlainRequest request = new PlainRequest();
+        new HttpRequestTask(this, server, user.getToken(), request).execute(servicePath);
     }
 
     public void finished() {

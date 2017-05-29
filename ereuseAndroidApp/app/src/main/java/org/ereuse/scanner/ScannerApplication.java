@@ -6,9 +6,11 @@ import android.location.Location;
 import org.ereuse.scanner.activities.LocationListenerActivity;
 import org.ereuse.scanner.activities.LoginActivity;
 import org.ereuse.scanner.data.Device;
+import org.ereuse.scanner.data.Manufacturer;
 import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.BackgroundStatusService;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,6 +28,8 @@ public class ScannerApplication extends Application {
     private LoginActivity loginActivity;
     private LocationListenerActivity currentLocationActivity;
 
+    private List<Manufacturer> manufacturers;
+
     private Device latestSuccessfulSnapshot;
 
     private Integer scanType;
@@ -33,7 +37,6 @@ public class ScannerApplication extends Application {
     public String getServer() {
         return server;
     }
-
     public void setServer(String server) {
         this.server = server;
     }
@@ -41,21 +44,18 @@ public class ScannerApplication extends Application {
     public User getUser() {
         return user;
     }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void setLatestSuccessfulSnapshot(Device latestSuccessfulSnapshot) { this.latestSuccessfulSnapshot = latestSuccessfulSnapshot; }
-
     public Device getLatestSuccessfulSnapshot() { return latestSuccessfulSnapshot; }
 
     public Integer getScanType() {
         return this.scanType;
     }
-
     public void setScanType(Integer scanType) {
         this.scanType = scanType;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public boolean isDebug() {
@@ -65,7 +65,6 @@ public class ScannerApplication extends Application {
     public void setGPSDialogShown(boolean gpsDialogShown) {
         this.gpsDialogShown = gpsDialogShown;
     }
-
     public boolean getGPSDialogShown() {
        return this.gpsDialogShown;
     }
@@ -73,18 +72,13 @@ public class ScannerApplication extends Application {
     public LoginActivity getLoginActivity() {
         return this.loginActivity;
     }
+    public void setLoginActivity(LoginActivity loginActivity) { this.loginActivity = loginActivity; }
 
-    public void setLoginActivity(LoginActivity loginActivity) {
-        this.loginActivity = loginActivity;
-    }
+    public LocationListenerActivity getCurrentLocationActivity() { return this.currentLocationActivity; }
+    public void setCurrentLocationActivity(LocationListenerActivity currentLocationActivity) { this.currentLocationActivity = currentLocationActivity; }
 
-    public LocationListenerActivity getCurrentLocationActivity() {
-        return this.currentLocationActivity;
-    }
-
-    public void setCurrentLocationActivity(LocationListenerActivity currentLocationActivity) {
-        this.currentLocationActivity = currentLocationActivity;
-    }
+    public List<Manufacturer> getManufacturers() { return manufacturers; }
+    public void setManufacturers(List<Manufacturer> manufacturers) { this.manufacturers = manufacturers; }
 
     public void incrementCurrentActivities() {
         setForeground();

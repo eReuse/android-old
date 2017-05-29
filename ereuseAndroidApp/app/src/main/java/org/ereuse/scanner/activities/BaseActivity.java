@@ -109,8 +109,8 @@ public class BaseActivity extends AppCompatActivity {
     public void showLogoutDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setIcon(R.drawable.logout);
-        dialog.setTitle("Logout");
-        dialog.setMessage("Are you shure you want to Logout?");
+        dialog.setTitle(getString(R.string.logout));
+        dialog.setMessage(getString(R.string.logout_message));
         dialog.setPositiveButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -146,9 +146,9 @@ public class BaseActivity extends AppCompatActivity {
         User user = this.getScannerApplication().getUser();
         if (user != null) {
             user.update(user.getEmail(), null, user.getRole(), user.get_id(), user.getDatabases(), user.getDefaultDatabase());
+        }
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        }
     }
 
     protected void checkLogin()

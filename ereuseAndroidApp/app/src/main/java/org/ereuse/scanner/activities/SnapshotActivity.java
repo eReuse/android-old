@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -32,11 +36,16 @@ import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.Device;
 import org.ereuse.scanner.data.Grade;
 import org.ereuse.scanner.data.GradeOption;
+import org.ereuse.scanner.data.Manufacturer;
 import org.ereuse.scanner.services.AsyncService;
+import org.ereuse.scanner.services.api.ApiException;
 import org.ereuse.scanner.services.api.ApiResponse;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
+import org.ereuse.scanner.services.api.ManufacturersResponse;
 import org.ereuse.scanner.services.api.SnapshotResponse;
 import org.ereuse.scanner.utils.ScanUtils;
+import org.ereuse.scanner.utils.SearchableListAdapter;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,11 +67,9 @@ public class SnapshotActivity extends ScanActivity {
     public static final String MODE_EXTERNAL_DEVICE = "External";
     private String mode;
 
-    //    TextView titleTextView;
     EditText serialNumberEditText;
     EditText modelEditText;
-//    Button manufacturerButton;
-    EditText manufacturerEditText;
+    Button manufacturerButton;
     EditText licenseKeyEditText;
     EditText giverEditText;
     EditText refurbishedEditText;
@@ -80,6 +87,7 @@ public class SnapshotActivity extends ScanActivity {
     CheckBox gradeLabelsCheckBox;
 
     private AlertDialog gradeSelectorDialog = null;
+    private AlertDialog searchableSelectorDialog = null;
 
     Grade gradeConditions = new Grade();
 
@@ -99,6 +107,7 @@ public class SnapshotActivity extends ScanActivity {
         deviceTypesMap.put("TelevisionSet", new ArrayList<String>(Arrays.asList("CRT", "LCD", "OLED", "LED", "Plasma")));
         deviceTypesMap.put("Peripheral", new ArrayList<String>(Arrays.asList("Scanner", "MultifunctionPrinter", "SAI", "Switch", "HUB", "Router", "Mouse", "Keyboard", "Printer", "WirelessAccessPoint", "LabelPrinter", "Projector", "VideoconferenceDevice")));
 
+
         DEVICETYPES = Collections.unmodifiableMap(deviceTypesMap);
     }
 
@@ -110,12 +119,16 @@ public class SnapshotActivity extends ScanActivity {
         setToolbar();
 
         this.mode = this.getIntent().getStringExtra(EXTRA_MODE);
+
+        if (CollectionUtils.isEmpty(this.getScannerApplication().getManufacturers())) {
+            retrieveManufacturers();
+        }
+
         this.initLayout();
     }
 
     private void initLayout() {
-        this.manufacturerEditText = (EditText) this.findViewById(R.id.snapshotManufacturerEditText);
-//        this.manufacturerButton = (Button) this.findViewById(R.id.snapshotManufacturerEditText);
+        this.manufacturerButton = (Button) this.findViewById(R.id.snapshotManufacturer);
         this.modelEditText = (EditText) this.findViewById(R.id.snapshotModelEditText);
         this.serialNumberEditText = (EditText) this.findViewById(R.id.snapshotSerialNumberEditText);
         this.licenseKeyEditText = (EditText) this.findViewById(R.id.snapshotLicenseEditText);
@@ -154,10 +167,7 @@ public class SnapshotActivity extends ScanActivity {
         this.deviceTypeSpinner.setVisibility(View.GONE);
         this.deviceSubTypeSpinner.setVisibility(View.GONE);
 
-        this.manufacturerEditText.setText(Build.MANUFACTURER);
-        this.manufacturerEditText.setFocusable(false);
-//        this.manufacturerButton.setText(Build.MANUFACTURER);
-//        this.manufacturerButton.setClickable(false);
+        this.manufacturerButton.setText(Build.MANUFACTURER);
         this.modelEditText.setText(Build.MODEL);
         this.modelEditText.setFocusable(false);
         this.serialNumberEditText.setText(Build.SERIAL);
@@ -212,12 +222,10 @@ public class SnapshotActivity extends ScanActivity {
     private void hideScanButtons() {
         ImageButton serialNumberScanButton = (ImageButton) this.findViewById(R.id.snapshotSerialNumberScanButton);
         ImageButton modelScanButton = (ImageButton) this.findViewById(R.id.snapshotModelScanButton);
-        ImageButton manufacturerScanButton = (ImageButton) this.findViewById(R.id.snapshotManufacturerScanButton);
         ImageButton licenseScanButton = (ImageButton) this.findViewById(R.id.snapshotLicenseScanButton);
 
         serialNumberScanButton.setVisibility(View.GONE);
         modelScanButton.setVisibility(View.GONE);
-        manufacturerScanButton.setVisibility(View.GONE);
         licenseScanButton.setVisibility(View.GONE);
     }
 
@@ -253,8 +261,7 @@ public class SnapshotActivity extends ScanActivity {
         if (doValidate()) {
             String serialNumber = this.serialNumberEditText.getText().toString();
             String model = this.modelEditText.getText().toString();
-            String manufacturer = this.manufacturerEditText.getText().toString();
-//            String manufacturer = this.manufacturerButton.getText().toString();
+            String manufacturer = this.manufacturerButton.getText().toString();
             String licenseKey = this.licenseKeyEditText.getText().toString();
 
             String giverId = this.giverEditText.getText().toString();
@@ -279,8 +286,7 @@ public class SnapshotActivity extends ScanActivity {
             mandatoryEmptyFields.add(getString(R.string.snapshot_model_label));
 
         }
-        if (this.manufacturerEditText.getText().toString().isEmpty()) {
-//        if (this.manufacturerButton.getText().toString().isEmpty()) {
+        if (this.manufacturerButton.getText().toString().isEmpty() || this.manufacturerButton.getText().toString().equals(getString(R.string.snapshot_select_text))) {
             mandatoryEmptyFields.add(getString(R.string.snapshot_manufacturer_label));
         }
 
@@ -300,17 +306,36 @@ public class SnapshotActivity extends ScanActivity {
     public void onSuccess(ApiResponse response) {
         super.onSuccess(response);
 
-        SnapshotResponse snapshotResponse = (SnapshotResponse) response;
+        if (response.getClass().equals(ManufacturersResponse.class)) {
+            ManufacturersResponse manufacturersResponse = (ManufacturersResponse) response;
+            if (manufacturersResponse.getLinks().getNext() != null) {
+                this.getScannerApplication().getManufacturers().addAll(manufacturersResponse.getManufacturers());
+                retrieveManufacturers(manufacturersResponse.getLinks().getNext().getHref());
+            }
 
-        if (snapshotResponse.getStatus().equals(getString(R.string.server_response_status_ok))) {
 
-            this.resetUniqueFields();
-            this.saveSuccessfulSnapshotData();
+        } else {
+            SnapshotResponse snapshotResponse = (SnapshotResponse) response;
 
-            launchActionMessageDialog(getString(R.string.snapshot_success), true);
+            if (snapshotResponse.getStatus().equals(getString(R.string.server_response_status_ok))) {
+
+                this.resetUniqueFields();
+                this.saveSuccessfulSnapshotData();
+
+                launchActionMessageDialog(getString(R.string.snapshot_success), true);
+            }
         }
 
     }
+
+    @Override
+    public void onError(ApiException exception) {
+        super.onError(exception);
+
+        this.getScannerApplication().setServer(null);
+        this.getScannerApplication().setUser(null);
+    }
+
 
     private void resetUniqueFields() {
         this.serialNumberEditText.setText("");
@@ -323,8 +348,7 @@ public class SnapshotActivity extends ScanActivity {
     private void saveSuccessfulSnapshotData() {
         Device successSnapshot = new Device();
         successSnapshot.setModel(this.modelEditText.getText().toString());
-        successSnapshot.setManufacturer(this.manufacturerEditText.getText().toString());
-//        successSnapshot.setManufacturer(this.manufacturerButton.getText().toString());
+        successSnapshot.setManufacturer(this.manufacturerButton.getText().toString());
         successSnapshot.setDeviceType(this.deviceType);
         successSnapshot.setDeviceSubType(this.deviceSubType);
         this.getScannerApplication().setLatestSuccessfulSnapshot(successSnapshot);
@@ -335,8 +359,7 @@ public class SnapshotActivity extends ScanActivity {
 
         if (successSnapshot != null) {
             this.modelEditText.setText(successSnapshot.getModel());
-            this.manufacturerEditText.setText(successSnapshot.getManufacturer());
-//            this.manufacturerButton.setText(successSnapshot.getManufacturer());
+            this.manufacturerButton.setText(successSnapshot.getManufacturer());
 
             String[] spinnerDeviceSubTypeValues = DEVICETYPES.get(successSnapshot.getDeviceType()).toArray(new String[DEVICETYPES.get(successSnapshot.getDeviceType()).size()]);
             int deviceTypePosition = 0;
@@ -455,10 +478,6 @@ public class SnapshotActivity extends ScanActivity {
             case REQUEST_CODE_MODEL_CAMERA_PERMISSIONS:
                 this.modelEditText.setText(scannedCode);
                 break;
-            case REQUEST_CODE_MANUFACTURER_CAMERA_PERMISSIONS:
-                this.manufacturerEditText.setText(scannedCode);
-//                this.manufacturerButton.setText(scannedCode);
-                break;
             case REQUEST_CODE_LICENSEKEY_CAMERA_PERMISSIONS:
                 this.licenseKeyEditText.setText(scannedCode);
                 break;
@@ -487,10 +506,10 @@ public class SnapshotActivity extends ScanActivity {
             }
     }
 
-//    public void showManufacturerSelector(View view) {
-//        List<String> manufacturers = Arrays.asList("HP","ASUS");
-//        this.showSearchableSelector("MANUFACTURER",manufacturers,gradeBiosButton);
-//    }
+    public void showManufacturerSelector(View view) {
+        List<Manufacturer> manufacturers = this.getScannerApplication().getManufacturers();
+        this.showSearchableSelector(getString(R.string.snapshot_manufacturer_label), manufacturers, manufacturerButton);
+    }
 
 
     public void showAppearanceSelector(View view) {
@@ -511,51 +530,70 @@ public class SnapshotActivity extends ScanActivity {
         this.showGradeSelector(GRADE_OPTION.BIOS.toString(),title,gradeAttributeArray,gradeBiosButton, GRADE_OPTION.BIOS);
     }
 
-//    private void showSearchableSelector(String title, List<String> possibleOptions, final Button searchableButton) {
-//        if (this.gradeSelectorDialog != null && this.gradeSelectorDialog.isShowing()) {
-//            return;
-//        }
-//
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-//
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View searchableDialogView = inflater.inflate(R.layout.single_choice_dialog,
-//                null, false);
-//
-//        RadioGroup radioGroup = (RadioGroup) searchableDialogView.findViewById(R.id.gradeRadioGroup);
-//        radioGroup.removeAllViews();
-//        radioGroup.clearDisappearingChildren();
-//
-//        TextView gradeTitleTextView = (TextView) searchableDialogView.findViewById(R.id.gradeTitleTextView);
-//        gradeTitleTextView.setText(title);
-//
-//        String[] possibleValues = (String[]) possibleOptions.toArray();
-//        for (int i = 0; i< possibleValues.length; i++) {
-//            String eachGradePossibleValue = possibleValues[i];
-//            RadioButton gradePossibleValueButton = new RadioButton(this);
-//            gradePossibleValueButton.setText(eachGradePossibleValue);
-//            gradePossibleValueButton.setTag(i);
-//            radioGroup.addView(gradePossibleValueButton, i);
-//        }
-//
-//        dialogBuilder.setView(searchableDialogView);
-//        this.gradeSelectorDialog = dialogBuilder.create();
-//
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                int realCheckedId = getRealCheckedId(group, checkedId);
-//                searchableSelectorCallback(realCheckedId, searchableButton);
-//                SnapshotActivity.this.gradeSelectorDialog.dismiss();// dismiss the alertbox after choose an option
-//            }
-//        });
-//
-//        this.gradeSelectorDialog.show();
-//    }
-//
-//    private void searchableSelectorCallback(int realCheckedId, Button gradeButton) {
-//        gradeButton.setText(realCheckedId);
-//    }
+    private void showSearchableSelector(String title, List<Manufacturer> possibleOptions, final Button searchableButton) {
+        if (this.searchableSelectorDialog != null && this.searchableSelectorDialog.isShowing()) {
+            return;
+        }
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View searchableDialogView = inflater.inflate(R.layout.searchable_list_dialog,
+                null, false);
+
+        /* get 90% of screen height */
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        searchableDialogView.setMinimumHeight((int) (size.y * 0.9f));
+
+        TextView searchTitle = (TextView) searchableDialogView.findViewById(R.id.searchTitleTextView);
+        searchTitle.setText(title);
+        ListView listView = (ListView) searchableDialogView.findViewById(R.id.searchableListItems);
+        listView.clearDisappearingChildren();
+
+        final SearchableListAdapter listAdapter = new SearchableListAdapter(this, possibleOptions);
+
+        SearchView searchView = (SearchView) searchableDialogView.findViewById(R.id.searchView);
+        searchView.setActivated(true);
+        searchView.onActionViewExpanded();
+        searchView.setIconified(false);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                listAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        listView.setAdapter(listAdapter);
+
+        dialogBuilder.setView(searchableDialogView);
+        this.searchableSelectorDialog = dialogBuilder.create();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapter, View view, int position, long id) {
+                TextView selectedManufacturer = (TextView) view.findViewById(R.id.searchableItemTextview);
+                searchableSelectorCallback(selectedManufacturer.getText().toString(), searchableButton);
+                SnapshotActivity.this.searchableSelectorDialog.dismiss();
+            }
+
+        });
+
+        this.searchableSelectorDialog.show();
+    }
+
+    private void searchableSelectorCallback(String selectedLabel, Button gradeButton) {
+        gradeButton.setText(selectedLabel);
+    }
 
     private void showGradeSelector(String title, String helpText, final int gradeAttributeArray, final Button gradeButton, final GRADE_OPTION gradeOption) {
         if (this.gradeSelectorDialog != null && this.gradeSelectorDialog.isShowing()) {
@@ -621,5 +659,19 @@ public class SnapshotActivity extends ScanActivity {
                 gradeConditions.setBios(bios);
                 break;
         }
+    }
+
+    private void retrieveManufacturers() {
+        if (this.getScannerApplication().getManufacturers() == null) {
+            this.getScannerApplication().setManufacturers(new ArrayList<Manufacturer>());
+        }
+        AsyncService asyncService = new AsyncService(this);
+        asyncService.getManufacturers(this.getServer(), this.getUser());
+
+    }
+    private void retrieveManufacturers(String href) {
+        AsyncService asyncService = new AsyncService(this);
+        asyncService.getManufacturers(this.getServer(), this.getUser(), href);
+
     }
 }

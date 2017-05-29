@@ -13,7 +13,8 @@ public class ActionResponse implements ApiResponse {
         RECYCLE,
         PLACE,
         SNAPSHOT,
-        GENERIC
+        GENERIC,
+        MANUFACTURERS
     }
 
     public void setActionType(ActionType type) {

@@ -39,6 +39,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final HttpMethod HTTP_METHOD_SNAPSHOT = HttpMethod.POST;
     private static final HttpMethod HTTP_METHOD_EVENTS_UNDO = HttpMethod.DELETE;
     private static final HttpMethod HTTP_METHOD_EVENTS_GENERIC = HttpMethod.POST;
+    private static final HttpMethod HTTP_METHOD_MANUFACTURERS = HttpMethod.GET;
 
     private static String db;
     private static final String PATH_LOGIN = "login";
@@ -50,6 +51,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_SNAPSHOT = "events/devices/snapshot";
     private static final String PATH_REMOVE_DEVICE_COMPONENT = "events/devices/remove";
     private static final String PATH_GENERIC_EVENT= "events/devices/";
+    private static final String PATH_MANUFACTURERS = "manufacturers";
 
 
     private String server;
@@ -92,7 +94,9 @@ public class ApiServicesImpl implements ApiServices {
             response = this.undoEvent(request);
         } else if (method.equals((METHOD_GENERIC_EVENT))) {
             String genericEventType = methods[1];
-            response = this.genericEvent(request,genericEventType);
+            response = this.genericEvent(request, genericEventType);
+        } else if (method.equals((METHOD_MANUFACTURERS))) {
+            response = this.manufacturers(request, methods);
         } else {
             throw new ApiException("Not implemented method: " + method);
         }
@@ -230,14 +234,26 @@ public class ApiServicesImpl implements ApiServices {
         }
     }
 
+    private ManufacturersResponse manufacturers(final ApiRequest request, String... methods) throws ApiException {
+        String url = this.server + PATH_MANUFACTURERS;
+
+        for (int i = 1; i < methods.length; i++) {
+            url += "?" + methods[i];
+        }
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(this.getRequestHeaders(true));
+        ResponseEntity<ManufacturersResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_MANUFACTURERS, requestEntity, ManufacturersResponse.class);
+        return response.getBody();
+    }
 
     private HttpHeaders getRequestHeaders(boolean authorization) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(MEDIA_TYPE_LIST);
-        requestHeaders.set("Connection", "Close");
+   //     requestHeaders.set("Connection", "Close");
         if (authorization) {
             requestHeaders.setAuthorization(new EreuseHttpAuthenticationHeader(this.token));
         }
+       // requestHeaders.setContentType(MEDIA_TYPE_LIST.get(0));
         return requestHeaders;
     }
 

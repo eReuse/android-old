@@ -173,6 +173,12 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         }
     }
 
+    public void doNoLoginWorkbench(View view) {
+        Intent workbenchIntent = new Intent(this, WorkbenchActivity.class);
+        startActivity(workbenchIntent);
+    }
+
+
     @Override
     public String getServer() {
         Spinner serverSpinner = (Spinner) findViewById(R.id.serversSpinner);

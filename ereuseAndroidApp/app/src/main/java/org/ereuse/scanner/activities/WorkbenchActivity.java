@@ -25,6 +25,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.zxing.common.StringUtils;
 
 import org.ereuse.scanner.R;
+import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.utils.ScanUtils;
 
@@ -51,7 +52,6 @@ public class WorkbenchActivity extends ScanActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snapshot_workbench);
-        databases = getScannerApplication().getUser().getDatabases();
         setToolbar();
 
         this.workbenchServerAddressEditText = new EditText(this);
@@ -101,7 +101,6 @@ public class WorkbenchActivity extends ScanActivity {
     protected void onResume()
     {
         super.onResume();
-        checkLogin();
     }
 
     private String getWorkbenchServer() {
@@ -147,15 +146,35 @@ public class WorkbenchActivity extends ScanActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_db_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_select_db);
-        selectDb = item.getSubMenu();
-        SetDatabase setDatabase = new SetDatabase();
-        for(String database : databases)
-            selectDb.add(database).setOnMenuItemClickListener(setDatabase);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
+    public void showLogoutDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setIcon(R.drawable.logout);
+        dialog.setTitle(getString(R.string.back_to_login));
+        dialog.setMessage(getString(R.string.back_to_login_message));
+        dialog.setPositiveButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                doBackToLogin();
+            }
+        });
+        dialog.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void doBackToLogin(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
     class SetDatabase implements MenuItem.OnMenuItemClickListener{
 

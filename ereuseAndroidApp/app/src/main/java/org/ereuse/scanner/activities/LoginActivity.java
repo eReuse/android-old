@@ -1,10 +1,8 @@
 package org.ereuse.scanner.activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -14,12 +12,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.User;
@@ -35,20 +27,7 @@ import java.util.List;
 /**
  * Created by Jamgo SCCL.
  */
-public class LoginActivity extends AsyncActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-
-    private GoogleApiClient googleApiClient;
-    private LocationRequest locationRequest;
-    private static final String REQUESTING_LOCATION_UPDATES_KEY = "REQUESTING_LOCATION_UPDATES";
-    private static final String LOCATION_KEY = "LOCATION";
-    private boolean requestingLocationUpdates;
-    private Location location;
-
-    final private int REQUEST_CODE_FINE_LOCATION_PERMISSIONS = 0;
-
-    public Location getLocation() {
-        return this.location;
-    }
+public class LoginActivity extends AsyncActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +53,8 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         passwordEditText.setText(userPasswordPreference);
 
         //checkAllPermissions();
-
-        this.updateValuesFromBundle(savedInstanceState);
-        this.getScannerApplication().setLoginActivity(this);
-
         setToolbar();
+        this.getScannerApplication().setLoginActivity(this);
     }
 
     @Override
@@ -87,11 +63,11 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         checkAllPermissions();
         ValidationService.checkInternetConnection(this);
 
-        if (Build.VERSION.SDK_INT < 23) {
-            if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-                startLocationUpdates();
+/*        if (Build.VERSION.SDK_INT < 23) {
+            if (this.getScannerApplication().getGoogleApiClient().isConnected() && !this.getScannerApplication().isRequestingLocationUpdates()) {
+                this.startLocationUpdates();
             }
-        }
+        }*/
 
     }
 
@@ -100,52 +76,6 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.login_menu, menu);
         return true;
-    }
-
-    private void checkAllPermissions() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int locationFinePermissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-
-            if(locationFinePermissionCheck != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_FINE_LOCATION_PERMISSIONS);
-            } else {
-                initLocation();
-                if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-                    startLocationUpdates();
-                }
-            }
-
-        } else {
-            initLocation();
-            if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-                startLocationUpdates();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_FINE_LOCATION_PERMISSIONS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    initLocation();
-
-                    if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-                        startLocationUpdates();
-                    }
-                } else {
-                    showPermissionDeniedDialog();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
     }
 
     public void doLogin(View view) {
@@ -228,102 +158,4 @@ public class LoginActivity extends AsyncActivity implements GoogleApiClient.Conn
         this.getScannerApplication().setServer(null);
         this.getScannerApplication().setUser(null);
     }
-
-
-    //Location stuff
-    private void initLocation() {
-        this.buildGoogleApiClient();
-        this.googleApiClient.connect();
-    }
-
-    private synchronized void buildGoogleApiClient() {
-        this.googleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
-    private void updateValuesFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
-                this.requestingLocationUpdates = savedInstanceState.getBoolean(REQUESTING_LOCATION_UPDATES_KEY);
-            }
-
-            if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
-                this.location = savedInstanceState.getParcelable(LOCATION_KEY);
-                this.getScannerApplication().updateLocationUI();
-            }
-        }
-    }
-
-    public void startLocationUpdates() {
-        if(this.googleApiClient!=null) {
-            if (this.googleApiClient.isConnected() && !this.requestingLocationUpdates) {
-                if (this.locationRequest == null) {
-                    this.createLocationRequest();
-                }
-                LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, this.locationRequest, this);
-                this.requestingLocationUpdates = true;
-                logDebug("LoginActivity", "Starting Location Updates");
-            }
-        }
-    }
-
-    public void stopLocationUpdates() {
-        if(this.googleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(this.googleApiClient, this);
-        }
-        this.requestingLocationUpdates = false;
-        logDebug("LoginActivity","Stopping Location Updates");
-    }
-
-    private void createLocationRequest() {
-        this.locationRequest = new LocationRequest();
-        this.locationRequest.setInterval(5000);
-        this.locationRequest.setFastestInterval(5000);
-        this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-
-
-    // GoogleApiClient.ConnectionCallbacks Methods
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        this.location = LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
-        if (this.location != null) {
-            this.getScannerApplication().updateLocationUI();
-        }
-
-        this.startLocationUpdates();
-    }
-
-    @Override
-    public void onConnectionSuspended(int cause) {
-        // TODO
-    }
-
-    // GoogleApiClient.OnConnectionFailedListener Method
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        // TODO
-    }
-
-    // LocationListener Method
-    @Override
-    public void onLocationChanged(Location location) {
-        if (location.getAccuracy() != 0.0f
-                && (this.location == null || location.getAccuracy() < this.location.getAccuracy())) {
-            this.location = location;
-            String locationMessage = "lat: " + this.location.getLatitude()
-                    + ", long: " + this.location.getLongitude()
-                    + ", alt: " + this.location.getAltitude()
-                    + ", acc: " + this.location.getAccuracy();
-            logDebug("LocationChanged",locationMessage);
-
-            this.getScannerApplication().updateLocationUI();
-        }
-    }
-
-
 }

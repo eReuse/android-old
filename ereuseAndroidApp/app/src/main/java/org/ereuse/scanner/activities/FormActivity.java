@@ -118,6 +118,13 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
 
         setToolbar();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.getScannerApplication().triggerLocationStopper();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -127,12 +134,13 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
             if(fineLocationPermissionCheck != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ACCESS_FINE_PERMISSIONS);
                 return;
-            } else {
-                ValidationService.checkInternetConnection(this);
             }
-        } else {
-            ValidationService.checkInternetConnection(this);
         }
+
+        ValidationService.checkInternetConnection(this);
+
+        this.initLocation();
+        ValidationService.checkLocationConnection(this);
 
         if (checkRelaunchActionFromNewPlace.isChecked()) {
             checkRelaunchActionFromNewPlace.setChecked(false);
@@ -140,7 +148,7 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
         }
 
         this.getScannerApplication().setCurrentLocationActivity(this);
-        this.updateLocationUI(this.getScannerApplication().getLoginActivity().getLocation());
+        this.updateLocationUI(this.getScannerApplication().getLocation());
 
         checkLogin();
     }

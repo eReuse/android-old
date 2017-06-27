@@ -29,29 +29,10 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:paddingTop="8px">
-            <ImageButton
-                android:layout_width="35sp"
-                android:layout_height="35sp"
-                android:id="@+id/workbench_settings_button"
-                android:src="@drawable/settings_tools"
-                android:scaleType="centerInside"
-                android:onClick="showWorkbenchSettings"
-                android:background="@color/zxing_transparent"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="35sp"
-                android:layout_toRightOf="@id/workbench_settings_button"
-                android:layout_alignBaseline ="@id/workbench_settings_button"
-                android:paddingLeft="@dimen/text_padding"
-                android:id="@+id/workbench_configuration_text"
-                android:text="@string/workbench_settings"
-                android:onClick="showWorkbenchSettings"
-                android:textSize="14sp"
-                android:gravity="center_vertical" />
+
             <WebView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/workbench_settings_button"
                 android:layout_marginTop="@dimen/button_padding"
                 android:id="@+id/workbench_webview">
             </WebView>

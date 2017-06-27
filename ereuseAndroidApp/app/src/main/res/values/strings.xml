@@ -242,5 +242,5 @@
     <string name="workbench_settings">Check workbench server configuration</string>
     <string name="workbench_server_address">Workbench server address</string>
 
-    <string name="default_workbench_server_address">192.168.10.3</string>
+    <string name="workbench_default_server_address_value">http://192.168.2.2:5000/inventories/live</string>
 </resources>

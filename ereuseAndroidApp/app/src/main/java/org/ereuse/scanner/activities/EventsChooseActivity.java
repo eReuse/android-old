@@ -26,7 +26,7 @@ import java.util.List;
 public class EventsChooseActivity extends BaseActivity {
 
     private SubMenu selectDb;
-    ArrayList<String> databases;
+    List<String> databases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

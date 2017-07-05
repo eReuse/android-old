@@ -60,7 +60,6 @@ import java.util.Map;
 public class SnapshotActivity extends ScanActivity {
 
     private SubMenu selectDb;
-    ArrayList<String> databases;
 
     public static final String EXTRA_MODE = "mode";
     public static final String MODE_SELF = "self";
@@ -112,7 +111,6 @@ public class SnapshotActivity extends ScanActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snapshot);
-        databases = getScannerApplication().getUser().getDatabases();
         setToolbar();
 
         this.mode = this.getIntent().getStringExtra(EXTRA_MODE);
@@ -142,7 +140,7 @@ public class SnapshotActivity extends ScanActivity {
 
         this.gradeLabelsCheckBox = (CheckBox) this.findViewById(R.id.gradeLabelsCheckBox);
 
-        if (this.mode.equals(MODE_SELF)) {
+        if (MODE_SELF.equals(this.mode)) {
             initializeSelfSnapshotLayout();
         } else {
             initializeExternalDeviceSnapshotLayout();
@@ -239,6 +237,7 @@ public class SnapshotActivity extends ScanActivity {
         MenuItem item = menu.findItem(R.id.action_select_db);
         selectDb = item.getSubMenu();
         SetDatabase setDatabase = new SetDatabase();
+        List<String> databases = getScannerApplication().getUser().getDatabases();
         for (String database : databases)
             selectDb.add(database).setOnMenuItemClickListener(setDatabase);
         return true;
@@ -254,11 +253,15 @@ public class SnapshotActivity extends ScanActivity {
         }
     }
 
+    public String getSelectedManufacturer() {
+        return this.manufacturerButton.getText().toString();
+    }
+
     public void sendSnapshot(View view) {
         if (doValidate()) {
             String serialNumber = this.serialNumberEditText.getText().toString();
             String model = this.modelEditText.getText().toString();
-            String manufacturer = this.manufacturerButton.getText().toString();
+            String manufacturer = this.getSelectedManufacturer();
             String licenseKey = this.licenseKeyEditText.getText().toString();
 
             String giverId = this.giverEditText.getText().toString();

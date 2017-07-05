@@ -12,6 +12,7 @@ import org.ereuse.scanner.R;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jamgo SCCL.
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class ChooseActivity extends BaseActivity {
 
     private SubMenu selectDb;
-    ArrayList<String> databases;
+    List<String> databases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_below="@id/commentsEditText"
-                android:id="@+id/formSendButton"
+                android:id="@+id/genericFormSendButton"
                 android:text="@string/form_send_button"
                 android:onClick="sendForm"
                 android:background="@color/emphasis_2"

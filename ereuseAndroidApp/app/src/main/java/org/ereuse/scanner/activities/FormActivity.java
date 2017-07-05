@@ -52,10 +52,10 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
     private static final float ACCURACY_THRESHOLD = 20.0f;
 
     private String mode;
-    private List<String> deviceIds;
+    protected List<String> deviceIds;
 
     private TableLayout tableLayout;
-    private Location location;
+    protected Location location;
     private GoogleMap map;
     private TextView tv_location;
 
@@ -83,7 +83,7 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
         EditText receiverEmailLabel = (EditText) this.findViewById(R.id.formReceiverEmailEditText);
         TextView receiverEmailText = (TextView) this.findViewById(R.id.formReceiverEmailLabel);
         TextView receiverNameText = (TextView) this.findViewById(R.id.formReceiverEmailLabel);
-        if (this.mode.equals(MODE_LOCATE)) {
+        if (MODE_LOCATE.equals(this.mode)) {
             cb.setVisibility(View.GONE);
             receiverEmailLabel.setVisibility(View.GONE);
             receiverEmailText.setVisibility(View.GONE);

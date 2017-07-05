@@ -1,15 +1,16 @@
 package org.ereuse.scanner.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jamgo SCCL.
  */
 public class User {
 
-    private static final String EMPLOYEE = "employee";
-    private static final String SUPERUSER = "superuser";
-    private static final String ADMIN = "admin";
+    public static final String EMPLOYEE = "employee";
+    public static final String SUPERUSER = "superuser";
+    public static final String ADMIN = "admin";
 
     public String _id;
     public String email;
@@ -17,7 +18,7 @@ public class User {
     public String role;
     public String password;
 
-    public ArrayList<String> getDatabases() {
+    public List<String> getDatabases() {
         return databases;
     }
 
@@ -25,10 +26,10 @@ public class User {
         return defaultDatabase;
     }
 
-    public ArrayList<String> databases;
+    public List<String> databases;
     public String defaultDatabase;
 
-    public void update(String email, String token, String role, String id, ArrayList<String> databases, String defaultDatabase) {
+    public void update(String email, String token, String role, String id, List<String> databases, String defaultDatabase) {
         this._id = id;
         this.email = email;
         this.token = token;

@@ -1,31 +1,17 @@
 package org.ereuse.scanner.activities;
 
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.zxing.common.StringUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -34,15 +20,11 @@ import org.ereuse.scanner.services.AsyncService;
 import org.ereuse.scanner.services.ValidationService;
 import org.ereuse.scanner.services.api.ActionResponse;
 import org.ereuse.scanner.services.api.ApiResponse;
-import org.ereuse.scanner.services.api.ApiServices;
 import org.ereuse.scanner.services.api.DeviceResponse;
 import org.ereuse.scanner.utils.ScanUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static org.ereuse.scanner.R.dimen.activity_horizontal_margin;
 
 /**
  * Created by Jamgo SCCL.
@@ -52,8 +34,8 @@ public class FormGenericActivity extends ScanActivity {
 
     private static final float ACCURACY_THRESHOLD = 20.0f;
 
-    private String mode;
-    private List<String> deviceIds;
+    protected String mode;
+    protected List<String> deviceIds;
 
     private TableLayout tableLayout;
 
@@ -63,7 +45,10 @@ public class FormGenericActivity extends ScanActivity {
         setContentView(R.layout.activity_generic_form);
 
         this.tableLayout = (TableLayout) findViewById(R.id.devicesTableLayout);
-        this.mode = this.getIntent().getStringExtra(EXTRA_MODE);
+        String mode = this.getIntent().getStringExtra(EXTRA_MODE);
+        if (mode != null && mode.length() > 0) {
+            this.mode = mode;
+        }
         this.deviceIds = new ArrayList<String>();
 
         this.initLayout();

@@ -80,11 +80,10 @@ public class LoginActivity extends AsyncActivity {
 
     public void doLogin(View view) {
         if (ValidationService.checkInternetConnection(this)) {
-            Spinner serverSpinner = (Spinner) findViewById(R.id.serversSpinner);
             EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
             EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
-            String server = serverSpinner.getSelectedItem().toString();
+            String server = getServer();
             String email = emailEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 

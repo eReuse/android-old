@@ -57,7 +57,7 @@ import java.util.Map;
 public class SnapshotRemoveComponentActivity extends ScanActivity {
 
     private SubMenu selectDb;
-    ArrayList<String> databases;
+    List<String> databases;
 
     EditText parentSystemEditText;
 

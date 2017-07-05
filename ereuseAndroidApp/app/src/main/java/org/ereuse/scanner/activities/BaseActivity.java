@@ -38,7 +38,7 @@ import org.ereuse.scanner.data.User;
  */
 public class BaseActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    protected static final String SHARED_PREFERENCES_NAME = "ereuse.properties";
+    public static final String SHARED_PREFERENCES_NAME = "ereuse.properties";
     final private int REQUEST_CODE_FINE_LOCATION_PERMISSIONS = 0;
     private static final String REQUESTING_LOCATION_UPDATES_KEY = "REQUESTING_LOCATION_UPDATES";
     private static final String LOCATION_KEY = "LOCATION";

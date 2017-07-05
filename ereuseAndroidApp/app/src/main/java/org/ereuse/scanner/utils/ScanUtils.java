@@ -1,7 +1,7 @@
 package org.ereuse.scanner.utils;
 
 /**
- * Created by martin on 18/05/17.
+ * Created by Jamgo SCCL on 18/05/17.
  */
 
 public class ScanUtils {

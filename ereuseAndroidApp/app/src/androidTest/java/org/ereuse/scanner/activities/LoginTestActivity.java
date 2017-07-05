@@ -1,7 +1,7 @@
 package org.ereuse.scanner.activities;
 
 /**
- * Created by martin on 4/07/17.
+ * Created by Jamgo SCCL on 4/07/17.
  */
 
 import android.support.test.runner.AndroidJUnit4;

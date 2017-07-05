@@ -13,7 +13,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 /**
- * Created by martin on 4/07/17.
+ * Created by Jamgo SCCL on 4/07/17.
  */
 
 public class GenericEventTestActivity extends FormGenericActivity {

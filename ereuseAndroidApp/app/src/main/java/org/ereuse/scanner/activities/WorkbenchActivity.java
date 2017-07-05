@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -61,6 +62,11 @@ public class WorkbenchActivity extends ScanActivity {
         this.workbenchServerAddress = getWorkbenchServer();
 
         this.scanWebView = (WebView)this.findViewById(R.id.workbench_webview);
+
+        // Uncomment this to disable caching
+        // this.scanWebView.getSettings().setAppCacheEnabled(false);
+        // this.scanWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        // this.scanWebView.clearCache(true);
 
         this.scanWebView.getSettings().setJavaScriptEnabled(true);
         this.scanWebView.addJavascriptInterface(new WebViewJavaScriptInterface(this), "app");

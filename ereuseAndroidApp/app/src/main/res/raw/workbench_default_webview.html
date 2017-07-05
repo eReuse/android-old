@@ -1,15 +1,17 @@
 <html>
-<div>
-    <p>This is a default view emulating the workbench content.</p>
-    <p><strong>This content must be changed from "workbench_default_webview.html" resource file</strong></p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-<form>
-    <p>common field:</p>
-    <input type='button' value='scan' onclick='app.startJSScan(\"scanResultField\", false)' />
-    <input type='text' id='scanResultField' />
-    <p>System id:</p>
-    <input type='button' value='scan' onclick='app.startJSScan(\"systemIdField\", true)' />
-    <input type='text' id='systemIdField' />
-    </form>
+  <body>
+    <h1>eReuse.org Workbench</h1>
+    <p>If you see this it means we couldn't connect to the eReuse.org Workbench server. Please, ensure that:</p>
+    <ul>
+      <li>The correct OVA in Virtualbox is running and well-configured.</li>
+      <li>
+        The phone is connected to the WiFi of the router you configured, not the general WiFi. Note that Android
+        can warn you that this WiFi has no Internet. This is correct and normal -just dismiss the message.
+      </li>
+      <li>
+        Advanced: If Workbench is not in the default 192.168.2.2:5000, change the URL pressing the wrench above.
+      </li>
+    </ul>
+    After this, press to the button of the wrench above and then <strong>OK</strong> to try again.
+  </body>
 </html>

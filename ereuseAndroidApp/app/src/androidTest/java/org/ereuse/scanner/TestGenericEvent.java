@@ -1,36 +1,19 @@
 package org.ereuse.scanner;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
-import org.ereuse.scanner.activities.FormActivity;
 import org.ereuse.scanner.activities.FormGenericActivity;
 import org.ereuse.scanner.activities.GenericEventTestActivity;
-import org.ereuse.scanner.activities.LoginTestActivity;
 import org.ereuse.scanner.data.User;
-import org.ereuse.scanner.services.api.ActionResponse;
-import org.ereuse.scanner.services.api.ApiResponse;
-import org.ereuse.scanner.services.api.LoginResponse;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.content.Context.MODE_PRIVATE;
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.pressBack;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static org.ereuse.scanner.activities.BaseActivity.SHARED_PREFERENCES_NAME;
 
 /**
  * Created by Jamgo SCCL on 4/07/17.
@@ -59,7 +42,7 @@ public class TestGenericEvent {
         formIntent.putExtra(FormGenericActivity.EXTRA_MODE, GlobalTestParams.GENERIC_EVENT_TEST_TYPE);
         mActivityRule.launchActivity(formIntent);
 
-        onView(withId(R.id.titleEditText)).perform(typeText("this is a READY EVENT test"), pressBack());
+        onView(withId(R.id.titleEditText)).perform(typeText("this is a READY EVENT test"), closeSoftKeyboard());
         onView(withId(R.id.genericFormSendButton)).perform(click());
       }
 

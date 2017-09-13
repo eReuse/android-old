@@ -1,13 +1,11 @@
 package org.ereuse.scanner.activities;
 
 import android.view.View;
-
 import org.ereuse.scanner.GlobalTestParams;
 import org.ereuse.scanner.services.api.ActionResponse;
 import org.ereuse.scanner.services.api.ApiException;
 import org.ereuse.scanner.services.api.ApiResponse;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
-import org.junit.Ignore;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -31,7 +29,6 @@ public class GenericEventTestActivity extends FormGenericActivity {
     public void sendForm(View view) {
         this.deviceIds = GlobalTestParams.DEVICES_LIST;
         ApiServicesImpl.setDb(GlobalTestParams.DEFAULT_DB);
-
         super.sendForm(view);
     }
 

@@ -10,20 +10,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.*;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.utils.ScanUtils;
@@ -34,15 +26,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 /**
  * Created by Jamgo SCCL.
  */
 public class WorkbenchActivity extends ScanActivity {
 
-    private SubMenu selectDb;
-    ArrayList<String> databases;
     WebView scanWebView;
     private String workbenchServerAddress;
     private String htmlFieldId;

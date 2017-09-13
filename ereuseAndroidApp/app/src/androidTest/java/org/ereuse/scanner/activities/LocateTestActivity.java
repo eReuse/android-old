@@ -3,21 +3,10 @@ package org.ereuse.scanner.activities;
 import android.location.Location;
 import android.view.Menu;
 import android.view.View;
-
 import org.ereuse.scanner.GlobalTestParams;
-import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.User;
-import org.ereuse.scanner.services.AsyncService;
-import org.ereuse.scanner.services.api.ActionResponse;
-import org.ereuse.scanner.services.api.ApiException;
-import org.ereuse.scanner.services.api.ApiResponse;
-import org.ereuse.scanner.services.api.ApiServicesImpl;
-import org.ereuse.scanner.services.api.ManufacturersResponse;
-import org.ereuse.scanner.services.api.SnapshotResponse;
+import org.ereuse.scanner.services.api.*;
 
-import java.util.Arrays;
-
-import static android.R.id.message;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
@@ -47,7 +36,7 @@ public class LocateTestActivity extends FormActivity {
         testUser.email = GlobalTestParams.DEMO_USER_EMAIL;
         testUser.password = GlobalTestParams.DEMO_USER_PASSWORD;
         testUser.token = GlobalTestParams.DEMO_USER_TOKEN;
-        testUser.databases = Arrays.asList("db1");
+        testUser.databases = GlobalTestParams.DATABASES;
         testUser.role = User.ADMIN;
         return testUser;
     }
@@ -73,7 +62,7 @@ public class LocateTestActivity extends FormActivity {
 
         ActionResponse actionResponse = (ActionResponse) apiResponse;
         ActionResponse.ActionType actionType = actionResponse.getActionType();
-        assertEquals(ActionResponse.ActionType.LOCATE,actionType);
+        assertEquals(ActionResponse.ActionType.LOCATE, actionType);
     }
 
     @Override

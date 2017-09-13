@@ -3,13 +3,7 @@ package org.ereuse.scanner.services.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-
-import org.springframework.http.HttpAuthentication;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
@@ -18,9 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Jamgo SCCL.
@@ -71,34 +63,46 @@ public class ApiServicesImpl implements ApiServices {
 
         String method = methods[0];
 
-        // TODO add other API methods, use switch instead of if statement
-        if (method.equals(METHOD_LOGIN)) {
-            response = this.login(request);
-        } else if (method.equals(METHOD_DEVICE)) {
-            response = this.device(request);
-        } else if (method.equals(METHOD_LOCATE)) {
-            response = this.locate(request);
-        } else if (method.equals(METHOD_RECEIVE)) {
-            response = this.receive(request);
-        } else if (method.equals(METHOD_RECYCLE)) {
-            response = this.recycle(request);
-        } else if (method.equals(METHOD_EVENTS)) {
-            response = this.events(request);
-        }  else if (method.equals(METHOD_PLACE)) {
-            response = this.place(request);
-        } else if (method.equals(METHOD_SNAPSHOT)) {
-            response = this.snapshot(request);
-        } else if (method.equals(METHOD_DEVICE_COMPONENT_REMOVE)) {
-            response = this.removeDeviceComponent(request);
-        } else if (method.equals(METHOD_EVENT_UNDO)) {
-            response = this.undoEvent(request);
-        } else if (method.equals((METHOD_GENERIC_EVENT))) {
-            String genericEventType = methods[1];
-            response = this.genericEvent(request, genericEventType);
-        } else if (method.equals((METHOD_MANUFACTURERS))) {
-            response = this.manufacturers(request, methods);
-        } else {
-            throw new ApiException("Not implemented method: " + method);
+        switch (method) {
+            case METHOD_LOGIN:
+                response = this.login(request);
+                break;
+            case METHOD_DEVICE:
+                response = this.device(request);
+                break;
+            case METHOD_LOCATE:
+                response = this.locate(request);
+                break;
+            case METHOD_RECEIVE:
+                response = this.receive(request);
+                break;
+            case METHOD_RECYCLE:
+                response = this.recycle(request);
+                break;
+            case METHOD_EVENTS:
+                response = this.events(request);
+                break;
+            case METHOD_PLACE:
+                response = this.place(request);
+                break;
+            case METHOD_SNAPSHOT:
+                response = this.snapshot(request);
+                break;
+            case METHOD_DEVICE_COMPONENT_REMOVE:
+                response = this.removeDeviceComponent(request);
+                break;
+            case METHOD_EVENT_UNDO:
+                response = this.undoEvent(request);
+                break;
+            case METHOD_GENERIC_EVENT:
+                String genericEventType = methods[1];
+                response = this.genericEvent(request, genericEventType);
+                break;
+            case METHOD_MANUFACTURERS:
+                response = this.manufacturers(request, methods);
+                break;
+            default:
+                throw new ApiException("Not implemented method: " + method);
         }
 
         return response;

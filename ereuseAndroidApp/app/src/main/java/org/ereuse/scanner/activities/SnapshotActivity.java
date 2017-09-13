@@ -10,28 +10,10 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.Device;
 import org.ereuse.scanner.data.Grade;
@@ -40,31 +22,32 @@ import org.ereuse.scanner.data.Manufacturer;
 import org.ereuse.scanner.services.AsyncService;
 import org.ereuse.scanner.services.api.ApiException;
 import org.ereuse.scanner.services.api.ApiResponse;
-import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.services.api.ManufacturersResponse;
 import org.ereuse.scanner.services.api.SnapshotResponse;
 import org.ereuse.scanner.utils.ScanUtils;
 import org.ereuse.scanner.utils.SearchableListAdapter;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Jamgo SCCL.
  */
 public class SnapshotActivity extends ScanActivity {
 
-    private SubMenu selectDb;
-
     public static final String EXTRA_MODE = "mode";
     public static final String MODE_SELF = "self";
     public static final String MODE_EXTERNAL_DEVICE = "External";
-    private String mode;
+    //As per eReuse request, until they can provide this information dinamically this will be a static list
+    private static final Map<String, List<String>> DEVICETYPES;
+
+    static {
+        Map<String, List<String>> deviceTypesMap = new HashMap<String, List<String>>();
+        deviceTypesMap.put("Computer", new ArrayList<String>(Arrays.asList("Netbook", "Laptop", "Microtower", "Server")));
+        deviceTypesMap.put("ComputerMonitor", new ArrayList<String>(Arrays.asList("TFT", "LCD", "OLED", "LED")));
+        deviceTypesMap.put("Peripheral", new ArrayList<String>(Arrays.asList("Scanner", "MultifunctionPrinter", "SAI", "Switch", "HUB", "Router", "Mouse", "Keyboard", "Printer")));
+        DEVICETYPES = Collections.unmodifiableMap(deviceTypesMap);
+    }
 
     EditText serialNumberEditText;
     EditText modelEditText;
@@ -84,28 +67,10 @@ public class SnapshotActivity extends ScanActivity {
     Button gradeFunctionalityButton;
     Button gradeBiosButton;
     CheckBox gradeLabelsCheckBox;
-
+    Grade gradeConditions = new Grade();
+    private String mode;
     private AlertDialog gradeSelectorDialog = null;
     private AlertDialog searchableSelectorDialog = null;
-
-    Grade gradeConditions = new Grade();
-
-    static enum GRADE_OPTION {
-        APPEARANCE,
-        FUNCTIONALITY,
-        BIOS
-    }
-
-    //As per eReuse request, until they can provide this information dinamically this will be a static list
-    private static final Map<String, List<String>> DEVICETYPES;
-
-    static {
-        Map<String, List<String>> deviceTypesMap = new HashMap<String, List<String>>();
-        deviceTypesMap.put("Computer", new ArrayList<String>(Arrays.asList("Netbook", "Laptop", "Microtower", "Server")));
-        deviceTypesMap.put("ComputerMonitor", new ArrayList<String>(Arrays.asList("TFT", "LCD", "OLED", "LED")));
-        deviceTypesMap.put("Peripheral", new ArrayList<String>(Arrays.asList("Scanner", "MultifunctionPrinter", "SAI", "Switch", "HUB", "Router", "Mouse", "Keyboard", "Printer")));
-        DEVICETYPES = Collections.unmodifiableMap(deviceTypesMap);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,29 +195,6 @@ public class SnapshotActivity extends ScanActivity {
         checkLogin();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_db_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_select_db);
-        selectDb = item.getSubMenu();
-        SetDatabase setDatabase = new SetDatabase();
-        List<String> databases = getScannerApplication().getUser().getDatabases();
-        for (String database : databases)
-            selectDb.add(database).setOnMenuItemClickListener(setDatabase);
-        return true;
-    }
-
-
-    class SetDatabase implements MenuItem.OnMenuItemClickListener {
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            ApiServicesImpl.setDb(item.getTitleCondensed().toString());
-            return true;
-        }
-    }
-
     public String getSelectedManufacturer() {
         return this.manufacturerButton.getText().toString();
     }
@@ -336,7 +278,6 @@ public class SnapshotActivity extends ScanActivity {
         this.getScannerApplication().setUser(null);
     }
 
-
     private void resetUniqueFields() {
         this.serialNumberEditText.setText("");
         this.licenseKeyEditText.setText("");
@@ -387,7 +328,7 @@ public class SnapshotActivity extends ScanActivity {
         }
     }
 
-    public void refreshDeviceSubTypeSpinner( String[] spinnerDeviceSubTypeValues) {
+    public void refreshDeviceSubTypeSpinner(String[] spinnerDeviceSubTypeValues) {
         int deviceSubTypePosition = 0;
         for (String eachDeviceSubType : spinnerDeviceSubTypeValues) {
             if (eachDeviceSubType.equals(this.deviceSubType)) {
@@ -398,7 +339,7 @@ public class SnapshotActivity extends ScanActivity {
         deviceSubTypeSpinner.setSelection(deviceSubTypePosition, true);
     }
 
-    public void showHelp(){
+    public void showHelp() {
         RelativeLayout snapshotHelpLayout = (RelativeLayout) findViewById(R.id.SnapshotHelpLayout);
         TextView helpCreate = (TextView) findViewById(R.id.snapshot_help_text);
 
@@ -444,8 +385,8 @@ public class SnapshotActivity extends ScanActivity {
     @Override
     protected void launchScanAction(int permissionCode) {
         Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-        intent.putExtra(BarcodeCaptureActivity.AutoFocus,true);
-        intent.putExtra(BarcodeCaptureActivity.UseFlash,false);
+        intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+        intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
 
         startActivityForResult(intent, permissionCode);
     }
@@ -467,7 +408,6 @@ public class SnapshotActivity extends ScanActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     private void fillScannedCode(String scannedCode, int requestCode) {
 
@@ -495,15 +435,13 @@ public class SnapshotActivity extends ScanActivity {
         }
     }
 
-
-
     @Override
     protected void dialogCallback() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
-            if (!sharedPreferences.getBoolean("snapshotHelpShown", false)) {
-                sharedPreferences.edit().putBoolean("snapshotHelpShown", true).commit();
-                showHelp();
-            }
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        if (!sharedPreferences.getBoolean("snapshotHelpShown", false)) {
+            sharedPreferences.edit().putBoolean("snapshotHelpShown", true).commit();
+            showHelp();
+        }
     }
 
     public void showManufacturerSelector(View view) {
@@ -511,23 +449,22 @@ public class SnapshotActivity extends ScanActivity {
         this.showSearchableSelector(getString(R.string.snapshot_manufacturer_label), manufacturers, manufacturerButton);
     }
 
-
     public void showAppearanceSelector(View view) {
         String title = getString(R.string.snapshot_grade_appearance_help);
-        int gradeAttributeArray =  R.array.snapshot_grade_appearance_array;
-        this.showGradeSelector(GRADE_OPTION.APPEARANCE.toString(), title,gradeAttributeArray,gradeAppearanceButton, GRADE_OPTION.APPEARANCE);
+        int gradeAttributeArray = R.array.snapshot_grade_appearance_array;
+        this.showGradeSelector(GRADE_OPTION.APPEARANCE.toString(), title, gradeAttributeArray, gradeAppearanceButton, GRADE_OPTION.APPEARANCE);
     }
 
     public void showFunctionalitySelector(View view) {
         String title = getString(R.string.snapshot_grade_functionality_help);
-        int gradeAttributeArray =  R.array.snapshot_grade_functionality_array;
-        this.showGradeSelector(GRADE_OPTION.FUNCTIONALITY.toString(),title,gradeAttributeArray,gradeFunctionalityButton, GRADE_OPTION.FUNCTIONALITY);
+        int gradeAttributeArray = R.array.snapshot_grade_functionality_array;
+        this.showGradeSelector(GRADE_OPTION.FUNCTIONALITY.toString(), title, gradeAttributeArray, gradeFunctionalityButton, GRADE_OPTION.FUNCTIONALITY);
     }
 
     public void showBiosSelector(View view) {
         String title = getString(R.string.snapshot_grade_bios_help);
-        int gradeAttributeArray =  R.array.snapshot_grade_bios_array;
-        this.showGradeSelector(GRADE_OPTION.BIOS.toString(),title,gradeAttributeArray,gradeBiosButton, GRADE_OPTION.BIOS);
+        int gradeAttributeArray = R.array.snapshot_grade_bios_array;
+        this.showGradeSelector(GRADE_OPTION.BIOS.toString(), title, gradeAttributeArray, gradeBiosButton, GRADE_OPTION.BIOS);
     }
 
     private void showSearchableSelector(String title, List<Manufacturer> possibleOptions, final Button searchableButton) {
@@ -609,13 +546,13 @@ public class SnapshotActivity extends ScanActivity {
         gradeHelpTextView.setText(helpText);
         RadioGroup gradeRadioGroup = (RadioGroup) gradeDialogView.findViewById(R.id.gradeRadioGroup);
         gradeRadioGroup.removeAllViews();
-            gradeRadioGroup.clearDisappearingChildren();
+        gradeRadioGroup.clearDisappearingChildren();
 
         TextView gradeTitleTextView = (TextView) gradeDialogView.findViewById(R.id.gradeTitleTextView);
         gradeTitleTextView.setText(title);
 
         String[] gradePossibleValues = getResources().getStringArray(gradeAttributeArray);
-        for (int i = 0; i< gradePossibleValues.length; i++) {
+        for (int i = 0; i < gradePossibleValues.length; i++) {
             String eachGradePossibleValue = gradePossibleValues[i];
             RadioButton gradePossibleValueButton = new RadioButton(this);
             gradePossibleValueButton.setText(eachGradePossibleValue);
@@ -645,7 +582,7 @@ public class SnapshotActivity extends ScanActivity {
 
     private void gradeSelectorCallback(int selectedItemId, Button gradeButton, int gradeAttributeArray, GRADE_OPTION gradeOption) {
         gradeButton.setText(getResources().getStringArray(gradeAttributeArray)[selectedItemId]);
-        switch(gradeOption) {
+        switch (gradeOption) {
             case APPEARANCE:
                 GradeOption appearance = new GradeOption(getResources().getStringArray(R.array.snapshot_grade_appearance_array_values)[selectedItemId]);
                 gradeConditions.setAppearance(appearance);
@@ -669,9 +606,16 @@ public class SnapshotActivity extends ScanActivity {
         asyncService.getManufacturers(this.getServer(), this.getUser());
 
     }
+
     private void retrieveManufacturers(String href) {
         AsyncService asyncService = new AsyncService(this);
         asyncService.getManufacturers(this.getServer(), this.getUser(), href);
 
+    }
+
+    static enum GRADE_OPTION {
+        APPEARANCE,
+        FUNCTIONALITY,
+        BIOS
     }
 }

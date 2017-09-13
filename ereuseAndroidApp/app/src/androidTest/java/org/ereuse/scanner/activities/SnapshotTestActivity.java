@@ -1,22 +1,14 @@
 package org.ereuse.scanner.activities;
 
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-
 import org.ereuse.scanner.GlobalTestParams;
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.User;
-import org.ereuse.scanner.services.api.ActionResponse;
 import org.ereuse.scanner.services.api.ApiException;
 import org.ereuse.scanner.services.api.ApiResponse;
-import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.services.api.ManufacturersResponse;
 import org.ereuse.scanner.services.api.SnapshotResponse;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -52,7 +44,7 @@ public class SnapshotTestActivity extends SnapshotActivity {
         testUser.email = GlobalTestParams.DEMO_USER_EMAIL;
         testUser.password = GlobalTestParams.DEMO_USER_PASSWORD;
         testUser.token = GlobalTestParams.DEMO_USER_TOKEN;
-        testUser.databases = Arrays.asList("db1");
+        testUser.databases = GlobalTestParams.DATABASES;
         return testUser;
     }
     @Override

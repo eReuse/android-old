@@ -1,7 +1,6 @@
 package org.ereuse.scanner.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jamgo SCCL.
@@ -17,8 +16,10 @@ public class User {
     public String token;
     public String role;
     public String password;
+    public Map<String, String> databases;
+    public String defaultDatabase;
 
-    public List<String> getDatabases() {
+    public Map<String, String> getDatabases() {
         return databases;
     }
 
@@ -26,10 +27,7 @@ public class User {
         return defaultDatabase;
     }
 
-    public List<String> databases;
-    public String defaultDatabase;
-
-    public void update(String email, String token, String role, String id, List<String> databases, String defaultDatabase) {
+    public void update(String email, String token, String role, String id, Map<String, String> databases, String defaultDatabase) {
         this._id = id;
         this.email = email;
         this.token = token;
@@ -42,12 +40,12 @@ public class User {
         return _id;
     }
 
-    public void setEmail (String email) {
-        this.email = email;
-    }
-
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getRole() {
@@ -62,11 +60,12 @@ public class User {
         return this.role.equals(EMPLOYEE) || this.role.equals(SUPERUSER) || this.role.equals(ADMIN);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
     public String getPassword() {
         return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

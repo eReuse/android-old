@@ -119,7 +119,7 @@ public class SnapshotActivity extends ScanActivity {
     }
 
     private void initializeSelfSnapshotLayout() {
-        this.deviceType = "Device";
+        this.deviceType = "Mobile";
         this.deviceSubType = "Smartphone";
 
         TextView deviceTypeLabel = (TextView) this.findViewById(R.id.snapshotDeviceTypeLabel);

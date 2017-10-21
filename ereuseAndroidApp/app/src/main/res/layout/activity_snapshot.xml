@@ -20,6 +20,7 @@
         />
 
     <ScrollView
+        android:id="@+id/scrollSnapshotView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ereuse_toolbar"
@@ -125,31 +126,32 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/snapshot_manufacturer_label"
                 android:textColor="@color/text"/>
-            <ImageButton
-                android:id="@+id/snapshotManufacturerScanButton"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginRight="5dp"
-                android:layout_alignBaseline="@id/snapshotManufacturerLabel"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/scan"
-                android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"
-                android:onClick="scanManufacturer"/>
-            <EditText
-                android:id="@+id/snapshotManufacturerEditText"
+
+            <!--<EditText-->
+                <!--android:id="@+id/snapshotManufacturerEditText"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/snapshotManufacturerScanButton"-->
+                <!--android:layout_below="@id/snapshotManufacturerLabel"-->
+                <!--android:inputType="text"-->
+                <!--android:textColor="@color/text" />-->
+
+            <Button
+                android:id="@+id/snapshotManufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/snapshotManufacturerScanButton"
                 android:layout_below="@id/snapshotManufacturerLabel"
                 android:inputType="text"
-                android:textColor="@color/text" />
+                android:textColor="@color/text"
+                android:text="@string/snapshot_select_text"
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showManufacturerSelector"/>
 
             <TextView
                 android:id="@+id/snapshotLicenseLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/snapshotManufacturerEditText"
+                android:layout_below="@id/snapshotManufacturer"
                 android:layout_marginTop="20dp"
                 android:text="@string/snapshot_license_label"
                 android:textColor="@color/text" />
@@ -280,16 +282,16 @@
                 android:text="@string/snapshot_grade_appearance_label"
                 android:textColor="@color/text"
                 />
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gradeAppearanceLabel"
                 android:layout_marginTop="20dp"
                 android:id="@+id/gradeAppearanceValueLabel"
-                android:text="@string/snapshot_grade_select_text"
+                android:text="@string/snapshot_select_text"
                 android:textColor="@color/grey_text"
-                android:onClick="showAppearanceSelector"
-                android:clickable="true"/>
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showAppearanceSelector"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -300,16 +302,16 @@
                 android:text="@string/snapshot_grade_functionality_label"
                 android:textColor="@color/text"
                 />
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gradeFunctionalityLabel"
                 android:layout_marginTop="20dp"
                 android:id="@+id/gradeFunctionalityValueLabel"
-                android:text="@string/snapshot_grade_select_text"
+                android:text="@string/snapshot_select_text"
                 android:textColor="@color/grey_text"
-                android:onClick="showFunctionalitySelector"
-                android:clickable="true"/>
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showFunctionalitySelector"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -320,17 +322,16 @@
                 android:text="@string/snapshot_grade_bios_label"
                 android:textColor="@color/text"
                 />
-            <TextView
+            <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gradeBiosLabel"
                 android:layout_marginTop="20dp"
                 android:id="@+id/gradeBiosValueLabel"
-                android:text="@string/snapshot_grade_select_text"
+                android:text="@string/snapshot_select_text"
                 android:textColor="@color/grey_text"
-                android:onClick="showBiosSelector"
-                android:clickable="true"/>
-            this.gradeLabelsCheckBox = (CheckBox) this.findViewById(R.id.gradeLabelsCheckBox);
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showBiosSelector"/>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

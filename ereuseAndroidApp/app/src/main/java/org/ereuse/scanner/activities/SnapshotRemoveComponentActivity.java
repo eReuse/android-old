@@ -1,92 +1,47 @@
 package org.ereuse.scanner.activities;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-
 import org.ereuse.scanner.R;
-import org.ereuse.scanner.data.Device;
-import org.ereuse.scanner.data.Grade;
-import org.ereuse.scanner.data.GradeOption;
-import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.AsyncService;
-import org.ereuse.scanner.services.api.ApiException;
-import org.ereuse.scanner.services.api.ApiResponse;
-import org.ereuse.scanner.services.api.ApiServices;
-import org.ereuse.scanner.services.api.ApiServicesImpl;
-import org.ereuse.scanner.services.api.EventUndoResponse;
-import org.ereuse.scanner.services.api.SnapshotRequest;
-import org.ereuse.scanner.services.api.SnapshotResponse;
-import org.springframework.util.StringUtils;
+import org.ereuse.scanner.services.api.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Jamgo SCCL.
  */
 public class SnapshotRemoveComponentActivity extends ScanActivity {
 
-    private SubMenu selectDb;
-    ArrayList<String> databases;
-
-    EditText parentSystemEditText;
-
-    Spinner componentTypeSpinner;
-    String componentType;
-
-    EditText serialNumberEditText;
-    EditText modelEditText;
-    EditText manufacturerEditText;
-
-    EditText commentsEditText;
-
-    private String currentLinkComponentToParentEvent;
-
     private static final List<String> REMOVABLEDEVICETYPES;
 
     static {
-        List<String> removableDeviceTypesMap = Arrays.asList("HardDrive", "GraphicCard", "MotherBoard", "NetworkAdapter", "OpticalDrive", "Processor", "RamModule","SosundCard");
+        List<String> removableDeviceTypesMap = Arrays.asList("HardDrive", "GraphicCard", "MotherBoard", "NetworkAdapter", "OpticalDrive", "Processor", "RamModule", "SosundCard");
         REMOVABLEDEVICETYPES = removableDeviceTypesMap;
     }
+
+    EditText parentSystemEditText;
+    Spinner componentTypeSpinner;
+    String componentType;
+    EditText serialNumberEditText;
+    EditText modelEditText;
+    EditText manufacturerEditText;
+    EditText commentsEditText;
+    private String currentLinkComponentToParentEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snapshot_remove_component);
-        databases = getScannerApplication().getUser().getDatabases();
-        setToolbar();
-
         this.initLayout();
+        setToolbar();
     }
 
     private void initLayout() {
@@ -111,6 +66,7 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
                 String selectedComponentType = (String) adapterView.getItemAtPosition(i);
                 componentType = selectedComponentType;
             }
+
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
@@ -121,28 +77,6 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
     protected void onResume() {
         super.onResume();
         checkLogin();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_db_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_select_db);
-        selectDb = item.getSubMenu();
-        SetDatabase setDatabase = new SetDatabase();
-        for (String database : databases)
-            selectDb.add(database).setOnMenuItemClickListener(setDatabase);
-        return true;
-    }
-
-
-    class SetDatabase implements MenuItem.OnMenuItemClickListener {
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            ApiServicesImpl.setDb(item.getTitleCondensed().toString());
-            return true;
-        }
     }
 
     public void sendRemoveComponentSnapshot(View view) {
@@ -216,8 +150,7 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
                 currentLinkComponentToParentEvent = snapshotResponse.get_id();
                 this.removeComponentFromDevice(snapshotResponse.getdeviceId());
             }
-        }
-        else if (!(response instanceof EventUndoResponse)) {
+        } else if (!(response instanceof EventUndoResponse)) {
             this.resetFields();
             launchActionMessageDialog(getString(R.string.snapshot_remove_component_success), true);
         }
@@ -233,7 +166,6 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
         }
     }
 
-
     private void resetFields() {
         this.parentSystemEditText.setText("");
         this.serialNumberEditText.setText("");
@@ -241,7 +173,6 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
         this.modelEditText.setText("");
 
     }
-
 
     /* barcode scan actions */
     public void scanSerialNumber(View view) {
@@ -256,7 +187,6 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
         checkCameraPermission(REQUEST_CODE_MANUFACTURER_CAMERA_PERMISSIONS);
     }
 
-
     public void scanParentSystemId(View view) {
         checkCameraPermission(REQUEST_CODE_SYSTEM_CAMERA_PERMISSIONS);
     }
@@ -264,8 +194,8 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
     @Override
     protected void launchScanAction(int permissionCode) {
         Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-        intent.putExtra(BarcodeCaptureActivity.AutoFocus,true);
-        intent.putExtra(BarcodeCaptureActivity.UseFlash,false);
+        intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+        intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
 
         startActivityForResult(intent, permissionCode);
     }
@@ -287,7 +217,6 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     private void fillScannedCode(String scannedCode, int requestCode) {
 
@@ -313,8 +242,17 @@ public class SnapshotRemoveComponentActivity extends ScanActivity {
     private String getSystemIdFromUrl(String scannedCode) {
         String[] splittedUrl = scannedCode.split("/");
         if (splittedUrl.length > 1) {
-            return splittedUrl[splittedUrl.length -1 ];
+            return splittedUrl[splittedUrl.length - 1];
         }
         return scannedCode;
+    }
+
+    class SetDatabase implements MenuItem.OnMenuItemClickListener {
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            ApiServicesImpl.setDb(item.getTitleCondensed().toString());
+            return true;
+        }
     }
 }

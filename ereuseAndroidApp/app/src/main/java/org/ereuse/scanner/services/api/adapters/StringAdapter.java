@@ -10,7 +10,7 @@ import com.google.gson.TypeAdapter;
 import java.lang.reflect.Type;
 
 /**
- * Created by martin on 4/04/17.
+ * Created by Jamgo SCCL on 4/04/17.
  */
 
 public class StringAdapter implements JsonSerializer<String> {

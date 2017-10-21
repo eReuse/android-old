@@ -17,8 +17,8 @@ public class LocateRequest extends ActionRequest implements ApiRequest {
     @SerializedName("@type")
     private String type = "Locate";
 
-    public LocateRequest(User user, List<String> devicesList, String comment, Location location) {
-        super(user, devicesList, comment, location);
+    public LocateRequest(User user, String label, List<String> devicesList, String comment, Location location) {
+        super(user, label, devicesList, comment, location);
     }
 
 

@@ -52,10 +52,10 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
     private static final float ACCURACY_THRESHOLD = 20.0f;
 
     private String mode;
-    private List<String> deviceIds;
+    protected List<String> deviceIds;
 
     private TableLayout tableLayout;
-    private Location location;
+    protected Location location;
     private GoogleMap map;
     private TextView tv_location;
 
@@ -83,7 +83,7 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
         EditText receiverEmailLabel = (EditText) this.findViewById(R.id.formReceiverEmailEditText);
         TextView receiverEmailText = (TextView) this.findViewById(R.id.formReceiverEmailLabel);
         TextView receiverNameText = (TextView) this.findViewById(R.id.formReceiverEmailLabel);
-        if (this.mode.equals(MODE_LOCATE)) {
+        if (MODE_LOCATE.equals(this.mode)) {
             cb.setVisibility(View.GONE);
             receiverEmailLabel.setVisibility(View.GONE);
             receiverEmailText.setVisibility(View.GONE);
@@ -118,6 +118,13 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
 
         setToolbar();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.getScannerApplication().triggerLocationStopper();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -127,12 +134,13 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
             if(fineLocationPermissionCheck != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ACCESS_FINE_PERMISSIONS);
                 return;
-            } else {
-                ValidationService.checkInternetConnection(this);
             }
-        } else {
-            ValidationService.checkInternetConnection(this);
         }
+
+        ValidationService.checkInternetConnection(this);
+
+        this.initLocation();
+        ValidationService.checkLocationConnection(this);
 
         if (checkRelaunchActionFromNewPlace.isChecked()) {
             checkRelaunchActionFromNewPlace.setChecked(false);
@@ -140,7 +148,7 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
         }
 
         this.getScannerApplication().setCurrentLocationActivity(this);
-        this.updateLocationUI(this.getScannerApplication().getLoginActivity().getLocation());
+        this.updateLocationUI(this.getScannerApplication().getLocation());
 
         checkLogin();
     }
@@ -223,19 +231,20 @@ public class FormActivity extends ScanActivity implements OnMapReadyCallback, Lo
             if (doValidate()) {
                 AsyncService asyncService = new AsyncService(this);
 
+                String eventLabel = ((TextView) findViewById(R.id.titleEditText)).getText().toString();
                 String message = ((TextView) findViewById(R.id.commentsEditText)).getText().toString();
                 String unregisteredReceiver = ((TextView) findViewById(R.id.formReceiverEmailEditText)).getText().toString();
                 boolean acceptedConditions = ((CheckBox) findViewById(R.id.formTermsAndConditionsCheckBox)).isChecked();
 
                 switch (this.mode) {
                     case MODE_LOCATE:
-                        asyncService.doLocate(this.getServer(), this.getUser(), this.deviceIds, message, location);
+                        asyncService.doLocate(this.getServer(), this.getUser(), eventLabel, this.deviceIds, message, location);
                         break;
                     case MODE_RECEIVE:
-                        asyncService.doReceive(this.getServer(), this.getUser(), unregisteredReceiver, location, this.deviceIds, message, acceptedConditions);
+                        asyncService.doReceive(this.getServer(), this.getUser(), unregisteredReceiver, location, eventLabel, this.deviceIds, message, acceptedConditions);
                         break;
                     case MODE_RECYCLE:
-                        asyncService.doRecycle(this.getServer(), this.getUser(), unregisteredReceiver, location, this.deviceIds, message, acceptedConditions);
+                        asyncService.doRecycle(this.getServer(), this.getUser(), unregisteredReceiver, location, eventLabel, this.deviceIds, message, acceptedConditions);
                         break;
                 }
             }

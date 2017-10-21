@@ -1,6 +1,6 @@
 package org.ereuse.scanner.services.api;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Jamgo SCCL.
@@ -12,7 +12,7 @@ public class LoginResponse implements ApiResponse {
     public String role;
     public String password;
     public String defaultDatabase;
-    public ArrayList<String> databases;
+    public Map<String, String> databases;
 
     public String getDefaultDatabase() {
         return defaultDatabase;
@@ -22,11 +22,11 @@ public class LoginResponse implements ApiResponse {
         this.defaultDatabase = defaultDatabase;
     }
 
-    public ArrayList<String> getDatabases() {
+    public Map<String, String> getDatabases() {
         return databases;
     }
 
-    public void setDatabases(ArrayList<String> databases) {
+    public void setDatabases(Map<String, String> databases) {
         this.databases = databases;
     }
 

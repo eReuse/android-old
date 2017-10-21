@@ -20,6 +20,7 @@
         />
 
     <ScrollView
+        android:id="@+id/scrollFormView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ereuse_toolbar"
@@ -35,7 +36,23 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/titleLabel"
+                android:text="@string/form_title_label" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleLabel"
+                android:inputType="textMultiLine"
+                android:id="@+id/titleEditText"
+                android:gravity="left"
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/devicesLabel"
+                android:layout_below="@id/titleEditText"
                 android:text="@string/form_devices_label" />
 
             <TableLayout

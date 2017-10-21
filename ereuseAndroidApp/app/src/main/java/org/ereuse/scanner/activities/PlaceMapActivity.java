@@ -48,12 +48,23 @@ public class PlaceMapActivity extends AsyncActivity implements GoogleMap.OnMapCl
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        this.getScannerApplication().triggerLocationStopper();
+    }
+
+    @Override
     protected void onResume(){
         super.onResume();
         ValidationService.checkInternetConnection(this);
+
+        this.initLocation();
+        this.getScannerApplication().triggerLocationStarter();
+        ValidationService.checkLocationConnection(this);
+
         checkLogin();
         this.getScannerApplication().setCurrentLocationActivity(this);
-        this.updateLocationUI(this.getScannerApplication().getLoginActivity().getLocation());
+        this.updateLocationUI(this.getScannerApplication().getLocation());
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("mapHelpShown", false)) {

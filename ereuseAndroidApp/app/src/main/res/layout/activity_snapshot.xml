@@ -20,6 +20,7 @@
         />
 
     <ScrollView
+        android:id="@+id/scrollSnapshotView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ereuse_toolbar"
@@ -125,31 +126,32 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/snapshot_manufacturer_label"
                 android:textColor="@color/text"/>
-            <ImageButton
-                android:id="@+id/snapshotManufacturerScanButton"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginRight="5dp"
-                android:layout_alignBaseline="@id/snapshotManufacturerLabel"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/scan"
-                android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"
-                android:onClick="scanManufacturer"/>
-            <EditText
-                android:id="@+id/snapshotManufacturerEditText"
+
+            <!--<EditText-->
+                <!--android:id="@+id/snapshotManufacturerEditText"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@id/snapshotManufacturerScanButton"-->
+                <!--android:layout_below="@id/snapshotManufacturerLabel"-->
+                <!--android:inputType="text"-->
+                <!--android:textColor="@color/text" />-->
+
+            <Button
+                android:id="@+id/snapshotManufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/snapshotManufacturerScanButton"
                 android:layout_below="@id/snapshotManufacturerLabel"
                 android:inputType="text"
-                android:textColor="@color/text" />
+                android:textColor="@color/text"
+                android:text="@string/snapshot_select_text"
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showManufacturerSelector"/>
 
             <TextView
                 android:id="@+id/snapshotLicenseLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/snapshotManufacturerEditText"
+                android:layout_below="@id/snapshotManufacturer"
                 android:layout_marginTop="20dp"
                 android:text="@string/snapshot_license_label"
                 android:textColor="@color/text" />
@@ -260,10 +262,98 @@
                 android:layout_below="@id/snapshotSystemLabel"
                 android:inputType="text"
                 android:textColor="@color/text"/>
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/snapshotSystemEditText"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeLabel"
+                android:text="@string/snapshot_grade_label"
+                android:textColor="@color/text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeAppearanceLabel"
+                android:text="@string/snapshot_grade_appearance_label"
+                android:textColor="@color/text"
+                />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeAppearanceLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeAppearanceValueLabel"
+                android:text="@string/snapshot_select_text"
+                android:textColor="@color/grey_text"
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showAppearanceSelector"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeAppearanceValueLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeFunctionalityLabel"
+                android:text="@string/snapshot_grade_functionality_label"
+                android:textColor="@color/text"
+                />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeFunctionalityLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeFunctionalityValueLabel"
+                android:text="@string/snapshot_select_text"
+                android:textColor="@color/grey_text"
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showFunctionalitySelector"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeFunctionalityValueLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeBiosLabel"
+                android:text="@string/snapshot_grade_bios_label"
+                android:textColor="@color/text"
+                />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeBiosLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeBiosValueLabel"
+                android:text="@string/snapshot_select_text"
+                android:textColor="@color/grey_text"
+                style="@style/Widget.AppCompat.Spinner"
+                android:onClick="showBiosSelector"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeBiosValueLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeLabelsLabel"
+                android:text="@string/snapshot_grade_labels_label"
+                android:textColor="@color/text"
+                />
+            <CheckBox
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeLabelsLabel"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gradeLabelsCheckBox"
+                android:text="@string/snapshot_grade_labels_help"
+                android:textColor="@color/grey_text" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gradeLabelsCheckBox"
                 android:layout_marginTop="20dp"
                 android:id="@+id/snapshotCommentsLabel"
                 android:text="@string/form_comments_label"
@@ -285,7 +375,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/activity_bottom_margin"
                 android:id="@+id/sendSnapshotButton"
-                android:text="@string/send_snapshot_button"
+                android:text="@string/snapshot_send_button"
                 android:onClick="sendSnapshot"
                 android:textColor="@color/white"
                 android:background="@color/emphasis_2"/>
@@ -299,4 +389,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="199dp" />
+    <include layout="@layout/activity_snapshot_help" />
 </RelativeLayout>

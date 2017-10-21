@@ -7,7 +7,11 @@
     <color name="emphasis_12">#88BDC647</color>
     <color name="emphasis_2">#FF565193</color>
     <color name="emphasis_3">#FF171717</color>
+    <color name="panel">#44888888</color>
     <color name="disabled">#40000000</color>
     <color name="help_background">#B0000000</color>
+    <color name="darker_help_background">#df000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="grey_text">#666</color>
+    <color name="black">#000</color>
 </resources>

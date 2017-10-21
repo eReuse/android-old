@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 
 import org.ereuse.scanner.data.Device;
+import org.ereuse.scanner.data.Grade;
+import org.ereuse.scanner.data.GradeOption;
 
 /**
  * Created by Jamgo SCCL.
@@ -16,27 +18,32 @@ public class SnapshotRequest implements ApiRequest {
 
     private Device device;
 
+    private Grade condition;
+
     @SerializedName("@type")
     private String type = "devices:Snapshot";
 
-    // private String licenseKey;
+   // private String licenseKey;
 
     private String comment;
 
     private String snapshotSoftware = "Scan";
 
-    public SnapshotRequest(String user, String deviceType, String deviceSubType, String serialNumber, String model, String manufacturer, String licenseKey, String giverId, String refurbisherId, String systemId, String comment) {
+    public SnapshotRequest(String user, String deviceType, String deviceSubType, String serialNumber, String model, String manufacturer, String licenseKey, String giverId, String refurbisherId, String systemId, String comment, Grade gradeConditions) {
 
         this.device = new Device();
         device.setDeviceType(deviceType);
         device.setDeviceSubType(deviceSubType);
+
         if (this.isNotBlank(serialNumber)) device.setSerialNumber(serialNumber);
         if (this.isNotBlank(model)) device.setModel(model);
         if (this.isNotBlank(manufacturer)) device.setManufacturer(manufacturer);
-
+ 
         if (this.isNotBlank(giverId)) this.device.setGiverId(giverId);
         if (this.isNotBlank(refurbisherId)) this.device.setRefurbisherId(refurbisherId);
         if (this.isNotBlank(systemId)) this.device.setSystemId(systemId);
+
+        this.condition = gradeConditions;
 
 //        this.user = user;
 //        this.licenseKey = licenseKey;
@@ -47,16 +54,15 @@ public class SnapshotRequest implements ApiRequest {
     private boolean isNotBlank(String string) {
         return !TextUtils.isEmpty(string) && TextUtils.getTrimmedLength(string) > 0;
     }
+/*
+    public String getUser() {
+        return user;
+    }
 
-    /*
-        public String getUser() {
-            return user;
-        }
-
-        public void setUser(String user) {
-            this.user = user;
-        }
-    */
+    public void setUser(String user) {
+        this.user = user;
+    }
+*/
 /*    public String getLicenseKey() {
         return licenseKey;
     }

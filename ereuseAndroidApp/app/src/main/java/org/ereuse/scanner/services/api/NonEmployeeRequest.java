@@ -21,8 +21,8 @@ public class NonEmployeeRequest extends ActionRequest implements ApiRequest {
     @SerializedName("@type")
     protected String arrobatype = "Receive";
 
-    public NonEmployeeRequest(User user, List<String> devicesList, String message, Location location, boolean acceptedConditions, String type) {
-        super(user, devicesList, message, location);
+    public NonEmployeeRequest(User user, String label, List<String> devicesList, String message, Location location, boolean acceptedConditions, String type) {
+        super(user, label, devicesList, message, location);
         this.acceptedConditions = acceptedConditions;
         this.receiver = user.get_id();
         this.type = type;

@@ -1,14 +1,9 @@
 package org.ereuse.scanner.services.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-
-import org.springframework.http.HttpAuthentication;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
@@ -34,6 +29,9 @@ public class ApiServicesImpl implements ApiServices {
     private static final HttpMethod HTTP_METHOD_EVENTS = HttpMethod.GET;
     private static final HttpMethod HTTP_METHOD_PLACE = HttpMethod.POST;
     private static final HttpMethod HTTP_METHOD_SNAPSHOT = HttpMethod.POST;
+    private static final HttpMethod HTTP_METHOD_EVENTS_UNDO = HttpMethod.DELETE;
+    private static final HttpMethod HTTP_METHOD_EVENTS_GENERIC = HttpMethod.POST;
+    private static final HttpMethod HTTP_METHOD_MANUFACTURERS = HttpMethod.GET;
 
     private static String db;
     private static final String PATH_LOGIN = "login";
@@ -43,6 +41,10 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_EVENTS = "events";
     private static final String PATH_PLACE = "places";
     private static final String PATH_SNAPSHOT = "events/devices/snapshot";
+    private static final String PATH_REMOVE_DEVICE_COMPONENT = "events/devices/remove";
+    private static final String PATH_GENERIC_EVENT= "events/devices/";
+    private static final String PATH_MANUFACTURERS = "manufacturers";
+
 
     private String server;
     private String token;
@@ -56,28 +58,51 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     @Override
-    public ApiResponse execute(String method, ApiRequest request) throws ApiException {
+    public ApiResponse execute(ApiRequest request, String... methods) throws ApiException {
         ApiResponse response = null;
 
-        // TODO add other API methods, use switch instead of if statement
-        if (method.equals(METHOD_LOGIN)) {
-            response = this.login(request);
-        } else if (method.equals(METHOD_DEVICE)) {
-            response = this.device(request);
-        } else if (method.equals(METHOD_LOCATE)) {
-            response = this.locate(request);
-        } else if (method.equals(METHOD_RECEIVE)) {
-            response = this.receive(request);
-        } else if (method.equals(METHOD_RECYCLE)) {
-            response = this.recycle(request);
-        } else if (method.equals(METHOD_EVENTS)) {
-            response = this.events(request);
-        }  else if (method.equals(METHOD_PLACE)) {
-            response = this.place(request);
-        } else if (method.equals(METHOD_SNAPSHOT)) {
-            response = this.snapshot(request);
-        } else {
-            throw new ApiException("Not implemented method: " + method);
+        String method = methods[0];
+
+        switch (method) {
+            case METHOD_LOGIN:
+                response = this.login(request);
+                break;
+            case METHOD_DEVICE:
+                response = this.device(request);
+                break;
+            case METHOD_LOCATE:
+                response = this.locate(request);
+                break;
+            case METHOD_RECEIVE:
+                response = this.receive(request);
+                break;
+            case METHOD_RECYCLE:
+                response = this.recycle(request);
+                break;
+            case METHOD_EVENTS:
+                response = this.events(request);
+                break;
+            case METHOD_PLACE:
+                response = this.place(request);
+                break;
+            case METHOD_SNAPSHOT:
+                response = this.snapshot(request);
+                break;
+            case METHOD_DEVICE_COMPONENT_REMOVE:
+                response = this.removeDeviceComponent(request);
+                break;
+            case METHOD_EVENT_UNDO:
+                response = this.undoEvent(request);
+                break;
+            case METHOD_GENERIC_EVENT:
+                String genericEventType = methods[1];
+                response = this.genericEvent(request, genericEventType);
+                break;
+            case METHOD_MANUFACTURERS:
+                response = this.manufacturers(request, methods);
+                break;
+            default:
+                throw new ApiException("Not implemented method: " + method);
         }
 
         return response;
@@ -154,9 +179,17 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private SnapshotResponse snapshot(final ApiRequest request) throws ApiException {
+
+//        Gson requestGson = new GsonBuilder().registerTypeHierarchyAdapter(String.class, new StringAdapter()).create();
+//        System.out.println(requestGson.toJson(request));
+
         String url = this.server + db + PATH_SNAPSHOT;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+
+        //        Gson requestGson = new GsonBuilder().registerTypeHierarchyAdapter(String.class, new StringAdapter()).create();
+//        System.out.println(requestGson.toJson(request));
+
         try {
             ResponseEntity<SnapshotResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, SnapshotResponse.class);
             return response.getBody();
@@ -165,13 +198,66 @@ public class ApiServicesImpl implements ApiServices {
         }
     }
 
+    private DeviceComponentRemoveResponse removeDeviceComponent(final ApiRequest request) throws ApiException {
+        String url = this.server + db + PATH_REMOVE_DEVICE_COMPONENT;
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+
+        try {
+            Gson requestGson = new GsonBuilder().create();
+            System.out.println(requestGson.toJson(request));
+            ResponseEntity<DeviceComponentRemoveResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_SNAPSHOT, requestEntity, DeviceComponentRemoveResponse.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private ActionResponse genericEvent(final ApiRequest request, String genericEventType) throws ApiException {
+        String url = this.server + db + PATH_GENERIC_EVENT + GenericEventType.GENERIC_EVENT_PATH_MAP.get(genericEventType);
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
+        ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS_GENERIC, requestEntity, ActionResponse.class);
+        ActionResponse actionResponse = response.getBody();
+        actionResponse.setActionType(ActionResponse.ActionType.GENERIC);
+        return response.getBody();
+    }
+
+    private ApiResponse undoEvent(final ApiRequest request) throws ApiException {
+        EventUndoRequest eventUndoRequest = (EventUndoRequest) request;
+        String url = this.server + db + PATH_EVENTS + "/" + eventUndoRequest.getId();
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(null, this.getRequestHeaders(true));
+
+        try {
+            ResponseEntity<ApiResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS_UNDO, requestEntity, ApiResponse.class);
+            EventUndoResponse responseBody = new EventUndoResponse();
+            responseBody.setCode(response.getStatusCode().value());
+            return responseBody;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private ManufacturersResponse manufacturers(final ApiRequest request, String... methods) throws ApiException {
+        String url = this.server + PATH_MANUFACTURERS;
+
+        for (int i = 1; i < methods.length; i++) {
+            url += "?" + methods[i];
+        }
+
+        HttpEntity<?> requestEntity = new HttpEntity<Object>(this.getRequestHeaders(true));
+        ResponseEntity<ManufacturersResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_MANUFACTURERS, requestEntity, ManufacturersResponse.class);
+        return response.getBody();
+    }
+
     private HttpHeaders getRequestHeaders(boolean authorization) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(MEDIA_TYPE_LIST);
-        requestHeaders.set("Connection", "Close");
+   //     requestHeaders.set("Connection", "Close");
         if (authorization) {
             requestHeaders.setAuthorization(new EreuseHttpAuthenticationHeader(this.token));
         }
+       // requestHeaders.setContentType(MEDIA_TYPE_LIST.get(0));
         return requestHeaders;
     }
 

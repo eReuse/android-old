@@ -58,7 +58,27 @@
             android:name=".activities.SnapshotActivity"
             android:label="@string/title_activity_snapshot"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.BarcodeCaptureActivity"></activity>
+        <activity
+            android:name=".activities.SnapshotRemoveComponentActivity"
+            android:label="@string/title_activity_remove_component_snapshot"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.WorkbenchActivity"
+            android:label="@string/title_activity_workbench_snapshot"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.EventsChooseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.FormGenericActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.BarcodeCaptureActivity" />
+        <activity android:name=".activities.LoginTestActivity" />
+        <activity android:name=".activities.GenericEventTestActivity" />
+        <activity android:name=".activities.SnapshotTestActivity" />
+        <activity android:name=".activities.LocateTestActivity" />
     </application>
 
 </manifest>

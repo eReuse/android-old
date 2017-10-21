@@ -10,8 +10,12 @@ public interface ApiServices {
     String METHOD_PLACE = "place";
     String METHOD_EVENTS = "events";
     String METHOD_SNAPSHOT = "snapshot";
+    String METHOD_DEVICE_COMPONENT_REMOVE = "remove";
+    String METHOD_EVENT_UNDO = "undo";
+    String METHOD_GENERIC_EVENT = "generic";
+    String METHOD_MANUFACTURERS = "manufacturers";
     // TODO Add other API methods
 
-    ApiResponse execute(String method, ApiRequest request) throws ApiException;
+    ApiResponse execute(ApiRequest request, String... method) throws ApiException;
 
 }

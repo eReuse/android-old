@@ -3,7 +3,6 @@ package org.ereuse.scanner.services.api;
 import com.google.gson.annotations.SerializedName;
 
 import org.ereuse.scanner.data.Link;
-import org.ereuse.scanner.data.Links;
 
 /**
  * Created by Jamgo SCCL.
@@ -12,6 +11,9 @@ public class SnapshotResponse implements ApiResponse {
 
     @SerializedName("_id")
     private String id;
+
+    @SerializedName("device")
+    private String deviceId;
 
     @SerializedName("_created")
     private String created;
@@ -27,6 +29,14 @@ public class SnapshotResponse implements ApiResponse {
 
     @SerializedName("@type")
     private String type;
+
+    public String getdeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     public String get_id() {
         return id;

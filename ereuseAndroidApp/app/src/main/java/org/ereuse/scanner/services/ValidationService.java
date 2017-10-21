@@ -21,8 +21,6 @@ public class ValidationService {
     public static boolean checkInternetConnection(AsyncActivity sourceActivity) {
 
         boolean isConnected = false;
-        boolean GPSLocationEnabled = false;
-        boolean NetworkLocationEnabled = false;
 
         ScannerApplication scanApp = sourceActivity.getScannerApplication();
 
@@ -42,6 +40,15 @@ public class ValidationService {
             return false;
         }
 
+        return true;
+}
+
+    public static boolean checkLocationConnection(AsyncActivity sourceActivity) {
+
+        boolean GPSLocationEnabled = false;
+        boolean NetworkLocationEnabled = false;
+
+        ScannerApplication scanApp = sourceActivity.getScannerApplication();
         LocationManager lm = (LocationManager)sourceActivity.getSystemService(Context.LOCATION_SERVICE);
 
         try {
@@ -53,6 +60,7 @@ public class ValidationService {
 
         if (!NetworkLocationEnabled && !GPSLocationEnabled){
             scanApp.setGPSDialogShown(false);
+            scanApp.setLocation(null);
             launchActionMessageDialog(sourceActivity,
                     scanApp.getString(R.string.dialog_validation_location_disabled_title),
                     scanApp.getString(R.string.dialog_validation_location_disabled_message),
@@ -67,7 +75,7 @@ public class ValidationService {
         }
 
         return true;
-}
+    }
 
     private static void launchActionMessageDialog(final Context context, String title, String message,final String settingsMenu) {
         //Show action result

@@ -2,17 +2,13 @@ package org.ereuse.scanner.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import org.ereuse.scanner.R;
 import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.AsyncService;
@@ -100,11 +96,6 @@ public class LoginActivity extends AsyncActivity {
             AsyncService asyncService = new AsyncService(this);
             asyncService.doLogin(email, password, server);
         }
-    }
-
-    public void doNoLoginWorkbench(View view) {
-        Intent workbenchIntent = new Intent(this, WorkbenchActivity.class);
-        startActivity(workbenchIntent);
     }
 
 

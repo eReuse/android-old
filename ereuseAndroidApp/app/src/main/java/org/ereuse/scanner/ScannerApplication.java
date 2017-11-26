@@ -29,6 +29,7 @@ public class ScannerApplication extends Application {
 
     private boolean debug = true;
     private String server;
+    private String clientServer;
     private User user;
     private boolean gpsDialogShown = false;
     private Timer timer;
@@ -52,6 +53,21 @@ public class ScannerApplication extends Application {
     }
     public void setServer(String server) {
         this.server = server;
+        // todo workaround, please take it from devicehub directly
+        switch (server) {
+            case "https://api.devicetag.io/":
+                this.clientServer = "https://www.devicetag.io/app";
+                break;
+            case "https://api-us.devicetag.io/":
+                this.clientServer = "https://us.devicetag.io";
+                break;
+            case "https://api-beta.devicetag.io/":
+                this.clientServer = "https://beta.devicetag.io/app";
+                break;
+            case "http://devicehub.ereuse.net/":
+                this.clientServer = "http://devicehub-client.ereuse.net";
+                break;
+        }
     }
 
     public User getUser() {
@@ -206,5 +222,9 @@ public class ScannerApplication extends Application {
         if (this.debug) {
             System.out.println("[eReuseApp] ["+tag+"] "+message);
         }
+    }
+
+    public String getClientServer() {
+        return clientServer;
     }
 }

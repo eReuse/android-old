@@ -8,8 +8,8 @@ android {
         minSdkVersion 13
         targetSdkVersion 23
 
-        versionCode 10502
-        versionName '1.5.2'
+        versionCode 10600
+        versionName '1.6.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

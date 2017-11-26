@@ -52,7 +52,7 @@ public abstract class AsyncActivity extends BaseActivity {
         return this.getScannerApplication().getServer();
     }
 
-    public String getClientServer(){
+    public String getClientServer() {
         return this.getScannerApplication().getClientServer();
     }
 
@@ -106,7 +106,7 @@ public abstract class AsyncActivity extends BaseActivity {
         this.enableLayoutFields();
         this.stopProgressBar();
 
-        if(AsyncService.ERROR_NO_SUCH_PLACE.equals(exception.getResponseBody().getType())) {
+        if (AsyncService.ERROR_NO_SUCH_PLACE.equals(exception.getResponseBody().getType())) {
             AlertDialog.Builder noSuchPlaceDialog = new AlertDialog.Builder(this);
             noSuchPlaceDialog.setTitle(exception.getResponseBody().getMessage());
             noSuchPlaceDialog.setMessage("Please, create a new Place for your current location");

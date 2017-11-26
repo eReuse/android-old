@@ -42,7 +42,7 @@ public class ApiServicesImpl implements ApiServices {
     private static final String PATH_PLACE = "places";
     private static final String PATH_SNAPSHOT = "events/devices/snapshot";
     private static final String PATH_REMOVE_DEVICE_COMPONENT = "events/devices/remove";
-    private static final String PATH_GENERIC_EVENT= "events/devices/";
+    private static final String PATH_GENERIC_EVENT = "events/devices/";
     private static final String PATH_MANUFACTURERS = "manufacturers";
 
 
@@ -253,11 +253,11 @@ public class ApiServicesImpl implements ApiServices {
     private HttpHeaders getRequestHeaders(boolean authorization) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(MEDIA_TYPE_LIST);
-   //     requestHeaders.set("Connection", "Close");
+        //     requestHeaders.set("Connection", "Close");
         if (authorization) {
             requestHeaders.setAuthorization(new EreuseHttpAuthenticationHeader(this.token));
         }
-       // requestHeaders.setContentType(MEDIA_TYPE_LIST.get(0));
+        // requestHeaders.setContentType(MEDIA_TYPE_LIST.get(0));
         return requestHeaders;
     }
 

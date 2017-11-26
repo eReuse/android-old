@@ -36,11 +36,11 @@ public class LoginActivity extends AsyncActivity {
         spinner.setAdapter(adapter);
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
         //If login succeeded and different user from the stored one, then update the user information
-        String userEmailPreference = sharedPreferences.getString("user","");
-        String userPasswordPreference = sharedPreferences.getString("password","");
+        String userEmailPreference = sharedPreferences.getString("user", "");
+        String userPasswordPreference = sharedPreferences.getString("password", "");
 
         EditText emailEditText = (EditText) findViewById(R.id.emailEditText);
         EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -54,7 +54,7 @@ public class LoginActivity extends AsyncActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         checkAllPermissions();
         ValidationService.checkInternetConnection(this);
@@ -88,7 +88,7 @@ public class LoginActivity extends AsyncActivity {
             user.setPassword(password);
             user.setEmail(email);
             getScannerApplication().setUser(user);
-            logDebug("LoginActivity","server = " + server + ", email = " + email + ", password = " + password);
+            logDebug("LoginActivity", "server = " + server + ", email = " + email + ", password = " + password);
             // TODO Validate mandatory fields
 
             // do login
@@ -129,13 +129,13 @@ public class LoginActivity extends AsyncActivity {
         // Go to next activity
         Intent chooseIntent = new Intent(this, ChooseActivity.class);
         startActivity(chooseIntent);
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
         //If login succeeded and different user from the stored one, then update the user information
         String userEmailPreference = sharedPreferences.getString("user", "");
-        if(!user.getEmail().equals(userEmailPreference)) {
+        if (!user.getEmail().equals(userEmailPreference)) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("user",user.getEmail());
+            editor.putString("user", user.getEmail());
             editor.putString("password", user.getPassword());
             editor.commit();
         }

@@ -51,6 +51,7 @@ public class ScannerApplication extends Application {
     public String getServer() {
         return server;
     }
+
     public void setServer(String server) {
         this.server = server;
         // todo workaround, please take it from devicehub directly
@@ -73,16 +74,23 @@ public class ScannerApplication extends Application {
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setLatestSuccessfulSnapshot(Device latestSuccessfulSnapshot) { this.latestSuccessfulSnapshot = latestSuccessfulSnapshot; }
-    public Device getLatestSuccessfulSnapshot() { return latestSuccessfulSnapshot; }
+    public void setLatestSuccessfulSnapshot(Device latestSuccessfulSnapshot) {
+        this.latestSuccessfulSnapshot = latestSuccessfulSnapshot;
+    }
+
+    public Device getLatestSuccessfulSnapshot() {
+        return latestSuccessfulSnapshot;
+    }
 
     public Integer getScanType() {
         return this.scanType;
     }
+
     public void setScanType(Integer scanType) {
         this.scanType = scanType;
     }
@@ -94,20 +102,34 @@ public class ScannerApplication extends Application {
     public void setGPSDialogShown(boolean gpsDialogShown) {
         this.gpsDialogShown = gpsDialogShown;
     }
+
     public boolean getGPSDialogShown() {
-       return this.gpsDialogShown;
+        return this.gpsDialogShown;
     }
 
     public LoginActivity getLoginActivity() {
         return this.loginActivity;
     }
-    public void setLoginActivity(LoginActivity loginActivity) { this.loginActivity = loginActivity; }
 
-    public LocationListenerActivity getCurrentLocationActivity() { return this.currentLocationActivity; }
-    public void setCurrentLocationActivity(LocationListenerActivity currentLocationActivity) { this.currentLocationActivity = currentLocationActivity; }
+    public void setLoginActivity(LoginActivity loginActivity) {
+        this.loginActivity = loginActivity;
+    }
 
-    public List<Manufacturer> getManufacturers() { return manufacturers; }
-    public void setManufacturers(List<Manufacturer> manufacturers) { this.manufacturers = manufacturers; }
+    public LocationListenerActivity getCurrentLocationActivity() {
+        return this.currentLocationActivity;
+    }
+
+    public void setCurrentLocationActivity(LocationListenerActivity currentLocationActivity) {
+        this.currentLocationActivity = currentLocationActivity;
+    }
+
+    public List<Manufacturer> getManufacturers() {
+        return manufacturers;
+    }
+
+    public void setManufacturers(List<Manufacturer> manufacturers) {
+        this.manufacturers = manufacturers;
+    }
 
     public Location getLocation() {
         return this.location;
@@ -136,6 +158,7 @@ public class ScannerApplication extends Application {
     public LocationRequest getLocationRequest() {
         return this.locationRequest;
     }
+
     public void triggerLocationStarter() {
 
         //Save status with background/foreground flags
@@ -146,8 +169,8 @@ public class ScannerApplication extends Application {
             this.startLocationUpdates();
         } else if (backgroundStatusService.isBackgroundTimerStarted()) {
             //Not yet accounted as background, cancel timer to not disable location.
-                timer.cancel();
-                timer.purge();
+            timer.cancel();
+            timer.purge();
         }
 
         if (backgroundStatusService.isBackgroundTimerStarted()) {
@@ -175,30 +198,30 @@ public class ScannerApplication extends Application {
 
     public void updateLocationUI() {
         //Location location = this.getLoginActivity().getLocation();
-        logDebug("ScannerApplication","lat: " + location.getLatitude()
-                        + ", long: " + location.getLongitude()
-                        + ", alt: " + location.getAltitude()
-                        + ", acc: " + location.getAccuracy());
+        logDebug("ScannerApplication", "lat: " + location.getLatitude()
+                + ", long: " + location.getLongitude()
+                + ", alt: " + location.getAltitude()
+                + ", acc: " + location.getAccuracy());
         if (this.currentLocationActivity != null) {
             this.currentLocationActivity.updateLocationUI(location);
         } else {
-            logDebug("ScannerApplication","empty currentLocationActivity");
+            logDebug("ScannerApplication", "empty currentLocationActivity");
         }
     }
 
     private void stopLocationUpdates() {
-        if(this.googleApiClient != null) {
+        if (this.googleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(this.googleApiClient, this.loginActivity);
         }
         this.requestingLocationUpdates = false;
         currentLocationActivity = null;
-        logDebug("ScannerApplication","Stopping Location Updates");
+        logDebug("ScannerApplication", "Stopping Location Updates");
     }
 
     private void startLocationUpdates() {
         GoogleApiClient googleApiClient = this.getGoogleApiClient();
         LocationRequest locationRequest = this.getLocationRequest();
-        if(googleApiClient!=null) {
+        if (googleApiClient != null) {
             if (googleApiClient.isConnected() && !this.isRequestingLocationUpdates()) {
                 if (locationRequest == null) {
                     locationRequest = this.createLocationRequest();
@@ -218,9 +241,9 @@ public class ScannerApplication extends Application {
         return this.locationRequest;
     }
 
-    public void logDebug(String tag,String message) {
+    public void logDebug(String tag, String message) {
         if (this.debug) {
-            System.out.println("[eReuseApp] ["+tag+"] "+message);
+            System.out.println("[eReuseApp] [" + tag + "] " + message);
         }
     }
 

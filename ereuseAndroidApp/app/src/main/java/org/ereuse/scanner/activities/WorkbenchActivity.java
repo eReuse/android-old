@@ -36,10 +36,21 @@ public class WorkbenchActivity extends ScanActivity {
     private String htmlFieldId;
     private boolean urlField;
 
-    public void setHtmlFieldId(String htmlFieldId) { this.htmlFieldId = htmlFieldId; }
-    public String getHtmlFieldId() { return this.htmlFieldId; }
-    public boolean isUrlField() { return urlField; }
-    public void setUrlField(boolean urlField) { this.urlField = urlField; }
+    public void setHtmlFieldId(String htmlFieldId) {
+        this.htmlFieldId = htmlFieldId;
+    }
+
+    public String getHtmlFieldId() {
+        return this.htmlFieldId;
+    }
+
+    public boolean isUrlField() {
+        return urlField;
+    }
+
+    public void setUrlField(boolean urlField) {
+        this.urlField = urlField;
+    }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -48,7 +59,7 @@ public class WorkbenchActivity extends ScanActivity {
         setContentView(R.layout.activity_snapshot_workbench);
         setToolbar();
 
-        this.scanWebView = (WebView)this.findViewById(R.id.workbench_webview);
+        this.scanWebView = (WebView) this.findViewById(R.id.workbench_webview);
 
         // Uncomment this to disable caching
         // this.scanWebView.getSettings().setAppCacheEnabled(false);
@@ -98,7 +109,7 @@ public class WorkbenchActivity extends ScanActivity {
 
     private void showDefaultWebView() {
         String dynamicHtml = getDefaultWorkbenchWebViewContent();
-        this.scanWebView.loadData(dynamicHtml,"text/html","UTF-8");
+        this.scanWebView.loadData(dynamicHtml, "text/html", "UTF-8");
     }
 
     private String getDefaultWorkbenchWebViewContent() {
@@ -119,22 +130,21 @@ public class WorkbenchActivity extends ScanActivity {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
     private String getWorkbenchServer() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         return sharedPreferences.getString("workbenchServerAddress", getString(R.string.workbench_default_server_address_value));
     }
 
     private void setWorkbenchServer(String server) {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         sharedPreferences.edit().putString("workbenchServerAddress", server).commit();
     }
 
-    class SetDatabase implements MenuItem.OnMenuItemClickListener{
+    class SetDatabase implements MenuItem.OnMenuItemClickListener {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
@@ -166,22 +176,22 @@ public class WorkbenchActivity extends ScanActivity {
         //scanWebView.loadUrl("javascript:document.getElementById('scanresult').innerHTML = '"+scannedCode+"'");
         String htmlFieldId = this.getHtmlFieldId();
         String scanResult = scannedCode;
-        if(this.isUrlField()) {
+        if (this.isUrlField()) {
             scanResult = ScanUtils.getSystemIdFromUrl(scannedCode);
         }
 
         this.setHtmlFieldId(null);
         this.setUrlField(false);
 
-        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '"+scanResult+"';})()");
+        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '" + scanResult + "';})()");
 
     }
 
     @Override
     protected void launchScanAction(int permissionCode) {
         Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-        intent.putExtra(BarcodeCaptureActivity.AutoFocus,true);
-        intent.putExtra(BarcodeCaptureActivity.UseFlash,false);
+        intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+        intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
 
         startActivityForResult(intent, permissionCode);
     }
@@ -192,14 +202,14 @@ public class WorkbenchActivity extends ScanActivity {
         this.checkCameraPermission(permissionCode);
     }
 
-    public class WebViewJavaScriptInterface{
+    public class WebViewJavaScriptInterface {
 
         private Context context;
 
         /*
          * Need a reference to the context in order to sent a post message
          */
-        public WebViewJavaScriptInterface(Context context){
+        public WebViewJavaScriptInterface(Context context) {
             this.context = context;
         }
 
@@ -235,7 +245,7 @@ public class WorkbenchActivity extends ScanActivity {
          * required after SDK version 17.
          */
         @JavascriptInterface
-        public void startJSScan(String htmlFieldId, boolean isUrlField){
+        public void startJSScan(String htmlFieldId, boolean isUrlField) {
             checkCameraPermission(REQUEST_CODE_JS_CAMERA_PERMISSIONS, htmlFieldId, isUrlField);
             //return "OK";
         }

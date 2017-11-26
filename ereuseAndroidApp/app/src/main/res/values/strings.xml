@@ -9,8 +9,7 @@
     <string-array name="login_servers">
         <item>https://api.devicetag.io/</item>
         <item>https://api-us.devicetag.io/</item>
-        <item>https://beta-server.devicetag.io/</item>
-        <item>https://devicehub.ereuse.org/</item>
+        <item>https://api-beta.devicetag.io/</item>
         <item>http://devicehub.ereuse.net/</item>
     </string-array>
 

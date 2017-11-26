@@ -52,6 +52,10 @@ public abstract class AsyncActivity extends BaseActivity {
         return this.getScannerApplication().getServer();
     }
 
+    public String getClientServer(){
+        return this.getScannerApplication().getClientServer();
+    }
+
     public User getUser() {
         return this.getScannerApplication().getUser();
     }

@@ -120,7 +120,7 @@ public class ApiServicesImpl implements ApiServices {
 
     private DeviceResponse device(final ApiRequest request) throws ApiException {
         DeviceRequest deviceRequest = (DeviceRequest) request;
-        String url = this.server + db + PATH_DEVICES;
+        String url = this.server + db + "/" + PATH_DEVICES;
         if (deviceRequest.getDeviceId() != null) {
             url += "/" + deviceRequest.getDeviceId();
         }
@@ -131,7 +131,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse locate(final ApiRequest request) throws ApiException {
-        String url = this.server + db + PATH_LOCATE;
+        String url = this.server + db + "/" + PATH_LOCATE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_LOCATION, requestEntity, ActionResponse.class);
@@ -141,7 +141,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse receive(final ApiRequest request) throws ApiException {
-        String url = this.server + db + PATH_RECEIVE;
+        String url = this.server + db + "/" + PATH_RECEIVE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_RECEIVE, requestEntity, ActionResponse.class);
@@ -151,7 +151,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse recycle(final ApiRequest request) throws ApiException {
-        String url = this.server + db + PATH_RECEIVE;
+        String url = this.server + db + "/" + PATH_RECEIVE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_RECYCLE, requestEntity, ActionResponse.class);
@@ -161,7 +161,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private EventsResponse events(final ApiRequest request) throws ApiException {
-        String url = this.server + db + PATH_EVENTS;
+        String url = this.server + db + "/" + PATH_EVENTS;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(this.getRequestHeaders(true));
         ResponseEntity<EventsResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS, requestEntity, EventsResponse.class);
@@ -169,7 +169,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse place(final ApiRequest request) throws ApiException {
-        String url = this.server + db + PATH_PLACE;
+        String url = this.server + db + "/" + PATH_PLACE;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_PLACE, requestEntity, ActionResponse.class);
@@ -183,7 +183,7 @@ public class ApiServicesImpl implements ApiServices {
 //        Gson requestGson = new GsonBuilder().registerTypeHierarchyAdapter(String.class, new StringAdapter()).create();
 //        System.out.println(requestGson.toJson(request));
 
-        String url = this.server + db + PATH_SNAPSHOT;
+        String url = this.server + db + "/" + PATH_SNAPSHOT;
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
 
@@ -199,7 +199,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private DeviceComponentRemoveResponse removeDeviceComponent(final ApiRequest request) throws ApiException {
-        String url = this.server + db + PATH_REMOVE_DEVICE_COMPONENT;
+        String url = this.server + db + "/" + PATH_REMOVE_DEVICE_COMPONENT;
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
 
         try {
@@ -213,7 +213,7 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     private ActionResponse genericEvent(final ApiRequest request, String genericEventType) throws ApiException {
-        String url = this.server + db + PATH_GENERIC_EVENT + GenericEventType.GENERIC_EVENT_PATH_MAP.get(genericEventType);
+        String url = this.server + db + "/" + PATH_GENERIC_EVENT + GenericEventType.GENERIC_EVENT_PATH_MAP.get(genericEventType);
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(request, this.getRequestHeaders(true));
         ResponseEntity<ActionResponse> response = this.restTemplate.exchange(url, HTTP_METHOD_EVENTS_GENERIC, requestEntity, ActionResponse.class);
@@ -224,7 +224,7 @@ public class ApiServicesImpl implements ApiServices {
 
     private ApiResponse undoEvent(final ApiRequest request) throws ApiException {
         EventUndoRequest eventUndoRequest = (EventUndoRequest) request;
-        String url = this.server + db + PATH_EVENTS + "/" + eventUndoRequest.getId();
+        String url = this.server + db + "/" + PATH_EVENTS + "/" + eventUndoRequest.getId();
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(null, this.getRequestHeaders(true));
 
@@ -332,6 +332,10 @@ public class ApiServicesImpl implements ApiServices {
     }
 
     public static void setDb(String db) {
-        ApiServicesImpl.db = db + '/';
+        ApiServicesImpl.db = db;
+    }
+
+    public static String getDb() {
+        return ApiServicesImpl.db;
     }
 }

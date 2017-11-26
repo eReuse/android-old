@@ -9,8 +9,7 @@
     <string-array name="login_servers">
         <item>https://api.devicetag.io/</item>
         <item>https://api-us.devicetag.io/</item>
-        <item>https://beta-server.devicetag.io/</item>
-        <item>https://devicehub.ereuse.org/</item>
+        <item>https://api-beta.devicetag.io/</item>
         <item>http://devicehub.ereuse.net/</item>
     </string-array>
 
@@ -21,7 +20,8 @@
     <string name="back_to_login_message">Are you sure you want to leave the current workbench?</string>
 
     <string name="no_login_workbench_button">Workbench</string>
-    <string name="no_login_wokbench">Or you can also use the App to complete your workbench without user and password:</string>
+    <string name="no_login_wokbench">Or you can also use the App to complete your workbench without user and password:
+    </string>
 
     <!-- Strings for choose activity -->
     <string name="choose_label">Choose an action:</string>
@@ -50,9 +50,12 @@
     <string name="form_receiver_email_label">Receiver\'s email:</string>
     <string name="form_receiver_name_label">Receiver\'s name:</string>
     <string name="form_map_label">Location:</string>
-    <string name="form_message_device_already_scanned">This device is already included in the scanned device list!</string>
+    <string name="form_message_device_already_scanned">This device is already included in the scanned device list!
+    </string>
 
-    <string name="form_validation_error_acceptconditions">To perform this action, you must accept the terms and conditions</string>
+    <string name="form_validation_error_acceptconditions">To perform this action, you must accept the terms and
+        conditions
+    </string>
     <string name="form_validation_error_emptydevices">Please, remember to scan at least one device.</string>
 
     <!-- location strings -->
@@ -86,14 +89,19 @@
 
     <string name="place_map_dialog_help_create_title">How can I create a new Place?</string>
     <string name="place_map_dialog_help_create_body">Long-press the map to define a point.
-    A place area must be defined at least by 3 points.</string>
+        A place area must be defined at least by 3 points.
+    </string>
     <string name="place_map_dialog_help_remove_title">Did you mark a wrong place?</string>
     <string name="place_map_dialog_help_remove_body">Touch one of the created points to remove it.</string>
 
     <string name="place_map_validation_error_placename">Please, remember to set a name for the new place</string>
-    <string name="place_map_validation_error_placedefinition">A new place must be defined at least by 3 locations. Please check map help for further instructions</string>
+    <string name="place_map_validation_error_placedefinition">A new place must be defined at least by 3 locations.
+        Please check map help for further instructions
+    </string>
 
-    <string name="snapshot_dialog_help_multiple_snapshots_in_row">After a successful snapshot, some fields will mantain its value in order to scan multiple similar devices (sharing some fields) in an easy and fast way.</string>
+    <string name="snapshot_dialog_help_multiple_snapshots_in_row">After a successful snapshot, some fields will mantain
+        its value in order to scan multiple similar devices (sharing some fields) in an easy and fast way.
+    </string>
 
     <!-- Events list layout -->
     <string name="event_devices_size">Devices</string>
@@ -143,7 +151,9 @@
     <string name="snapshot_grade_bios_label">Bios</string>
     <string name="snapshot_grade_labels_label">Labels</string>
 
-    <string name="snapshot_grade_appearance_help">Grades the imperfections that aesthetically affect the device, but not its usage</string>
+    <string name="snapshot_grade_appearance_help">Grades the imperfections that aesthetically affect the device, but not
+        its usage
+    </string>
     <string name="snapshot_grade_labels_help">Sets if there are labels stucked that should be removed</string>
     <string name="snapshot_grade_functionality_help">Grades the defects of a device that affect its usage.</string>
     <string name="snapshot_grade_bios_help">How difficult has been to set the bios to boot from network</string>
@@ -198,7 +208,8 @@
     <string name="toast_barcode_cancel">Cancelled barcode scan</string>
     <string name="toast_barcode_scanned">Barcode Scanned:</string>
 
-    <string name="toast_reload_snapshot_data">Snapshot information fulfilled from the latest successful snapshot</string>
+    <string name="toast_reload_snapshot_data">Snapshot information fulfilled from the latest successful snapshot
+    </string>
 
     <string name="dialog_ack">OK</string>
     <string name="dialog_cancel">Cancel</string>
@@ -207,26 +218,40 @@
     <string name="dialog_validation_error_title">Missing required information!</string>
 
     <string name="dialog_validation_internet_disabled_title">Disabled internet connection</string>
-    <string name="dialog_validation_internet_disabled_message">Please enable internet connection to enable communication to eReuse servers</string>
+    <string name="dialog_validation_internet_disabled_message">Please enable internet connection to enable communication
+        to eReuse servers
+    </string>
 
     <string name="dialog_validation_location_disabled_title">Disabled location</string>
-    <string name="dialog_validation_location_disabled_message">Please enable your location settings to be able to place you in a map.\nThis means: enable location settings and enable any method to get your accurate location: GPS or WiFi</string>
+    <string name="dialog_validation_location_disabled_message">Please enable your location settings to be able to place
+        you in a map.\nThis means: enable location settings and enable any method to get your accurate location: GPS or
+        WiFi
+    </string>
     <string name="dialog_validation_gps_disabled_title">Disabled GPS location</string>
-    <string name="dialog_validation_gps_disabled_message">We strongly recomend you to enable GPS receiver in order to accurately place you in a map</string>
+    <string name="dialog_validation_gps_disabled_message">We strongly recomend you to enable GPS receiver in order to
+        accurately place you in a map
+    </string>
 
-    <string name="dialog_validation_camera_disabled_message">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-    <string name="dialog_autofocus_not_supported">"Your device does not support autoFocus, using fixed macro mode instead. Please move your device until get the correct focus"</string>
+    <string name="dialog_validation_camera_disabled_message">This application cannot run because it does not have the
+        camera permission. The application will now exit.
+    </string>
+    <string name="dialog_autofocus_not_supported">"Your device does not support autoFocus, using fixed macro mode
+        instead. Please move your device until get the correct focus"
+    </string>
     <string name="dialog_autofocus_help">Tap to capture. Pinch/Stretch to zoom"</string>
 
     <string name="permission_camera_rationale">Access to the camera is needed for barcodes detection</string>
-    <string name="low_storage_error">Codebar detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="low_storage_error">Codebar detector dependencies cannot be downloaded due to low device storage
+    </string>
 
 
     <string name="dialog_qr_error_title">Bad QR Error</string>
     <string name="dialog_qr_error_message">The QR code does not belong to the server you logged in.</string>
 
     <string name="dialog_about_title">About</string>
-    <string name="dialog_about_body">\nApp made by Jamgo SCCL\nTechnological cooperative based in Barcelona\nwww.jamgo.coop</string>
+    <string name="dialog_about_body">\nApp made by Jamgo SCCL\nTechnological cooperative based in
+        Barcelona\nwww.jamgo.coop
+    </string>
 
     <string name="empty_fields_error_message">Please fulfill the following fields:</string>
 

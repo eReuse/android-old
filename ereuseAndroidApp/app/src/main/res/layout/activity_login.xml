@@ -1,143 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context="org.ereuse.scanner.activities.LoginActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/ereuse_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/emphasis_1"
-        android:gravity="start"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        />
-
-    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ereuse_toolbar">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context="org.ereuse.scanner.activities.LoginActivity">
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/ereuse_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/emphasis_1"
+            android:gravity="start"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    />
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ereuse_toolbar">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/login_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_top_margin">
+                    android:id="@+id/login_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_top_margin">
 
                 <TextView
-                    android:id="@+id/serversLabel"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/server_label"
-                    android:textColor="@color/text" />
+                        android:id="@+id/serversLabel"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/server_label"
+                        android:textColor="@color/text"/>
 
                 <Spinner
-                    android:id="@+id/serversSpinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/serversLabel"
-                    android:textColor="@color/text" />
+                        android:id="@+id/serversSpinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/serversLabel"
+                        android:textColor="@color/text"/>
 
                 <TextView
-                    android:id="@+id/emailLabel"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/serversSpinner"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/username_label"
-                    android:textColor="@color/text" />
+                        android:id="@+id/emailLabel"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/serversSpinner"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/username_label"
+                        android:textColor="@color/text"/>
 
                 <EditText
-                    android:id="@+id/emailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/emailLabel"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/text" />
+                        android:id="@+id/emailEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/emailLabel"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/text"/>
 
                 <TextView
-                    android:id="@+id/passwordLabel"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/emailEditText"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/password_label"
-                    android:textColor="@color/text" />
+                        android:id="@+id/passwordLabel"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/emailEditText"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/password_label"
+                        android:textColor="@color/text"/>
 
                 <EditText
-                    android:id="@+id/passwordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/passwordLabel"
-                    android:layout_gravity="center_horizontal"
-                    android:inputType="textPassword"
-                    android:textColor="@color/text" />
+                        android:id="@+id/passwordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/passwordLabel"
+                        android:layout_gravity="center_horizontal"
+                        android:inputType="textPassword"
+                        android:textColor="@color/text"/>
 
                 <Button
-                    android:id="@+id/loginButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/passwordEditText"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@color/emphasis_2"
-                    android:onClick="doLogin"
-                    android:text="@string/login_button"
-                    android:textColor="@color/white" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/no_login_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_half_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_half_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_half_margin"
-                android:paddingRight="@dimen/activity_horizontal_half_margin"
-                android:layout_below="@id/login_layout"
-                android:layout_alignParentBottom="true"
-                android:background="@color/panel">
-
-                <TextView
-                    android:id="@+id/noLoginWorkbenchLabel"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="bottom"
-                    android:text="@string/no_login_wokbench"
-                    android:textColor="@color/text" />
-
-                <Button
-                    android:id="@+id/noLoginWorkbenchButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/activity_bottom_margin"
-                    android:background="@color/emphasis_2"
-                    android:onClick="doNoLoginWorkbench"
-                    android:text="@string/no_login_workbench_button"
-                    android:layout_below="@id/noLoginWorkbenchLabel"
-                    android:textColor="@color/white"
-                    android:layout_alignParentBottom="true"/>
-
+                        android:id="@+id/loginButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/passwordEditText"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/emphasis_2"
+                        android:onClick="doLogin"
+                        android:text="@string/login_button"
+                        android:textColor="@color/white"/>
 
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-    <include layout="@layout/waiting_layout" />
+    <include layout="@layout/waiting_layout"/>
 </RelativeLayout>

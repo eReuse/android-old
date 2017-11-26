@@ -1,31 +1,31 @@
 package org.ereuse.scanner.activities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.http.SslCertificate;
+import android.net.http.SslError;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.webkit.*;
-import android.widget.EditText;
+import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 import org.ereuse.scanner.R;
+import org.ereuse.scanner.data.User;
 import org.ereuse.scanner.services.api.ApiServicesImpl;
 import org.ereuse.scanner.utils.ScanUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by Jamgo SCCL.
@@ -33,76 +33,83 @@ import java.net.URLConnection;
 public class WorkbenchActivity extends ScanActivity {
 
     WebView scanWebView;
-    private String workbenchServerAddress;
     private String htmlFieldId;
     private boolean urlField;
 
-    public void setHtmlFieldId(String htmlFieldId) { this.htmlFieldId = htmlFieldId; }
-    public String getHtmlFieldId() { return this.htmlFieldId; }
-    public boolean isUrlField() { return urlField; }
-    public void setUrlField(boolean urlField) { this.urlField = urlField; }
+    public void setHtmlFieldId(String htmlFieldId) {
+        this.htmlFieldId = htmlFieldId;
+    }
 
+    public String getHtmlFieldId() {
+        return this.htmlFieldId;
+    }
+
+    public boolean isUrlField() {
+        return urlField;
+    }
+
+    public void setUrlField(boolean urlField) {
+        this.urlField = urlField;
+    }
+
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snapshot_workbench);
         setToolbar();
 
-        this.workbenchServerAddress = getWorkbenchServer();
-
-        this.scanWebView = (WebView)this.findViewById(R.id.workbench_webview);
+        this.scanWebView = (WebView) this.findViewById(R.id.workbench_webview);
 
         // Uncomment this to disable caching
         // this.scanWebView.getSettings().setAppCacheEnabled(false);
         // this.scanWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         // this.scanWebView.clearCache(true);
 
+        // Uncomment this to enable debugging
+        // See https://developers.google.com/web/tools/chrome-devtools/remote-debugging/webviews
+        // this.scanWebView.setWebContentsDebuggingEnabled(true);
+
+
+        this.scanWebView.addJavascriptInterface(new WebViewJavaScriptInterface(this), "AndroidApp");
         this.scanWebView.getSettings().setJavaScriptEnabled(true);
-        this.scanWebView.addJavascriptInterface(new WebViewJavaScriptInterface(this), "app");
-        this.scanWebView.getSettings().setJavaScriptEnabled(true);
+        this.scanWebView.getSettings().setDomStorageEnabled(true);  // Website can access localStorage
+        this.scanWebView.getSettings().setDatabaseEnabled(true);  // Website can access sessionStorage
         this.scanWebView.setWebViewClient(new WebViewClient() {
+            /**
+             * Shows a message in any not handled error.
+             */
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(WorkbenchActivity.this, "ERROR retrieving workbench information" , Toast.LENGTH_LONG).show();
                 showDefaultWebView();
             }
+
+            /**
+             * Only allows certificates from DeviceTag.io / localhost.
+             */
             @Override
-            public void onReceivedHttpError(
-                WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-                Toast.makeText(WorkbenchActivity.this, "ERROR retrieving workbench information" , Toast.LENGTH_LONG).show();
-                showDefaultWebView();
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                // from https://stackoverflow.com/a/35618839
+                if (error.getPrimaryError() == SslError.SSL_UNTRUSTED) {
+                    SslCertificate certificate = error.getCertificate();
+                    SslCertificate.DName issuedBy = certificate.getIssuedBy();
+                    if (issuedBy.getOName().equals("DeviceTag.io") && issuedBy.getCName().equals("localhost")) {
+                        handler.proceed();
+                    } else {
+                        handler.cancel();
+                    }
+                } else {
+                    handler.cancel();
+                }
             }
         });
-        reloadWebView();
+        String url = this.getClientServer() + "/workbench/" + ApiServicesImpl.getDb();
+        this.scanWebView.loadUrl(url);
     }
-
-
 
     private void showDefaultWebView() {
         String dynamicHtml = getDefaultWorkbenchWebViewContent();
-        this.scanWebView.loadData(dynamicHtml,"text/html","UTF-8");
-    }
-
-    private void reloadWebView() {
-        if(this.workbenchServerAddress.equals("")) {
-          showDefaultWebView();
-        } else {
-            final Activity activity = this;
-
-            this.scanWebView.setWebViewClient(new WebViewClient() {
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            try { //check valid url
-                final URLConnection connection = new URL(this.workbenchServerAddress).openConnection();
-                this.scanWebView.loadUrl(this.workbenchServerAddress);
-            } catch (Exception e) {
-                showDefaultWebView();
-            }
-
-        }
+        this.scanWebView.loadData(dynamicHtml, "text/html", "UTF-8");
     }
 
     private String getDefaultWorkbenchWebViewContent() {
@@ -119,106 +126,25 @@ public class WorkbenchActivity extends ScanActivity {
             reader.close();
         } catch (IOException e) {
         }
-            return result;
-
+        return result;
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
     private String getWorkbenchServer() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         return sharedPreferences.getString("workbenchServerAddress", getString(R.string.workbench_default_server_address_value));
     }
 
     private void setWorkbenchServer(String server) {
-        this.workbenchServerAddress = server;
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
         sharedPreferences.edit().putString("workbenchServerAddress", server).commit();
-        this.reloadWebView();
     }
 
-    public void showSettingsDialog() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        final EditText workbenchServerAddressEditText = new EditText(this);
-        workbenchServerAddressEditText.setText(workbenchServerAddress);
-
-        alertBuilder.setTitle(getString(R.string.workbench_server_address))
-                .setView(workbenchServerAddressEditText)
-                .setPositiveButton(R.string.dialog_ack, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setWorkbenchServer(workbenchServerAddressEditText.getText().toString());
-                        ((ViewGroup)workbenchServerAddressEditText.getParent()).removeAllViews();
-                        dialog.dismiss();
-                    }
-                })
-                .setNeutralButton(R.string.dialog_reset_default, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setWorkbenchServer(getString(R.string.workbench_default_server_address_value));
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((ViewGroup)workbenchServerAddressEditText.getParent()).removeAllViews();
-                        dialog.dismiss();
-                    }
-                }).show();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.workbench_main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                showSettingsDialog();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void showLogoutDialog(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setIcon(R.drawable.logout);
-        dialog.setTitle(getString(R.string.back_to_login));
-        dialog.setMessage(getString(R.string.back_to_login_message));
-        dialog.setPositiveButton(getString(R.string.dialog_ack), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                doBackToLogin();
-            }
-        });
-        dialog.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
-    private void doBackToLogin(){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    class SetDatabase implements MenuItem.OnMenuItemClickListener{
+    class SetDatabase implements MenuItem.OnMenuItemClickListener {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
@@ -226,7 +152,6 @@ public class WorkbenchActivity extends ScanActivity {
             return true;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -251,22 +176,22 @@ public class WorkbenchActivity extends ScanActivity {
         //scanWebView.loadUrl("javascript:document.getElementById('scanresult').innerHTML = '"+scannedCode+"'");
         String htmlFieldId = this.getHtmlFieldId();
         String scanResult = scannedCode;
-        if(this.isUrlField()) {
+        if (this.isUrlField()) {
             scanResult = ScanUtils.getSystemIdFromUrl(scannedCode);
         }
 
         this.setHtmlFieldId(null);
         this.setUrlField(false);
 
-        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '"+scanResult+"';})()");
+        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '" + scanResult + "';})()");
 
     }
 
     @Override
     protected void launchScanAction(int permissionCode) {
         Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-        intent.putExtra(BarcodeCaptureActivity.AutoFocus,true);
-        intent.putExtra(BarcodeCaptureActivity.UseFlash,false);
+        intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+        intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
 
         startActivityForResult(intent, permissionCode);
     }
@@ -277,15 +202,42 @@ public class WorkbenchActivity extends ScanActivity {
         this.checkCameraPermission(permissionCode);
     }
 
-    public class WebViewJavaScriptInterface{
+    public class WebViewJavaScriptInterface {
 
         private Context context;
 
         /*
          * Need a reference to the context in order to sent a post message
          */
-        public WebViewJavaScriptInterface(Context context){
+        public WebViewJavaScriptInterface(Context context) {
             this.context = context;
+        }
+
+        @JavascriptInterface
+        public String account() {
+            User user = getScannerApplication().getUser();
+            JSONObject ob = new JSONObject();
+            try {
+                ob.accumulate("_id", user.get_id());
+                ob.accumulate("email", user.getEmail());
+                ob.accumulate("token", user.getToken());
+                ob.accumulate("role", user.getRole());
+                ob.accumulate("databases", new JSONObject(user.getDatabases()));
+                ob.accumulate("defaultDatabase", user.getDefaultDatabase());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return ob.toString();
+        }
+
+        @JavascriptInterface
+        public String workbenchServerAddress() {
+            return getWorkbenchServer();
+        }
+
+        @JavascriptInterface
+        public void setWorkbenchServerAddress(String value) {
+            setWorkbenchServer(value);
         }
 
         /*
@@ -293,7 +245,7 @@ public class WorkbenchActivity extends ScanActivity {
          * required after SDK version 17.
          */
         @JavascriptInterface
-        public void startJSScan(String htmlFieldId, boolean isUrlField){
+        public void startJSScan(String htmlFieldId, boolean isUrlField) {
             checkCameraPermission(REQUEST_CODE_JS_CAMERA_PERMISSIONS, htmlFieldId, isUrlField);
             //return "OK";
         }

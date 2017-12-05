@@ -182,9 +182,12 @@ public class WorkbenchActivity extends ScanActivity {
 
         this.setHtmlFieldId(null);
         this.setUrlField(false);
-
-        scanWebView.loadUrl("javascript:(function(){document.getElementById('" + htmlFieldId + "').value = '" + scanResult + "';})()");
-
+        String js = "javascript:(function(){" +
+                "var input = $('#" + htmlFieldId + "');" +
+                "input.val('"+scanResult+"');" +
+                "input.trigger('change');" +
+                "})()";
+        scanWebView.loadUrl(js);
     }
 
     @Override

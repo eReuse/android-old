@@ -148,10 +148,84 @@
                 android:onClick="showManufacturerSelector"/>
 
             <TextView
+                    android:id="@+id/snapshotSystemLabel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/snapshotManufacturer"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/snapshot_system_label"
+                    android:textColor="@color/text"/>
+            <ImageButton
+                    android:id="@+id/snapshotSystemScanButton"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignBaseline="@id/snapshotSystemLabel"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/scan"
+                    android:scaleType="centerInside"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="scanSystemId"
+            />
+            <EditText
+                    android:id="@+id/snapshotSystemEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/snapshotSystemScanButton"
+                    android:layout_below="@id/snapshotSystemLabel"
+                    android:inputType="text"
+                    android:textColor="@color/text"/>
+            <TextView
+                    android:id="@+id/snapshotSystemDescription"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/snapshotSystemEditText"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/snapshot_system_description"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+            <TextView
+                    android:id="@+id/snapshotGiverLabel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/snapshotSystemDescription"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/snapshot_giver_label"
+                    android:textColor="@color/text"/>
+            <ImageButton
+                    android:id="@+id/snapshotGiverScanButton"
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignBaseline="@id/snapshotGiverLabel"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/scan"
+                    android:scaleType="centerInside"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="scanGiverId"
+            />
+            <EditText
+                    android:id="@+id/snapshotGiverEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/snapshotGiverScanButton"
+                    android:layout_below="@id/snapshotGiverLabel"
+                    android:inputType="text"
+                    android:textColor="@color/text"/>
+            <TextView
+                    android:id="@+id/snapshotGiverDescription"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/snapshotGiverEditText"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/snapshot_giver_description"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+            <TextView
                 android:id="@+id/snapshotLicenseLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/snapshotManufacturer"
+                android:layout_below="@id/snapshotGiverDescription"
                 android:layout_marginTop="20dp"
                 android:text="@string/snapshot_license_label"
                 android:textColor="@color/text" />
@@ -177,39 +251,10 @@
                 android:textColor="@color/text"/>
 
             <TextView
-                android:id="@+id/snapshotGiverLabel"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/snapshotLicenseEditText"
-                android:layout_marginTop="20dp"
-                android:text="@string/snapshot_giver_label"
-                android:textColor="@color/text" />
-            <ImageButton
-                android:id="@+id/snapshotGiverScanButton"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginRight="5dp"
-                android:layout_alignBaseline="@id/snapshotGiverLabel"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/scan"
-                android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"
-                android:onClick="scanGiverId"
-                />
-            <EditText
-                android:id="@+id/snapshotGiverEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/snapshotGiverScanButton"
-                android:layout_below="@id/snapshotGiverLabel"
-                android:inputType="text"
-                android:textColor="@color/text"/>
-
-            <TextView
                 android:id="@+id/snapshotRefurbisherLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/snapshotGiverEditText"
+                android:layout_below="@id/snapshotLicenseEditText"
                 android:layout_marginTop="20dp"
                 android:text="@string/snapshot_refurbisher_label"
                 android:textColor="@color/text" />
@@ -235,38 +280,9 @@
                 android:textColor="@color/text"/>
 
             <TextView
-                android:id="@+id/snapshotSystemLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/snapshotRefurbisherEditText"
-                android:layout_marginTop="20dp"
-                android:text="@string/snapshot_system_label"
-                android:textColor="@color/text" />
-            <ImageButton
-                android:id="@+id/snapshotSystemScanButton"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginRight="5dp"
-                android:layout_alignBaseline="@id/snapshotSystemLabel"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/scan"
-                android:scaleType="centerInside"
-                android:background="@color/zxing_transparent"
-                android:onClick="scanSystemId"
-                />
-            <EditText
-                android:id="@+id/snapshotSystemEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/snapshotSystemScanButton"
-                android:layout_below="@id/snapshotSystemLabel"
-                android:inputType="text"
-                android:textColor="@color/text"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/snapshotSystemEditText"
                 android:layout_marginTop="20dp"
                 android:id="@+id/gradeLabel"
                 android:text="@string/snapshot_grade_label"

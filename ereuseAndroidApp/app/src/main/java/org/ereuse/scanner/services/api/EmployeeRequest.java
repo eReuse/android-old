@@ -14,11 +14,11 @@ import java.util.List;
 public class EmployeeRequest extends ActionRequest implements ApiRequest {
 
 
-    protected class UnregisteredReceiver {
+    protected class Receiver {
         protected String email;
     }
 
-    private UnregisteredReceiver unregisteredReceiver = new UnregisteredReceiver();
+    private Receiver receiver = new Receiver();
     private boolean acceptedConditions;
     private String type;
 
@@ -29,16 +29,16 @@ public class EmployeeRequest extends ActionRequest implements ApiRequest {
         return this.acceptedConditions;
     }
 
-    public EmployeeRequest(User user, String unregisteredReceiver, String label, List<String> devicesList, String comment, Location location, boolean acceptedConditions, String type) {
+    public EmployeeRequest(User user, String receiver, String label, List<String> devicesList, String comment, Location location, boolean acceptedConditions, String type) {
         super(user, label, devicesList, comment, location);
         this.acceptedConditions = acceptedConditions;
-        this.unregisteredReceiver.email = unregisteredReceiver;
+        this.receiver.email = receiver;
         this.type = type;
 
     }
 
-    public String getUnregisteredReceiver() {
-        return this.unregisteredReceiver.email;
+    public String getReceiver() {
+        return this.receiver.email;
     }
 
     public String getType() {

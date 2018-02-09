@@ -57,7 +57,7 @@ public class User {
     }
 
     public boolean isEqualOrGreaterThanEmployee() {
-        return this.role.equals(EMPLOYEE) || this.role.equals(SUPERUSER) || this.role.equals(ADMIN);
+        return true; // todo redo all employee idea
     }
 
     public String getPassword() {

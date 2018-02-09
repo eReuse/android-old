@@ -145,7 +145,6 @@ public class LoginActivity extends AsyncActivity {
     public void onError(ApiException exception) {
         super.onError(exception);
 
-        this.getScannerApplication().setServer(null);
         this.getScannerApplication().setUser(null);
     }
 }

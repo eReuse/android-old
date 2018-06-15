@@ -45,7 +45,10 @@ public class SnapshotActivity extends ScanActivity {
         Map<String, List<String>> deviceTypesMap = new HashMap<String, List<String>>();
         deviceTypesMap.put("Computer", new ArrayList<String>(Arrays.asList("Netbook", "Laptop", "Microtower", "Server")));
         deviceTypesMap.put("ComputerMonitor", new ArrayList<String>(Arrays.asList("TFT", "LCD", "OLED", "LED")));
-        deviceTypesMap.put("Peripheral", new ArrayList<String>(Arrays.asList("Scanner", "MultifunctionPrinter", "SAI", "Switch", "HUB", "Router", "Mouse", "Keyboard", "Printer")));
+        deviceTypesMap.put("Peripheral", new ArrayList<String>(Arrays.asList("Router", "Switch", "Printer",
+                "Scanner", "MultifunctionPrinter", "Terminal", "HUB", "SAI",
+                "Keyboard", "Mouse", "WirelessAccessPoint", "LabelPrinter", "Projector", "VideoconferenceDevice",
+                "WirelessMicrophone", "Scaler", "VideoScaler", "MemoryCardReader", "Amplifier", "AudioAmplifier")));
         DEVICETYPES = Collections.unmodifiableMap(deviceTypesMap);
     }
 

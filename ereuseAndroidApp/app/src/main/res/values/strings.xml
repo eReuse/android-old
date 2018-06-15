@@ -7,6 +7,7 @@
     <string name="password_label">Password:</string>
     <string name="login_button">Login</string>
     <string-array name="login_servers">
+        <item>http://192.168.1.102:5000/</item>
         <item>https://api.devicetag.io/</item>
         <item>https://api-us.devicetag.io/</item>
         <item>https://api-beta.devicetag.io/</item>
